@@ -254,5 +254,6 @@ export function fetchCurrentUser() {
 		.then(user => {
 			dispatch(receiveCurrentUser(user))
 		})
+		.catch(err=>console.log(err.message))
 	}
 }

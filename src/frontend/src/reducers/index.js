@@ -228,7 +228,7 @@ function isSkillAnimated(state = true, action) {
 
 function currentUser(state = {
 	loaded: false
-}, action) {
+}, action){
 	switch(action.type) {
 		case REQUEST_CURRENT_USER:
 			return {

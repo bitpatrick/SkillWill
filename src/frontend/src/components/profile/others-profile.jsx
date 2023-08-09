@@ -17,7 +17,7 @@ class OthersProfile extends React.PureComponent {
 	}
 
 	render() {
-		const { user } = this.props
+		const { user } = this.props
 		return user.loaded ? (
 			<div className="profile">
 				<BasicProfile user={user} renderSearchedSkills={true} />

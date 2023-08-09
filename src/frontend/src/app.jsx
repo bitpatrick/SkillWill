@@ -7,18 +7,35 @@ import Footer from './components/footer/footer.jsx'
 import UserSearch from './components/search/user-search.jsx'
 import Results from './components/results/results.jsx'
 import { connect } from 'react-redux'
-import { login } from './actions'
+import { fetchCurrentUser } from './actions/index.js'
 
 class App extends React.Component {
 
+	constructor(props){
+		super(props)
+
+		console.log(this.props)
+		this.checkUser = this.checkUser.bind(this);
+		this.checkUser();
+
+	}
+
+	async checkUser(){
+		await this.props.fetchCurrentUser();
+		if(!this.props.currentUser.loaded){
+			// this.props.history.push('/login')
+		}
+	}
+
 	render() {
 		const { isResultsLoaded, isSkillAnimated } = this.props
+
 		return (
 			<div className={isResultsLoaded ? 'results-loaded' : ''}>
 				<IconSymbols />
 				<Header />
 				<div className="search">
-					<Logo />
+					<Logo/>
 					<div className="container">
 						<UserSearch location={this.props.location} />
 					</div>
@@ -32,11 +49,16 @@ class App extends React.Component {
 			</div>
 		)
 	}
+	
 }
+
 function mapStateToProps(state) {
 	return {
 		isResultsLoaded: state.isResultsLoaded,
 		isSkillAnimated: state.isSkillAnimated,
+		currentUser: state.currentUser,
 	}
 }
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps,{
+	fetchCurrentUser
+})(App)

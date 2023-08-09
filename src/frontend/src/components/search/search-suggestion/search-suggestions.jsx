@@ -90,7 +90,15 @@ export default class SearchSuggestions extends React.Component {
 		)
 			.then(res => (res.status === 200 ? res.json() : []))
 			.then(data => this.setState({ results: data, hint: this.getHint() }))
-			.catch(err => console.log(err))
+			.catch(err =>{
+				console.log(err,err.status);
+				if(err.status==302){
+					let el=document.getElementById('anchor');
+					if(el){
+						el.click();
+					}
+				}
+			});
 	}
 
 	getHint() {
@@ -105,6 +113,7 @@ export default class SearchSuggestions extends React.Component {
 	render() {
 		const { handleSuggestionSelected, variant } = this.props
 		const { results, hint } = this.state
+		let elem=<a href='http://localhost:1337' id='anchor' className='hidden'>anchor</a>;
 		return (
 			<div
 				className={
@@ -122,6 +131,7 @@ export default class SearchSuggestions extends React.Component {
 						/>
 					))}
 				</ul>
+				{elem}
 			</div>
 		)
 	}
