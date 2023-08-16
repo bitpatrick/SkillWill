@@ -41,8 +41,22 @@ class Login extends React.Component{
 
     login(e){
         e.preventDefault();
-		const options = { method: 'POST', credentials: 'same-origin',
-        body: JSON.stringify({username: this.state.username, password: this.state.password}) }
+        var formBody = [];
+        let details={username: this.state.username, password: this.state.password};
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+		const options = { 
+            method: 'POST', 
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        };
 		const requestURL = `${apiServer}/login`
 		fetch(requestURL, options)
 			.then(res => {
@@ -58,7 +72,7 @@ class Login extends React.Component{
 					throw Error('error while logging')
 				} else {
 					this.props.fetchCurrentUser()
-                    this.props.history.push('/')
+                    this.props.history.push('/my-profile')
                 }
 			})
 			.catch(err => console.log(err.message))

@@ -35,6 +35,9 @@ class MyProfile extends React.Component {
 	componentWillMount() {
 		document.body.classList.add('my-profile-open')
 		this.props.fetchCurrentUser()
+		if(!this.props.currentUser.loaded){
+			this.props.history.push('/login')
+		}
 	}
 
 	componentWillUnmount() {

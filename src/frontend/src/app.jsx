@@ -15,17 +15,17 @@ class App extends React.Component {
 		super(props)
 
 		console.log(this.props)
-		this.checkUser = this.checkUser.bind(this);
-		this.checkUser();
+		// this.checkUser = this.checkUser.bind(this);
+		// this.checkUser();
 
 	}
 
-	async checkUser(){
-		await this.props.fetchCurrentUser();
-		if(!this.props.currentUser.loaded){
-			// this.props.history.push('/login')
-		}
-	}
+	// async checkUser(){
+	// 	await this.props.fetchCurrentUser();
+	// 	if(!this.props.currentUser.loaded){
+	// 		this.props.history.push('/login')
+	// 	}
+	// }
 
 	render() {
 		const { isResultsLoaded, isSkillAnimated } = this.props
@@ -60,5 +60,5 @@ function mapStateToProps(state) {
 	}
 }
 export default connect(mapStateToProps,{
-	fetchCurrentUser
+	// fetchCurrentUser
 })(App)
