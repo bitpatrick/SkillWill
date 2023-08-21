@@ -1,11 +1,11 @@
 package com.sinnerschrader.skillwill.domain.user;
 
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.sinnerschrader.skillwill.domain.skills.UserSkill;
 
 /**
  * Get n Persons that are similar to the reference user
@@ -15,19 +15,19 @@ import java.util.stream.Collectors;
  */
 public class UserSimilarityUtils {
 
-  public static List<User> findSimilar(User user, Collection<User> candidates, Integer count) {
+  public static List<UserDetailsImpl> findSimilar(UserDetailsImpl userDetailsImpl, Collection<UserDetailsImpl> candidates, Integer count) {
     if (count != null && count <= 0) {
       throw new IllegalArgumentException("count must be positive or null");
     }
 
     return candidates.stream()
-      .filter(candidate -> !candidate.getId().equals(user.getId()))
-      .sorted(new JaccardDistanceComparator(user))
+      .filter(candidate -> !candidate.getId().equals(userDetailsImpl.getId()))
+      .sorted(new JaccardDistanceComparator(userDetailsImpl))
       .limit(count != null ? count : Long.MAX_VALUE)
       .collect(Collectors.toList());
   }
 
-  private static double jaccardDistance(User userA, User userB) {
+  private static double jaccardDistance(UserDetailsImpl userA, UserDetailsImpl userB) {
     var skillsNamesA = userA.getSkills(true).stream().map(UserSkill::getName).collect(Collectors.toSet());
     var skillsNamesB = userB.getSkills(true).stream().map(UserSkill::getName).collect(Collectors.toSet());
 
@@ -37,16 +37,16 @@ public class UserSimilarityUtils {
     return 1 - intersectionSize / unionSize;
   }
 
-  private static class JaccardDistanceComparator implements Comparator<User> {
+  private static class JaccardDistanceComparator implements Comparator<UserDetailsImpl> {
 
-    private final User referenceUser;
+    private final UserDetailsImpl referenceUser;
 
-    private JaccardDistanceComparator(User reference) {
+    private JaccardDistanceComparator(UserDetailsImpl reference) {
       this.referenceUser = reference;
     }
 
     @Override
-    public int compare(User userA, User userB) {
+    public int compare(UserDetailsImpl userA, UserDetailsImpl userB) {
       var distanceA = jaccardDistance(userA, referenceUser);
       var distanceB = jaccardDistance(userB, referenceUser);
       return Double.compare(distanceA, distanceB);

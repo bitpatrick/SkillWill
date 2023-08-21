@@ -3,7 +3,7 @@ package com.sinnerschrader.skillwill.services;
 import static org.junit.Assert.*;
 
 import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 import java.util.Optional;
 import org.junit.Before;
@@ -26,8 +26,8 @@ public class LdapServiceTest {
   @Before
   public void setup() {
     userRepo.deleteAll();
-    userRepo.insert(new User("aaaaaa"));
-    userRepo.insert(new User("bbbbbb"));
+    userRepo.insert(new UserDetailsImpl("aaaaaa"));
+    userRepo.insert(new UserDetailsImpl("bbbbbb"));
   }
 
   @Test
@@ -68,7 +68,7 @@ public class LdapServiceTest {
 
   @Test
   public void syncUsersRemovesMissing() {
-    userRepo.insert(new User("cccccc"));
+    userRepo.insert(new UserDetailsImpl("cccccc"));
     var allUsers = userRepo.findAll();
     assertEquals(3, allUsers.size());
     ldapService.syncUsers(allUsers, true);

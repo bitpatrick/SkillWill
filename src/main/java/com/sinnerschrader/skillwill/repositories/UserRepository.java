@@ -1,9 +1,11 @@
 package com.sinnerschrader.skillwill.repositories;
 
-import com.sinnerschrader.skillwill.domain.user.User;
 import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 
 /**
  * MongoRepository for Persons
@@ -11,17 +13,17 @@ import org.springframework.data.mongodb.repository.Query;
  *
  * @author torree
  */
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<UserDetailsImpl, String> {
 
-  User findByIdIgnoreCase(String id);
+  UserDetailsImpl findByIdIgnoreCase(String id);
 
   @Query("{ 'skills._id' : '?0' }")
-  List<User> findBySkill(String skillName);
+  List<UserDetailsImpl> findBySkill(String skillName);
 
   @Query("{ 'skills._id' : { $all : ?0 } }")
-  List<User> findBySkills(List<String> skillNames);
+  List<UserDetailsImpl> findBySkills(List<String> skillNames);
 
   @Query("{ 'ldapDetails.mail' : '?0' }")
-  User findByMail(String mail);
+  UserDetailsImpl findByMail(String mail);
 
 }

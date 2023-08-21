@@ -1,16 +1,5 @@
 package com.sinnerschrader.skillwill.services;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.SkillAutocompleteComparator;
-import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.skills.SkillUtils;
-import com.sinnerschrader.skillwill.domain.skills.SuggestionSkill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
-import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -19,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +19,18 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skills.SkillAutocompleteComparator;
+import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
+import com.sinnerschrader.skillwill.domain.skills.SkillUtils;
+import com.sinnerschrader.skillwill.domain.skills.SuggestionSkill;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
+import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
+import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 /**
  * Services handling skills management (create, rename, suggest, delete, ...)
@@ -291,9 +293,9 @@ public class SkillService {
     }
 
     // delete from persons
-    for (User user : UserRepository.findBySkill(name)) {
-      user.removeSkill(name);
-      UserRepository.save(user);
+    for (UserDetailsImpl userDetailsImpl : UserRepository.findBySkill(name)) {
+      userDetailsImpl.removeSkill(name);
+      UserRepository.save(userDetailsImpl);
     }
 
     // delete from known skills

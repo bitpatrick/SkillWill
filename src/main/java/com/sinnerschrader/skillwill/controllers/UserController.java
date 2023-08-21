@@ -1,24 +1,10 @@
 package com.sinnerschrader.skillwill.controllers;
 
-import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
-import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
-import com.sinnerschrader.skillwill.services.SessionService;
-import com.sinnerschrader.skillwill.services.SkillService;
-import com.sinnerschrader.skillwill.services.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -30,11 +16,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
+import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
+import com.sinnerschrader.skillwill.services.SessionService;
+import com.sinnerschrader.skillwill.services.SkillService;
+import com.sinnerschrader.skillwill.services.UserService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Controller handling /users/{foo}
@@ -43,7 +42,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Api(tags = "Users", description = "User management and search")
 @Controller
-@CrossOrigin
 @Scope("prototype")
 public class UserController {
 
@@ -87,7 +85,7 @@ public class UserController {
     var foundUsers = userService.getUsers(searchResult, company, location);
 
     var json = new JSONObject();
-    json.put("results", new JSONArray(foundUsers.stream().map(User::toJSON).collect(Collectors.toList())));
+    json.put("results", new JSONArray(foundUsers.stream().map(UserDetailsImpl::toJSON).collect(Collectors.toList())));
     json.put("searched", searchResult == null ? new JSONArray() : searchResult.mappingJson());
 
     skillService.registerSkillSearch(searchResult.mappedSkills());
@@ -107,8 +105,8 @@ public class UserController {
   @RequestMapping(path = "/users/{username}", method = RequestMethod.GET)
   public ResponseEntity<String> getUser(@PathVariable String username) {
     try {
-      var user = userService.getUser(username);
-      return new ResponseEntity<>(user.toJSON().toString(), HttpStatus.OK);
+      UserDetailsImpl userDetailsImpl = userService.getUser(username);
+      return new ResponseEntity<>(userDetailsImpl.toJSON().toString(), HttpStatus.OK);
     } catch (UserNotFoundException e) {
       return new StatusResponseEntity("user not found", HttpStatus.NOT_FOUND);
     }
@@ -133,14 +131,18 @@ public class UserController {
     @ApiImplicitParam(name = "mentor", value = "Mentor flag", paramType = "form", required = true, dataType = "Boolean")
   })
   @RequestMapping(path = "/users/{user}/skills", method = RequestMethod.POST)
-  public ResponseEntity<String> updateSkills(@PathVariable String user,
-    @RequestParam("skill") String skill, @RequestParam("skill_level") String skill_level,
-    @RequestParam("will_level") String will_level, @RequestParam("mentor") boolean mentor, @CookieValue("_oauth2_proxy") String oAuthToken) {
+  public ResponseEntity<String> updateSkills(
+	@PathVariable String user,
+    @RequestParam("skill") String skill, 
+    @RequestParam("skill_level") String skill_level,
+    @RequestParam("will_level") String will_level, 
+    @RequestParam("mentor") boolean mentor, 
+    @CookieValue(value="_oauth2_proxy", required = false) String oAuthToken) {
 
-    if (!sessionService.checkToken(oAuthToken, user)) {
-      logger.debug("Failed to modify {}'s skills: not logged in", user);
-      return new StatusResponseEntity("user not logged in", HttpStatus.FORBIDDEN);
-    }
+//    if (!sessionService.checkToken(oAuthToken, user)) {
+//      logger.debug("Failed to modify {}'s skills: not logged in", user);
+//      return new StatusResponseEntity("user not logged in", HttpStatus.FORBIDDEN);
+//    }
 
     try {
       userService.updateSkills(user, skill, Integer.parseInt(skill_level), Integer.parseInt(will_level), mentor);
@@ -204,7 +206,7 @@ public class UserController {
   public ResponseEntity<String> getSimilar(@PathVariable String user,
     @RequestParam(value = "count", required = false) Integer count) {
 
-    List<User> similar;
+    List<UserDetailsImpl> similar;
 
     try {
       similar = userService.getSimilar(user, count);
@@ -216,7 +218,7 @@ public class UserController {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    JSONArray arr = new JSONArray(similar.stream().map(User::toJSON).collect(Collectors.toList()));
+    JSONArray arr = new JSONArray(similar.stream().map(UserDetailsImpl::toJSON).collect(Collectors.toList()));
     logger.debug("Successfully found {} users similar to {}", arr.length(), user);
     return new ResponseEntity<>(arr.toString(), HttpStatus.OK);
   }

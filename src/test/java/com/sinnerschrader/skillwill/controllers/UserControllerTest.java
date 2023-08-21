@@ -5,18 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.repositories.SessionRepository;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.services.LdapService;
-import com.sinnerschrader.skillwill.session.Session;
-import com.unboundid.ldap.sdk.LDAPException;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
+import com.sinnerschrader.skillwill.repositories.SessionRepository;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.services.LdapService;
+import com.sinnerschrader.skillwill.session.Session;
+import com.unboundid.ldap.sdk.LDAPException;
 
 /**
  * Integration test for UserController
@@ -65,12 +66,12 @@ public class UserControllerTest {
     skillRepo.insert(new Skill("Java"));
     skillRepo.insert(new Skill("hidden", "", new ArrayList<>(), true, new HashSet<>()));
 
-    var userUser = new User("aaaaaa");
+    var userUser = new UserDetailsImpl("aaaaaa");
     userUser.addUpdateSkill("Java", 2, 3, false, false);
     userUser.addUpdateSkill("hidden", 0, 1, true, false);
     userRepo.insert(userUser);
 
-    var adminUser = new User("bbbbbb");
+    var adminUser = new UserDetailsImpl("bbbbbb");
     userRepo.insert(adminUser);
 
     ldapService.syncUsers(userRepo.findAll(), true);
@@ -353,17 +354,17 @@ public class UserControllerTest {
 
   @Test
   public void testGetSimilarUser() throws JSONException {
-    var user1 = new User("abc");
+    var user1 = new UserDetailsImpl("abc");
     user1.addUpdateSkill("Java", 1, 2, false, false);
     user1.addUpdateSkill(".NET", 3, 2, false, false);
     user1.addUpdateSkill("Text", 1, 3, false, false);
     userRepo.insert(user1);
 
-    var user2 = new User("def");
+    var user2 = new UserDetailsImpl("def");
     user2.addUpdateSkill("Java", 3, 2, false, false);
     userRepo.insert(user2);
 
-    var user3 = new User("ghi");
+    var user3 = new UserDetailsImpl("ghi");
     user3.addUpdateSkill("Java", 1, 0, false, false);
     user3.addUpdateSkill(".NET", 3, 2, false, false);
     userRepo.insert(user3);

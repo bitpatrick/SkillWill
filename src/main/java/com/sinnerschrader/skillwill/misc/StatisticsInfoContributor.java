@@ -1,18 +1,18 @@
 package com.sinnerschrader.skillwill.misc;
 
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
 import java.util.HashMap;
-import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.stereotype.Component;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 @Component
 public class StatisticsInfoContributor implements InfoContributor {
@@ -35,8 +35,8 @@ public class StatisticsInfoContributor implements InfoContributor {
     builder.withDetail("skills_total", skillRepository.count());
   }
 
-  private void contributeUsedSkillCount(List<User> users, Info.Builder builder) {
-    var usedSkillCount = (int) users.stream()
+  private void contributeUsedSkillCount(List<UserDetailsImpl> userDetailsImpls, Info.Builder builder) {
+    var usedSkillCount = (int) userDetailsImpls.stream()
       .flatMap(user -> user.getSkills(true).stream())
       .map(UserSkill::getName)
       .distinct()
@@ -51,8 +51,8 @@ public class StatisticsInfoContributor implements InfoContributor {
     );
   }
 
-  private void contributeUserSkills(List<User> users, Info.Builder builder) {
-    var stats = users.stream()
+  private void contributeUserSkills(List<UserDetailsImpl> userDetailsImpls, Info.Builder builder) {
+    var stats = userDetailsImpls.stream()
       .mapToInt(user -> user.getSkills(true).size())
       .summaryStatistics();
     var details = new HashMap<String, Double>();

@@ -17,14 +17,14 @@ public class FitnessScore {
 
   private final FitnessScoreProperties props;
 
-  private final User user;
+  private final UserDetailsImpl userDetailsImpl;
 
   private final Collection<Skill> searchedSkills;
 
   private final double value;
 
-  public FitnessScore(User user, Collection<Skill> searchedSkills, FitnessScoreProperties props) {
-    this.user = user;
+  public FitnessScore(UserDetailsImpl userDetailsImpl, Collection<Skill> searchedSkills, FitnessScoreProperties props) {
+    this.userDetailsImpl = userDetailsImpl;
     this.searchedSkills = searchedSkills;
     this.props = props;
     this.value = (double) Math.round(calculateValue() * 10000) / 10000;
@@ -39,13 +39,13 @@ public class FitnessScore {
   }
 
   private Set<UserSkill> getSearchedPersonalSkills() {
-    return this.user.getSkills(true).stream()
+    return this.userDetailsImpl.getSkills(true).stream()
         .filter(s -> getSearchedSkillNames(this.searchedSkills).contains(s.getName()))
         .collect(Collectors.toSet());
   }
 
   private Set<UserSkill> getUnsearchedPersonalSkills() {
-    var skillset = new HashSet<>(this.user.getSkills(true));
+    var skillset = new HashSet<>(this.userDetailsImpl.getSkills(true));
     skillset.removeAll(getSearchedPersonalSkills());
     return skillset;
   }

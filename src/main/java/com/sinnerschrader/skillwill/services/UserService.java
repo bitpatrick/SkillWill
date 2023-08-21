@@ -1,20 +1,9 @@
 package com.sinnerschrader.skillwill.services;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
-import com.sinnerschrader.skillwill.domain.user.UserSimilarityUtils;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
-import com.sinnerschrader.skillwill.exceptions.IllegalLevelConfigurationException;
-import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
-import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +13,19 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
+import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
+import com.sinnerschrader.skillwill.domain.user.Role;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.UserSimilarityUtils;
+import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
+import com.sinnerschrader.skillwill.exceptions.IllegalLevelConfigurationException;
+import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
+import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 /**
  * Service handling user management
@@ -58,10 +60,10 @@ public class UserService {
     this.fitnessScoreProperties = fitnessScoreProperties;
   }
 
-  public List<User> getUsers(SkillSearchResult skillSearch, String company, String location)
+  public List<UserDetailsImpl> getUsers(SkillSearchResult skillSearch, String company, String location)
       throws IllegalArgumentException {
 
-    List<User> candidates;
+    List<UserDetailsImpl> candidates;
 
     if (skillSearch.isInputEmpty()) {
       candidates = userRepository.findAll();
@@ -69,7 +71,7 @@ public class UserService {
       var skillNames = skillSearch.mappedSkills().stream().map(Skill::getName).collect(Collectors.toList());
       candidates = userRepository.findBySkills(skillNames).stream()
           .peek(p -> p.setFitnessScore(skillSearch.mappedSkills(), fitnessScoreProperties))
-          .sorted(Comparator.comparingDouble(User::getFitnessScoreValue).reversed())
+          .sorted(Comparator.comparingDouble(UserDetailsImpl::getFitnessScoreValue).reversed())
           .collect(Collectors.toList());
     }
 
@@ -86,7 +88,7 @@ public class UserService {
     return candidates;
   }
 
-  private List<User> filterByLocation(List<User> unfiltered, String location) {
+  private List<UserDetailsImpl> filterByLocation(List<UserDetailsImpl> unfiltered, String location) {
     if (StringUtils.isEmpty(location)) {
       return unfiltered;
     }
@@ -95,7 +97,7 @@ public class UserService {
         .collect(Collectors.toList());
   }
 
-  private List<User> filterByCompany(List<User> unfiltered, String company) {
+  private List<UserDetailsImpl> filterByCompany(List<UserDetailsImpl> unfiltered, String company) {
     if (StringUtils.isEmpty(company)) {
       return unfiltered;
     }
@@ -104,7 +106,7 @@ public class UserService {
       .collect(Collectors.toList());
   }
 
-  public User getUser(String id) {
+  public UserDetailsImpl getUser(String id) {
     var user = userRepository.findByIdIgnoreCase(id);
 
     if (user == null) {
@@ -186,7 +188,7 @@ public class UserService {
     return isValidSkillLevel && isValidWillLevel && isOneGreaterZero;
   }
 
-  public List<User> getSimilar(String username, Integer count) throws UserNotFoundException {
+  public List<UserDetailsImpl> getSimilar(String username, Integer count) throws UserNotFoundException {
     var toSearch = userRepository.findAll();
     var user = toSearch.stream().filter(p -> p.getId().equals(username)).findAny();
 

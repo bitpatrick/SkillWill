@@ -7,18 +7,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.repositories.SessionRepository;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.services.LdapService;
-import com.sinnerschrader.skillwill.session.Session;
-import com.unboundid.ldap.sdk.LDAPException;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.Before;
@@ -28,6 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
+import com.sinnerschrader.skillwill.repositories.SessionRepository;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.services.LdapService;
+import com.sinnerschrader.skillwill.session.Session;
+import com.unboundid.ldap.sdk.LDAPException;
 
 /**
  * Integration test for SkillController
@@ -75,8 +76,8 @@ public class SkillControllerTest {
     cobolSkill.incrementSuggestion("Java");
     skillRepo.insert(cobolSkill);
 
-    userRepo.insert(new User("aaaaaa"));
-    userRepo.insert(new User("bbbbbb"));
+    userRepo.insert(new UserDetailsImpl("aaaaaa"));
+    userRepo.insert(new UserDetailsImpl("bbbbbb"));
     ldapService.syncUsers(userRepo.findAll(), true);
 
     sessionRepo.insert( new Session("YWFhLmFhYUBleGFtcGxlLmNvbQ==|foo|bar"));

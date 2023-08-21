@@ -1,25 +1,12 @@
 package com.sinnerschrader.skillwill.controllers;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
-import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
-import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
-import com.sinnerschrader.skillwill.services.SessionService;
-import com.sinnerschrader.skillwill.services.SkillService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +17,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.user.Role;
+import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
+import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
+import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
+import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
+import com.sinnerschrader.skillwill.services.SessionService;
+import com.sinnerschrader.skillwill.services.SkillService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Controller handling /skills/{foo}
@@ -43,7 +45,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Api(tags = "Skills", description = "Manage all skills")
 @Controller
-@CrossOrigin
 @Scope("prototype")
 public class SkillController {
 
@@ -167,7 +168,7 @@ public class SkillController {
     @RequestParam(required = false) String description,
     @RequestParam(required = false, defaultValue = "false") boolean hidden,
     @RequestParam(required = false, defaultValue = "") String subSkills,
-    @CookieValue("_oauth2_proxy") String oAuthToken) {
+    @CookieValue(value="_oauth2_proxy", required = false) String oAuthToken) {
 
     if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
       return new StatusResponseEntity("invalid session token or user is not admin", HttpStatus.FORBIDDEN);
@@ -260,7 +261,7 @@ public class SkillController {
   }
 
   private Set<String> createSubSkillSet(String s) {
-    return new HashSet<>(Arrays.asList(StringUtils.tokenizeToStringArray(s, ",")));
-  }
+		return new HashSet<>(Arrays.asList(StringUtils.tokenizeToStringArray(s, ",")));
+	}
 
 }

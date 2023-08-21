@@ -2,7 +2,7 @@ package com.sinnerschrader.skillwill.services;
 
 
 import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 import com.sinnerschrader.skillwill.domain.user.UserLdapDetailsFactory;
 import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
@@ -169,7 +169,7 @@ public class LdapService {
     return getEntry("(uid=" + id + ")");
   }
 
-  public User createUserByMail(String mail) {
+  public UserDetailsImpl createUserByMail(String mail) {
       ensureConnection();
       try {
         bindAsTechnicalUser();
@@ -194,7 +194,7 @@ public class LdapService {
       var role = getAdminIds().contains(id) ? Role.ADMIN : Role.USER;
       var ldapDetails = userLdapDetailsFactory.create(ldapEntry, role);
 
-      var newUser = new User(id);
+      var newUser = new UserDetailsImpl(id);
       newUser.setLdapDN(dn);
       newUser.setLdapDetails(ldapDetails);
 
@@ -219,60 +219,60 @@ public class LdapService {
   }
 
   @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public User syncUser(User user) {
-    return syncUsers(List.of(user), false).get(0);
+  public UserDetailsImpl syncUser(UserDetailsImpl userDetailsImpl) {
+    return syncUsers(List.of(userDetailsImpl), false).get(0);
   }
 
-  public List<User> syncUsers(List<User> users, boolean forceUpdate) {
+  public List<UserDetailsImpl> syncUsers(List<UserDetailsImpl> userDetailsImpls, boolean forceUpdate) {
     ensureConnection();
 
     try {
       bindAsTechnicalUser();
     } catch (LDAPException e) {
       logger.error("Failed to sync users, LDAP error");
-      return users;
+      return userDetailsImpls;
     }
 
-    var updated = new ArrayList<User>();
+    var updated = new ArrayList<UserDetailsImpl>();
     var adminIds = getAdminIds();
 
-    for (User user : users) {
+    for (UserDetailsImpl userDetailsImpl : userDetailsImpls) {
       SearchRequest ldapRequest;
       SearchResultEntry ldapEntry;
       var isRemoved = false;
 
       try {
         // user does not need to update, irgnore
-        if (!forceUpdate && user.getLdapDetails() != null) {
-          updated.add(user);
+        if (!forceUpdate && userDetailsImpl.getLdapDetails() != null) {
+          updated.add(userDetailsImpl);
           continue;
         }
 
-        if (StringUtils.isEmpty(user.getLdapDN())) {
-          ldapEntry = getEntryById(user.getId());
+        if (StringUtils.isEmpty(userDetailsImpl.getLdapDN())) {
+          ldapEntry = getEntryById(userDetailsImpl.getId());
           if (ldapEntry != null) {
-            user.setLdapDN(ldapEntry.getParentDNString());
+            userDetailsImpl.setLdapDN(ldapEntry.getParentDNString());
           }
         } else {
-          ldapRequest = new SearchRequest(user.getLdapDN(), SearchScope.SUB, "(uid=" + user.getId() + ")");
+          ldapRequest = new SearchRequest(userDetailsImpl.getLdapDN(), SearchScope.SUB, "(uid=" + userDetailsImpl.getId() + ")");
           var entries = ldapConnection.search(ldapRequest).getSearchEntries();
           ldapEntry = entries.size() < 1 ? null : entries.get(0);
         }
 
         if (ldapEntry == null) {
-          logger.warn("Failed to sync user {}: Not found in LDAP, will remove", user.getId());
-          userRepo.delete(user);
+          logger.warn("Failed to sync user {}: Not found in LDAP, will remove", userDetailsImpl.getId());
+          userRepo.delete(userDetailsImpl);
           isRemoved = true;
         } else {
-          var role = adminIds.contains(user.getId()) ? Role.ADMIN : Role.USER;
-          user.setLdapDetails(userLdapDetailsFactory.create(ldapEntry, role));
+          var role = adminIds.contains(userDetailsImpl.getId()) ? Role.ADMIN : Role.USER;
+          userDetailsImpl.setLdapDetails(userLdapDetailsFactory.create(ldapEntry, role));
         }
       } catch (LDAPException e) {
-        logger.error("Failed to sync user {}: LDAP error", user.getId());
+        logger.error("Failed to sync user {}: LDAP error", userDetailsImpl.getId());
       }
 
       if (!isRemoved) {
-        updated.add(user);
+        updated.add(userDetailsImpl);
       }
     }
 

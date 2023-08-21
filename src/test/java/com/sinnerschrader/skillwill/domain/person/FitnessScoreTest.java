@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.user.FitnessScore;
 import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
-import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class FitnessScoreTest {
 
   @Test
   public void testSearchedSkillsOnly() {
-    var user = new User("foobar");
+    var user = new UserDetailsImpl("foobar");
     user.addUpdateSkill("Java", 3, 3, false, false);
     user.addUpdateSkill("AEM", 3, 3, false, false);
 
@@ -41,7 +41,7 @@ public class FitnessScoreTest {
 
   @Test
   public void testNoSearchedSkills() {
-    var user = new User("foobar");
+    var user = new UserDetailsImpl("foobar");
     user.addUpdateSkill("Java", 3, 3, false, false);
     user.addUpdateSkill("AEM", 3, 3, false, false);
 
@@ -52,7 +52,7 @@ public class FitnessScoreTest {
 
   @Test
   public void testMaximumScore() {
-    var user = new User("foobar");
+    var user = new UserDetailsImpl("foobar");
     user.addUpdateSkill("Java", 3, 3, false, false);
     user.addUpdateSkill("AEM", 3, 3, false, false);
     user.addUpdateSkill("Foo", 0, 0, false, false);
@@ -66,7 +66,7 @@ public class FitnessScoreTest {
 
   @Test
   public void testMinimalScore() {
-    var user = new User("foobar");
+    var user = new UserDetailsImpl("foobar");
     user.addUpdateSkill("Java", 0, 0, false, false);
     user.addUpdateSkill("AEM", 0, 0, false, false);
     user.addUpdateSkill("Foo", 3, 3, false, false);
@@ -80,7 +80,7 @@ public class FitnessScoreTest {
 
   @Test
   public void testRealisticScore() {
-    var user = new User("foobar");
+    var user = new UserDetailsImpl("foobar");
     user.addUpdateSkill("Java", 2, 3, false, false);
     user.addUpdateSkill("AEM", 2, 2, false, false);
     user.addUpdateSkill("Foo", 1, 3, false, false);
