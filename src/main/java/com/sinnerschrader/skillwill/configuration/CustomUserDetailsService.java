@@ -1,4 +1,4 @@
-package com.sinnerschrader.skillwill.security;
+package com.sinnerschrader.skillwill.configuration;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,8 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		UserDetailsImpl userDetailsImpl = userRepository.findByIdIgnoreCase(username);
-
+		UserDetailsImpl userDetailsImpl = userRepository.findByUsernameIgnoreCase(username);
+		
 		if (userDetailsImpl == null) {
 			throw new UsernameNotFoundException("user not found by username: " + username);
 		}

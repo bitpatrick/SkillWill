@@ -249,26 +249,26 @@ public class LdapService {
         }
 
         if (StringUtils.isEmpty(userDetailsImpl.getLdapDN())) {
-          ldapEntry = getEntryById(userDetailsImpl.getId());
+          ldapEntry = getEntryById(userDetailsImpl.getUsername());
           if (ldapEntry != null) {
             userDetailsImpl.setLdapDN(ldapEntry.getParentDNString());
           }
         } else {
-          ldapRequest = new SearchRequest(userDetailsImpl.getLdapDN(), SearchScope.SUB, "(uid=" + userDetailsImpl.getId() + ")");
+          ldapRequest = new SearchRequest(userDetailsImpl.getLdapDN(), SearchScope.SUB, "(uid=" + userDetailsImpl.getUsername() + ")");
           var entries = ldapConnection.search(ldapRequest).getSearchEntries();
           ldapEntry = entries.size() < 1 ? null : entries.get(0);
         }
 
         if (ldapEntry == null) {
-          logger.warn("Failed to sync user {}: Not found in LDAP, will remove", userDetailsImpl.getId());
+          logger.warn("Failed to sync user {}: Not found in LDAP, will remove", userDetailsImpl.getUsername());
           userRepo.delete(userDetailsImpl);
           isRemoved = true;
         } else {
-          var role = adminIds.contains(userDetailsImpl.getId()) ? Role.ADMIN : Role.USER;
+          var role = adminIds.contains(userDetailsImpl.getUsername()) ? Role.ADMIN : Role.USER;
           userDetailsImpl.setLdapDetails(userLdapDetailsFactory.create(ldapEntry, role));
         }
       } catch (LDAPException e) {
-        logger.error("Failed to sync user {}: LDAP error", userDetailsImpl.getId());
+        logger.error("Failed to sync user {}: LDAP error", userDetailsImpl.getUsername());
       }
 
       if (!isRemoved) {

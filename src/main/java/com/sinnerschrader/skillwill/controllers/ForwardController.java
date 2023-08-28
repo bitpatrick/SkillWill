@@ -1,10 +1,11 @@
 package com.sinnerschrader.skillwill.controllers;
 
-import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * Forward / to /swagger-ui.html
@@ -15,16 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Scope("prototype")
 public class ForwardController {
 
-  @ApiOperation(value = "forward to swagger", notes = "forward to swagger")
-  @RequestMapping(path = "/swagger")
-  public String forwardSwagger() {
-    return "forward:/swagger-ui.html";
-  }
-
-  @ApiOperation(value = "forward frontend to index", notes = "forward routes handled by react-router to index")
-  @RequestMapping(path = {"/my-profile/", "/profile/{user}"})
-  public String forwardIndex() {
-    return "forward:/";
-  }
+//	@Operation(summary = "forward to swagger", description = "forward to swagger")
+//    @GetMapping("/swagger")
+//    public String forwardSwagger() {
+//        return "forward:/swagger-ui.html";
+//    }
+//	
+//
+//    @Operation(summary = "forward frontend to index", description = "forward routes handled by react-router to index")
+//    @GetMapping({"/my-profile/", "/profile/{user}"})
+//    public String forwardIndex(@PathVariable(required = false) String user) {
+//        return "forward:/";
+//    }
 
 }

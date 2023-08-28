@@ -9,21 +9,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
 import com.sinnerschrader.skillwill.services.SessionService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Api(tags = "Session", description = "Manage current session")
+
+@Tag(name = "Session", description = "Manage current session")
 @Controller
 @Scope("prototype")
 public class SessionController {
@@ -37,15 +38,25 @@ public class SessionController {
 		this.sessionService = sessionService;
 	}
 
-	@ApiOperation(value = "session/user", nickname = "create session user", notes = "create session user")
-	@ApiResponses({ @ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 401, message = "Unauthorized"),
-			@ApiResponse(code = 500, message = "Failure") })
-	@ApiImplicitParams({ @ApiImplicitParam(name = "search", value = "Name to search", paramType = "query"),
-			@ApiImplicitParam(name = "exclude_hidden", value = "Do not return hidden skills", paramType = "query", defaultValue = "true"),
-			@ApiImplicitParam(name = "count", value = "Limit the number of skills to find", paramType = "query"), })
-	@RequestMapping(path = "/session/user", method = RequestMethod.GET)
-	public ResponseEntity<String> getCurrentUser(
-			@CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken) {
+	@Operation(summary = "Utente della sessione", description = "Crea utente della sessione")
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "Operazione riuscita"),
+        @ApiResponse(responseCode = "401", description = "Non autorizzato"),
+        @ApiResponse(responseCode = "500", description = "Errore interno del server")
+    })
+    @GetMapping("/session/user")
+    public ResponseEntity<String> getCurrentUser(
+            @Parameter(description = "Nome da cercare", in = ParameterIn.QUERY) 
+            @RequestParam(required = false) String search,
+
+            @Parameter(description = "Non restituire competenze nascoste", in = ParameterIn.QUERY) 
+            @RequestParam(name = "exclude_hidden", defaultValue = "true") boolean exclude_hidden,
+
+            @Parameter(description = "Limita il numero di competenze da trovare", in = ParameterIn.QUERY) 
+            @RequestParam(required = false) Integer count,
+
+            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) 
+            @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken) {
 
 		UserDetailsImpl userDetailsImpl = null;
 

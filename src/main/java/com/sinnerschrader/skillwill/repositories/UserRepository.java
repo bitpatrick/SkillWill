@@ -15,7 +15,7 @@ import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
  */
 public interface UserRepository extends MongoRepository<UserDetailsImpl, String> {
 
-  UserDetailsImpl findByIdIgnoreCase(String id);
+  UserDetailsImpl findByUsernameIgnoreCase(String username);
 
   @Query("{ 'skills._id' : '?0' }")
   List<UserDetailsImpl> findBySkill(String skillName);

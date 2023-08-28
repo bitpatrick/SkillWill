@@ -165,18 +165,19 @@ public class SkillService {
   }
 
   @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills)
-    throws EmptyArgumentException, DuplicateSkillException {
+  public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills) throws EmptyArgumentException, DuplicateSkillException {
 
     name = SkillUtils.sanitizeName(name);
     subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n)).collect(Collectors.toSet());
 
     if (StringUtils.isEmpty(name)) {
-      throw new EmptyArgumentException("name is empty");
+     
+    	throw new EmptyArgumentException("name is empty");
     }
 
     if (skillRepository.findByName(name) != null) {
-      logger.debug("Failed to create skill {}: already exists", name);
+      
+    	logger.debug("Failed to create skill {}: already exists", name);
       throw new DuplicateSkillException("skill already existing");
     }
 
@@ -187,9 +188,12 @@ public class SkillService {
     }
 
     try {
+    	
       skillRepository.insert(new Skill(name, description, new ArrayList<>(), isHidden, subSkills));
       logger.info("Successfully created skill {}", name);
+      
     } catch (DuplicateKeyException e) {
+    	
       logger.debug("Failed to create skill {}: already exists");
       throw new DuplicateSkillException("skill already existing");
     }

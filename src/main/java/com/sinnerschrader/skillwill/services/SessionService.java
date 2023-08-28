@@ -111,7 +111,7 @@ public class SessionService {
         // user not in db yet, will create
         var newUser = ldapService.createUserByMail(extractMail(token));
         UserRepository.insert(newUser);
-        logger.info("Successfully created new user {}", newUser.getId());
+        logger.info("Successfully created new user {}", newUser.getUsername());
       }
 
       // session not in DB, but in proxy -> create new session and revalidate old ones
@@ -139,7 +139,7 @@ public class SessionService {
   @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
   public boolean checkToken(String token, String userId) {
     logger.debug("checking token {} for user {}", token, userId);
-    return getSession(token) != null && getUserByToken(token) != null && getUserByToken(token).getId().equals(userId);
+    return getSession(token) != null && getUserByToken(token) != null && getUserByToken(token).getUsername().equals(userId);
   }
 
   public boolean checkTokenRole(String token, Role role) {

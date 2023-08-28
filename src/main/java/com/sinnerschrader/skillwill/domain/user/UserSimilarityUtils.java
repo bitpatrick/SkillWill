@@ -21,7 +21,7 @@ public class UserSimilarityUtils {
     }
 
     return candidates.stream()
-      .filter(candidate -> !candidate.getId().equals(userDetailsImpl.getId()))
+      .filter(candidate -> !candidate.getUsername().equals(userDetailsImpl.getUsername()))
       .sorted(new JaccardDistanceComparator(userDetailsImpl))
       .limit(count != null ? count : Long.MAX_VALUE)
       .collect(Collectors.toList());

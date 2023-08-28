@@ -17,9 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
@@ -31,19 +32,18 @@ import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
 import com.sinnerschrader.skillwill.services.SessionService;
 import com.sinnerschrader.skillwill.services.SkillService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Controller handling /skills/{foo}
  *
  * @author torree
  */
-@Api(tags = "Skills", description = "Manage all skills")
+@Tag(name = "Skills", description = "Manage all skills")
 @Controller
 @Scope("prototype")
 public class SkillController {
@@ -64,41 +64,42 @@ public class SkillController {
    * get/suggest skills based on search query -> can be used for autocompletion when user started
    * typing
    */
-  @ApiOperation(value = "suggest skills", nickname = "suggest skills", notes = "suggest skills")
+  @Operation(summary = "suggest skills", description = "suggest skills")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "search", value = "Name to search", paramType = "query"),
-    @ApiImplicitParam(name = "exclude_hidden", value = "Do not return hidden skills", paramType = "query", defaultValue = "true"),
-    @ApiImplicitParam(name = "count", value = "Limit the number of skills to find", paramType = "query"),
-  })
-  @RequestMapping(path = "/skills", method = RequestMethod.GET)
-  public ResponseEntity<String> getSkills(@RequestParam(required = false) String search,
-    @RequestParam(required = false, defaultValue = "true") boolean exclude_hidden,
-    @RequestParam(required = false, defaultValue = "-1") int count) {
+  @GetMapping(path = "/skills")
+  public ResponseEntity<String> getSkills(
+      @Parameter(description = "Name to search") @RequestParam(required = false) String search,
+      @Parameter(description = "Do not return hidden skills", example = "true") @RequestParam(defaultValue = "true") Boolean exclude_hidden,
+      @Parameter(description = "Limit the number of skills to find", example = "-1") @RequestParam(defaultValue = "-1") Integer count
+  ) {
 
     var skillsArr = new JSONArray(
-      skillService.findSkill(search, exclude_hidden, count)
-        .stream()
-        .map(Skill::toJSON)
-        .collect(Collectors.toList())
+    		skillService.findSkill(search, exclude_hidden, count)
+    		.stream()
+    		.map(Skill::toJSON)
+    		.collect(Collectors.toList())
     );
-    return new ResponseEntity<>(skillsArr.toString(), HttpStatus.OK);
+    
+    return new ResponseEntity<String>(skillsArr.toString(), HttpStatus.OK);
   }
 
   /**
    * Get a skill by its name
    */
-  @ApiOperation(value = "get skill", nickname = "get skill")
+  @Operation(summary = "get skill", description = "get skill")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "404", description = "Not Found"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @RequestMapping(path = "/skills/{skill}", method = RequestMethod.GET)
-  public ResponseEntity<String> getSkill(@PathVariable(value = "skill") String name) {
+  @GetMapping(path = "/skills/{skill}")
+  public ResponseEntity<String> getSkill(
+      @PathVariable(name = "skill") String name
+  ) {
+	  
     var skill = skillService.getSkillByName(name);
     if (skill == null) {
       logger.debug("Failed to get skill {}: not found", name);
@@ -114,18 +115,19 @@ public class SkillController {
    * getSkills(true) for that) -> Recommender System: "Users who searched this also searched
    * for that"
    */
-  @ApiOperation(value = "suggest next skill", nickname = "suggest next skill", notes = "suggest next skill")
+  @Operation(summary = "suggest next skill", description = "suggest next skill")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "search", value = "Names of skills already entered, separated by comma", paramType = "query", required = false),
-    @ApiImplicitParam(name = "count", value = "Count of recommendations to get", paramType = "query", defaultValue = "10")
-  })
-  @RequestMapping(path = "/skills/next", method = RequestMethod.GET)
-  public ResponseEntity<String> getNext(@RequestParam(required = false) String search,
-    @RequestParam(defaultValue = "10") int count) {
+  @GetMapping(path = "/skills/next")
+  public ResponseEntity<String> getNext(
+      @Parameter(description = "Names of skills already entered, separated by comma") 
+      @RequestParam(required = false) String search,
+
+      @Parameter(description = "Count of recommendations to get", required = false, example = "10") 
+      @RequestParam(defaultValue = "10") int count
+  ) {
 
     if (count < 1) {
       logger.debug("Failed to get suggestions for skills {}: count less than zero", search);
@@ -150,25 +152,29 @@ public class SkillController {
   /**
    * create new skill
    */
-  @ApiOperation(value = "add skill", nickname = "add skill", notes = "add a skill; Caution: parameter name is NOT the new skill's ID")
+  @Operation(summary = "add skill", description = "add a skill; Caution: parameter name is NOT the new skill's ID")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "400", description = "Bad Request"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "name", value = "new skill's name", paramType = "form", required = true),
-    @ApiImplicitParam(name = "hidden", value = "hide skill in search/suggestions", paramType = "form", defaultValue = "false"),
-    @ApiImplicitParam(name = "subskills", value = "list of subskills (separated with comma)", paramType = "form"),
-    @ApiImplicitParam(name = "_oauth2_proxy", value = "session token of the current user", paramType = "cookie", required = true)
-  })
-  @RequestMapping(path = "/skills", method = RequestMethod.POST)
+  @PostMapping(path = "/skills")
   public ResponseEntity<String> addSkill(
-    @RequestParam String name,
-    @RequestParam(required = false) String description,
-    @RequestParam(required = false, defaultValue = "false") boolean hidden,
-    @RequestParam(required = false, defaultValue = "") String subSkills,
-    @CookieValue(value="_oauth2_proxy", required = false) String oAuthToken) {
+      @Parameter(description = "new skill's name", required = true) 
+      @RequestParam String name,
+
+      @Parameter(description = "Skill description") 
+      @RequestParam(required = false) String description,
+
+      @Parameter(description = "hide skill in search/suggestions", example = "false") 
+      @RequestParam(required = false, defaultValue = "false") boolean hidden,
+
+      @Parameter(description = "list of subskills (separated with comma)") 
+      @RequestParam(required = false, defaultValue = "") String subSkills,
+
+      @Parameter(description = "session token of the current user", required = true) 
+      @CookieValue(value="_oauth2_proxy", required = true) String oAuthToken
+  ) {
 
     if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
       return new StatusResponseEntity("invalid session token or user is not admin", HttpStatus.FORBIDDEN);
@@ -190,19 +196,25 @@ public class SkillController {
   /**
    * delete skill
    */
-  @ApiOperation(value = "delete skill", nickname = "delete skill", notes = "parameter must be a valid skill Id")
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "_oauth2_proxy", value = "session token of the current user", paramType = "cookie", required = true),
-    @ApiImplicitParam(name = "migrateTo", value = "skill to which old levels will be migrated", paramType = "form")
-  })
+  @Operation(summary = "delete skill", description = "parameter must be a valid skill Id")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "400", description = "Bad Request"),
+      @ApiResponse(responseCode = "404", description = "Not Found"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @RequestMapping(path = "/skills/{skill}", method = RequestMethod.DELETE)
-  public ResponseEntity<String> deleteSkill(@PathVariable String skill, @CookieValue("_oauth2_proxy") String oAuthToken, @RequestParam(required = false) String migrateTo) {
+  @DeleteMapping(path = "/skills/{skill}")
+  public ResponseEntity<String> deleteSkill(
+      @Parameter(description = "ID of the skill to be deleted", required = true)
+      @PathVariable String skill, 
+
+      @Parameter(description = "session token of the current user", required = true) 
+      @CookieValue("_oauth2_proxy") String oAuthToken, 
+
+      @Parameter(description = "skill to which old levels will be migrated")
+      @RequestParam(required = false) String migrateTo
+  ) {
+	  
     if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
       return new StatusResponseEntity("invalid session token or user is not admin", HttpStatus.FORBIDDEN);
     }
@@ -223,26 +235,33 @@ public class SkillController {
   /**
    * edit skill
    */
-  @ApiOperation(value = "edit skill", nickname = "edit skill")
+  @Operation(summary = "edit skill", description = "Update skill details")
   @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+      @ApiResponse(responseCode = "200", description = "Success"),
+      @ApiResponse(responseCode = "400", description = "Bad Request"),
+      @ApiResponse(responseCode = "404", description = "Not Found"),
+      @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "name", value = "skill's new name", paramType = "form", required = false),
-    @ApiImplicitParam(name = "hidden", value = "hide skill", paramType = "form", required = false),
-    @ApiImplicitParam(name = "subskills", value = "skill's new subskills", paramType = "form", required = false),
-    @ApiImplicitParam(name = "_oauth2_proxy", value = "session token of the current user", paramType = "cookie", required = true),
-  })
-  @RequestMapping(path = "/skills/{skill}", method = RequestMethod.POST)
-  public ResponseEntity<String> updateSkill(@PathVariable String skill,
-    @RequestParam(required = false) String name,
-    @RequestParam(required = false) String description,
-    @RequestParam(required = false) Boolean hidden,
-    @RequestParam(required = false) String subskills,
-    @CookieValue("_oauth2_proxy") String oAuthToken) {
+  @PostMapping(path = "/skills/{skill}")
+  public ResponseEntity<String> updateSkill(
+      @Parameter(description = "ID of the skill to be edited", required = true)
+      @PathVariable String skill,
+      
+      @Parameter(description = "skill's new name")
+      @RequestParam(required = false) String name,
+      
+      @Parameter(description = "Description of the skill")
+      @RequestParam(required = false) String description,
+      
+      @Parameter(description = "hide skill")
+      @RequestParam(required = false) Boolean hidden,
+      
+      @Parameter(description = "skill's new subskills")
+      @RequestParam(required = false) String subskills,
+      
+      @Parameter(description = "session token of the current user", required = true)
+      @CookieValue("_oauth2_proxy") String oAuthToken
+  ) {
 
     if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
       return new StatusResponseEntity("invalid session or not admin", HttpStatus.FORBIDDEN);

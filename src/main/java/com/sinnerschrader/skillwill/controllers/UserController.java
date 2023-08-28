@@ -16,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,19 +31,20 @@ import com.sinnerschrader.skillwill.services.SessionService;
 import com.sinnerschrader.skillwill.services.SkillService;
 import com.sinnerschrader.skillwill.services.UserService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 
 /**
  * Controller handling /users/{foo}
  *
  * @author torree
  */
-@Api(tags = "Users", description = "User management and search")
+@Tag(name = "Users", description = "User management and search")
 @Controller
 @Scope("prototype")
 public class UserController {
@@ -63,20 +67,20 @@ public class UserController {
   /**
    * Search for users with specific skills / list all users if no search query is specified
    */
-  @ApiOperation(value = "search users", nickname = "search users", notes = "Search users.")
+  @Operation(summary = "Search users", description = "Search users.")
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 500, message = "Failure")
+	  @ApiResponse(responseCode = "200", description = "Success"),
+	  @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "skills", value = "Names of skills to search, separated by ','", paramType = "query", required = false),
-    @ApiImplicitParam(name = "location", value = "Location to filter results by", paramType = "query", required = false),
-    @ApiImplicitParam(name = "company", value = "Company to filter results by", paramType = "query", required = false),
-  })
-  @RequestMapping(path = "/users", method = RequestMethod.GET)
-  public ResponseEntity<String> getUsers(@RequestParam(required = false) String skills,
-    @RequestParam(required = false) String company,
-    @RequestParam(required = false) String location) {
+  @GetMapping("/users")
+  public ResponseEntity<String> getUsers(
+      @Parameter(description = "Names of skills to search, separated by ','") 
+      @RequestParam(required = false) String skills,
+      @Parameter(description = "Location to filter results by") 
+      @RequestParam(required = false) String location,
+      @Parameter(description = "Company to filter results by") 
+      @RequestParam(required = false) String company
+  ) {
 
     var skillSearchNames = StringUtils.isEmpty(skills)
       ? new ArrayList<String>()
@@ -96,14 +100,17 @@ public class UserController {
   /**
    * Get a user
    */
-  @ApiOperation(value = "get info", nickname = "user info", notes = "Returns the user with the given id")
+  @Operation(summary = "Get user info", description = "Returns the user with the given id")
   @ApiResponses(value = {
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+	  @ApiResponse(responseCode = "200", description = "Success"),
+	  @ApiResponse(responseCode = "404", description = "Not Found"),
+	  @ApiResponse(responseCode = "500", description = "Failure"),
   })
-  @RequestMapping(path = "/users/{username}", method = RequestMethod.GET)
-  public ResponseEntity<String> getUser(@PathVariable String username) {
+  @GetMapping("/users/{username}")
+  public ResponseEntity<String> getUser(
+      @Parameter(description = "Username of the user to retrieve") 
+      @PathVariable String username
+  ) {
     try {
       UserDetailsImpl userDetailsImpl = userService.getUser(username);
       return new ResponseEntity<>(userDetailsImpl.toJSON().toString(), HttpStatus.OK);
@@ -115,29 +122,23 @@ public class UserController {
   /**
    * modify users's skills
    */
-  @ApiOperation(value = "modify skill", nickname = "modify skills", notes = "Create or edit a skill of a user")
-  @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 403, message = "Forbidden"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+  @Operation(summary = "Modify user skill", description = "Create or edit a skill of a user")
+  @ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Success"),
+	  @ApiResponse(responseCode = "400", description = "Bad Request"),
+	  @ApiResponse(responseCode = "403", description = "Forbidden"),
+	  @ApiResponse(responseCode = "404", description = "Not Found"),
+	  @ApiResponse(responseCode = "500", description = "Failure"),
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "_oauth2_proxy", value = "session token of the current user", paramType = "cookie", required = true),
-    @ApiImplicitParam(name = "skill", value = "Name of skill", paramType = "form", required = true),
-    @ApiImplicitParam(name = "skill_level", value = "Level of skill", paramType = "form", required = true),
-    @ApiImplicitParam(name = "will_level", value = "Level of will", paramType = "form", required = true),
-    @ApiImplicitParam(name = "mentor", value = "Mentor flag", paramType = "form", required = true, dataType = "Boolean")
-  })
-  @RequestMapping(path = "/users/{user}/skills", method = RequestMethod.POST)
+  @PostMapping("/users/{user}/skills")
   public ResponseEntity<String> updateSkills(
-	@PathVariable String user,
-    @RequestParam("skill") String skill, 
-    @RequestParam("skill_level") String skill_level,
-    @RequestParam("will_level") String will_level, 
-    @RequestParam("mentor") boolean mentor, 
-    @CookieValue(value="_oauth2_proxy", required = false) String oAuthToken) {
+		    @Parameter(description = "User identifier") @PathVariable String user,
+		    @Parameter(description = "Name of skill", required = true) @RequestParam("skill") String skill,
+		    @Parameter(description = "Level of skill", required = true) @RequestParam("skill_level") String skill_level,
+		    @Parameter(description = "Level of will", required = true) @RequestParam("will_level") String will_level,
+		    @Parameter(description = "Mentor flag", required = true) @RequestParam("mentor") boolean mentor,
+		    @Parameter(description = "Session token of the current user", required = true) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
+		) {
 
 //    if (!sessionService.checkToken(oAuthToken, user)) {
 //      logger.debug("Failed to modify {}'s skills: not logged in", user);
@@ -157,21 +158,20 @@ public class UserController {
   /**
    * delete user's skill
    */
-  @ApiOperation(value = "remove skill", nickname = "remove skills", notes = "remove a skill from a user")
-  @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 403, message = "Forbidden"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 500, message = "Failure")
+  @Operation(summary = "Remove user skill", description = "Remove a skill from a user")
+  @ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Success"),
+	  @ApiResponse(responseCode = "400", description = "Bad Request"),
+	  @ApiResponse(responseCode = "403", description = "Forbidden"),
+	  @ApiResponse(responseCode = "404", description = "Not Found"),
+	  @ApiResponse(responseCode = "500", description = "Failure"),
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "_oauth2_proxy", value = "session token of the current user", paramType = "cookie", required = true),
-    @ApiImplicitParam(name = "skill", value = "Name of skill", paramType = "query", required = true),
-  })
-  @RequestMapping(path = "/users/{user}/skills", method = RequestMethod.DELETE)
-  public ResponseEntity<String> removeSkill(@PathVariable String user,
-    @RequestParam("skill") String skill, @CookieValue("_oauth2_proxy") String oAuthToken) {
+  @DeleteMapping(path = "/users/{user}/skills")
+  public ResponseEntity<String> removeSkill(
+      @Parameter(description = "User identifier") @PathVariable String user,
+      @Parameter(description = "Name of skill", required = true) @RequestParam("skill") String skill,
+      @Parameter(description = "Session token of the current user", required = true) @CookieValue("_oauth2_proxy") String oAuthToken
+  ) {
 
     if (!sessionService.checkToken(oAuthToken, user)) {
       logger.debug("Failed to modify {}'s skills: not logged in", user);
@@ -192,19 +192,18 @@ public class UserController {
   /**
    * Get users with similar skill sets
    */
-  @ApiOperation(value = "get similar", nickname = "get similar", notes = "get users with similar skills sets")
-  @ApiResponses({
-    @ApiResponse(code = 200, message = "Success"),
-    @ApiResponse(code = 404, message = "Not Found"),
-    @ApiResponse(code = 400, message = "Bad Request"),
-    @ApiResponse(code = 500, message = "Failure")
+  @Operation(summary = "Get similar users", description = "Get users with similar skill sets")
+  @ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Success"),
+	  @ApiResponse(responseCode = "400", description = "Bad Request"),
+	  @ApiResponse(responseCode = "404", description = "Not Found"),
+	  @ApiResponse(responseCode = "500", description = "Failure"),
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(name = "count", value = "number of users to find (max)", paramType = "query", defaultValue = "10"),
-  })
-  @RequestMapping(path = "/users/{user}/similar", method = RequestMethod.GET)
-  public ResponseEntity<String> getSimilar(@PathVariable String user,
-    @RequestParam(value = "count", required = false) Integer count) {
+  @GetMapping(path = "/users/{user}/similar")
+  public ResponseEntity<String> getSimilar(
+      @Parameter(description = "User identifier") @PathVariable String user,
+      @Parameter(description = "Number of users to find (max)", required = false, example = "10") @RequestParam(value = "count", defaultValue = "10") Integer count
+  ) {
 
     List<UserDetailsImpl> similar;
 

@@ -1,6 +1,7 @@
 package com.sinnerschrader.skillwill.domain.user;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -12,22 +13,32 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.Version;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.UserSkill;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Class holding all information about a person
  *
  * @author torree
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
 	@Id
-	private String id;
-
+	private String username;
+	
+	private String password;
+	
 	private List<UserSkill> skills;
 
 	private String ldapDN;
@@ -41,16 +52,22 @@ public class UserDetailsImpl implements UserDetails {
 	// LDAP Details will be updated regularly
 	private UserLdapDetails ldapDetails;
 
-	public UserDetailsImpl(String id) {
-		this.id = id;
+	public UserDetailsImpl(String username, String password) {
+		this.username = username;
+		this.password = password;
 		this.skills = new ArrayList<>();
 		this.ldapDetails = null;
 		this.fitnessScore = null;
 		this.ldapDN = null;
 	}
-
-	public String getId() {
-		return this.id;
+	
+	public UserDetailsImpl(String username) {
+		this.username = username;
+		this.password = null;
+		this.skills = new ArrayList<>();
+		this.ldapDetails = null;
+		this.fitnessScore = null;
+		this.ldapDN = null;
 	}
 
 	public List<UserSkill> getSkills(boolean excludeHidden) {
@@ -58,20 +75,11 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public UserSkill getSkill(String name, boolean excludeHidden) {
-		return this.skills.stream().filter(s -> s.getName().equals(name)).filter(s -> !excludeHidden || !s.isHidden())
-				.findFirst().orElse(null);
+		return this.skills.stream().filter(s -> s.getName().equals(name)).filter(s -> !excludeHidden || !s.isHidden()).findFirst().orElse(null);
 	}
 
 	public boolean hasSkill(String skill) {
 		return this.getSkill(skill, true) != null;
-	}
-
-	public UserLdapDetails getLdapDetails() {
-		return this.ldapDetails;
-	}
-
-	public void setLdapDetails(UserLdapDetails ldapDetails) {
-		this.ldapDetails = ldapDetails;
 	}
 
 	public void addUpdateSkill(String name, int skillLevel, int willLevel, boolean hidden, boolean mentor) {
@@ -94,6 +102,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public double getFitnessScoreValue() {
+		
 		if (this.fitnessScore == null) {
 			throw new IllegalStateException("no fitness score set");
 		}
@@ -103,7 +112,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	public JSONObject toJSON() {
 		var json = new JSONObject();
-		json.put("id", this.id);
+		json.put("id", this.username);
 
 		if (this.ldapDetails != null) {
 			json.put("firstName", ldapDetails.getFirstName());
@@ -128,53 +137,39 @@ public class UserDetailsImpl implements UserDetails {
 		return json;
 	}
 
-	public String getLdapDN() {
-		return this.ldapDN;
-	}
-
-	public void setLdapDN(String ldapDN) {
-		this.ldapDN = ldapDN;
-	}
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		return null;
+		
+		return Arrays.asList(new SimpleGrantedAuthority("USER"));
 	}
 
 	@Override
 	public String getPassword() {
-
-		return "password";
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-
-		return this.id;
+		return this.username;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-
 		return true;
 	}
 

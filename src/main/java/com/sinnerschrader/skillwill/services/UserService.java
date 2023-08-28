@@ -107,7 +107,7 @@ public class UserService {
   }
 
   public UserDetailsImpl getUser(String id) {
-    var user = userRepository.findByIdIgnoreCase(id);
+    var user = userRepository.findByUsernameIgnoreCase(id);
 
     if (user == null) {
       logger.debug("Failed to find user {}: not found", id);
@@ -131,7 +131,7 @@ public class UserService {
       throw new EmptyArgumentException("arguments must not be empty or null");
     }
 
-    var user = userRepository.findByIdIgnoreCase(username);
+    var user = userRepository.findByUsernameIgnoreCase(username);
     if (user == null) {
       logger.debug("Failed to add/modify {}'s skills: user not found", username);
       throw new UserNotFoundException("user not found");
@@ -164,7 +164,7 @@ public class UserService {
       throw new EmptyArgumentException("arguments must not be empty or null");
     }
 
-    var user = userRepository.findByIdIgnoreCase(username);
+    var user = userRepository.findByUsernameIgnoreCase(username);
     if (user == null) {
       logger.debug("Failed to remove {}'s skills: user not found", username);
       throw new UserNotFoundException("user not found");
@@ -190,7 +190,7 @@ public class UserService {
 
   public List<UserDetailsImpl> getSimilar(String username, Integer count) throws UserNotFoundException {
     var toSearch = userRepository.findAll();
-    var user = toSearch.stream().filter(p -> p.getId().equals(username)).findAny();
+    var user = toSearch.stream().filter(p -> p.getUsername().equals(username)).findAny();
 
     if (!user.isPresent()) {
       logger.debug("Failed to get users similar to {}: user not found", username);
@@ -204,7 +204,7 @@ public class UserService {
   }
 
   public Role getRole(String userId) {
-    var user = userRepository.findByIdIgnoreCase(userId);
+    var user = userRepository.findByUsernameIgnoreCase(userId);
     if (user == null) {
       throw new UserNotFoundException("user not found");
     }
