@@ -1,4 +1,4 @@
-package com.sinnerschrader.skillwill.configuration;
+package com.sinnerschrader.skillwill.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

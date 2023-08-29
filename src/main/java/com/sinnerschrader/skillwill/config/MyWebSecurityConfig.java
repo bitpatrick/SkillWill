@@ -1,4 +1,4 @@
-package com.sinnerschrader.skillwill.configuration;
+package com.sinnerschrader.skillwill.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
 import com.sinnerschrader.skillwill.repositories.UserRepository;
@@ -24,7 +26,17 @@ public class MyWebSecurityConfig {
 	private UserRepository userRepository;
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityContextRepository securityContextRepository() {
+		return new HttpSessionSecurityContextRepository();
+	}
+	
+	@Bean
+	OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
+		return new OAuthAuthenticationSuccessHandler(userRepository, securityContextRepository());
+	}
+	
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http
 			.cors(corsCustomizer -> {
@@ -35,39 +47,52 @@ public class MyWebSecurityConfig {
 				});
 			})
 			.csrf(csrfCustomizer -> csrfCustomizer.disable())
+			.securityContext(securityContextCustomizer -> {
+				securityContextCustomizer.securityContextRepository(securityContextRepository());
+			})
 			.securityMatcher("/**")
 			.authorizeHttpRequests(  
 					
 					authorize -> {
 						
 						authorize
-							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-							.requestMatchers(HttpMethod.GET, "/**").permitAll()
-							.anyRequest().permitAll();
+							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).authenticated()
+							.requestMatchers(HttpMethod.GET, "/**").authenticated()
+							.anyRequest().authenticated();
 					
 					}
 					
 					)
-			.formLogin(formLoginCustomizer -> {
-				formLoginCustomizer
-					.loginPage("http://127.0.0.1:8888/login")
-					.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
-					.loginProcessingUrl("/login");
-			})
-			.logout(logoutCustomizer -> {
-				
-				logoutCustomizer
-					.logoutSuccessUrl("http://127.0.0.1:8888/");
-				
-			})
+//			.formLogin(formLoginCustomizer -> {
+//				
+//				formLoginCustomizer
+//					.loginPage("http://127.0.0.1:8888/login")
+//					.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
+//					.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
+//				
+//			})
+			
+			.oauth2Login(
+					o -> { o
+						
+//						.loginPage("http://127.0.0.1:8888/login")
+						.successHandler(oAuthAuthenticationSuccessHandler());
+						
+					})
+			
+//			.logout(logoutCustomizer -> {
+//				
+//				logoutCustomizer
+//					.logoutSuccessUrl("http://127.0.0.1:8888/");
+//				
+//			})
 			.requestCache(requestCacheCustomizer -> {
 				requestCacheCustomizer.disable();
 			});
 		
 		return http.build();
-		
 	}
-
+	
 //	@Override
 //	protected void configure(HttpSecurity http) throws Exception {
 //		http

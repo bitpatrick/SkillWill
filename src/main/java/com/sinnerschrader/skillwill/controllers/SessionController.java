@@ -3,7 +3,6 @@ package com.sinnerschrader.skillwill.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,20 +22,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
 @Tag(name = "Session", description = "Manage current session")
 @Controller
-@Scope("prototype")
 public class SessionController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SkillController.class);
 
-	private final SessionService sessionService;
-
 	@Autowired
-	public SessionController(SessionService sessionService) {
-		this.sessionService = sessionService;
-	}
+	private SessionService sessionService;
 
 	@Operation(summary = "Utente della sessione", description = "Crea utente della sessione")
     @ApiResponses(value = { 

@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -45,20 +44,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  */
 @Tag(name = "Skills", description = "Manage all skills")
 @Controller
-@Scope("prototype")
 public class SkillController {
 
   private static final Logger logger = LoggerFactory.getLogger(SkillController.class);
 
-  private final SkillService skillService;
-
-  private final SessionService sessionService;
+  @Autowired
+  private SkillService skillService;
 
   @Autowired
-  public SkillController(SkillService skillService, SessionService sessionService) {
-    this.skillService = skillService;
-    this.sessionService = sessionService;
-  }
+  private SessionService sessionService;
 
   /**
    * get/suggest skills based on search query -> can be used for autocompletion when user started

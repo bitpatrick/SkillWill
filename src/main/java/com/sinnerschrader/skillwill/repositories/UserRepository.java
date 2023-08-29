@@ -1,6 +1,7 @@
 package com.sinnerschrader.skillwill.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -15,7 +16,7 @@ import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
  */
 public interface UserRepository extends MongoRepository<UserDetailsImpl, String> {
 
-  UserDetailsImpl findByUsernameIgnoreCase(String username);
+  Optional<UserDetailsImpl> findByUsernameIgnoreCase(String username);
 
   @Query("{ 'skills._id' : '?0' }")
   List<UserDetailsImpl> findBySkill(String skillName);

@@ -37,28 +37,24 @@ import com.sinnerschrader.skillwill.repositories.UserRepository;
 public class UserService {
 
   private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
-  private final UserRepository userRepository;
-
-  private final LdapService ldapService;
-
-  private final SkillService skillService;
-
-  private final SkillRepository skillRepository;
-
-  private final FitnessScoreProperties fitnessScoreProperties;
-
+  
   @Value("${maxLevelValue}")
   private int maxLevelValue;
 
   @Autowired
-  public UserService(UserRepository userRepository, LdapService ldapService, SkillService skillService, SkillRepository skillRepository, FitnessScoreProperties fitnessScoreProperties) {
-    this.userRepository = userRepository;
-    this.ldapService = ldapService;
-    this.skillService = skillService;
-    this.skillRepository = skillRepository;
-    this.fitnessScoreProperties = fitnessScoreProperties;
-  }
+  private UserRepository userRepository;
+
+  @Autowired
+  private LdapService ldapService;
+
+  @Autowired
+  private SkillService skillService;
+
+  @Autowired
+  private SkillRepository skillRepository;
+
+  @Autowired
+  private FitnessScoreProperties fitnessScoreProperties;
 
   public List<UserDetailsImpl> getUsers(SkillSearchResult skillSearch, String company, String location)
       throws IllegalArgumentException {
@@ -106,11 +102,11 @@ public class UserService {
       .collect(Collectors.toList());
   }
 
-  public UserDetailsImpl getUser(String id) {
-    var user = userRepository.findByUsernameIgnoreCase(id);
+  public UserDetailsImpl getUser(String username) {
+    var user = userRepository.findByUsernameIgnoreCase(username).get();
 
     if (user == null) {
-      logger.debug("Failed to find user {}: not found", id);
+      logger.debug("Failed to find user {}: not found", username);
       throw new UserNotFoundException("user not found");
     }
 
@@ -118,7 +114,7 @@ public class UserService {
       ldapService.syncUser(user);
     }
 
-    logger.debug("Successfully found user {}", id);
+    logger.debug("Successfully found user {}", username);
     return user;
   }
 
@@ -149,8 +145,8 @@ public class UserService {
       throw new IllegalLevelConfigurationException("Invalid Skill-/WillLevel Configuration");
     }
 
-    user.addUpdateSkill(skillName, skillLevel, willLevel, skillService.isHidden(skillName), mentor);
-    userRepository.save(user);
+    user.get().addUpdateSkill(skillName, skillLevel, willLevel, skillService.isHidden(skillName), mentor);
+    userRepository.save(user.get());
 
     logger.info("Successfully updated {}'s skill {}", username, skillName);
   }
@@ -175,8 +171,8 @@ public class UserService {
       throw new SkillNotFoundException("skill not found");
     }
 
-    user.removeSkill(skillName);
-    userRepository.save(user);
+    user.get().removeSkill(skillName);
+    userRepository.save(user.get());
   }
 
   private boolean isValidLevelConfiguration(int skillLevel, int willLevel) {
@@ -209,7 +205,7 @@ public class UserService {
       throw new UserNotFoundException("user not found");
     }
 
-    return user.getLdapDetails().getRole();
+    return user.get().getLdapDetails().getRole();
   }
 
 }
