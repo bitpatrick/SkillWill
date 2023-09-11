@@ -1,6 +1,6 @@
 package com.sinnerschrader.skillwill.services;
 
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.domain.user.Role;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 import com.sinnerschrader.skillwill.repositories.SessionRepository;
@@ -82,7 +82,7 @@ public class SessionService {
   }
 
   @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public UserDetailsImpl getUserByToken(String token) {
+  public User getUserByToken(String token) {
     var session = getSession(token);
     if (session == null) {
       return null;

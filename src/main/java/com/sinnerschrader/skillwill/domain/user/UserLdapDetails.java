@@ -1,12 +1,22 @@
 package com.sinnerschrader.skillwill.domain.user;
 
-import java.util.Objects;
+import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Data Structure for Details from LDAP.
  *
  * @author torree
  */
+@AllArgsConstructor
+@EqualsAndHashCode
+@Data
+@Builder
+
 public class UserLdapDetails {
 
   private final String firstName;
@@ -17,73 +27,26 @@ public class UserLdapDetails {
   private final String title;
   private final String company;
   private final Role role;
+  
 
-  public UserLdapDetails(String firstName, String lastName, String mail, String phone,
-      String location, String title, String company, Role role) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.mail = mail;
-    this.phone = phone;
-    this.location = location;
-    this.title = title;
-    this.company = company;
-    this.role = role;
+  public static UserLdapDetails fromDto(UserLdapDetailsDto ldapDetailsDto) {
+	  
+	  if ( ldapDetailsDto == null ) {
+		  return null;
+	  }
+	
+	 Role convertedRole = Role.valueOf(ldapDetailsDto.role().toUpperCase());
+
+	    return UserLdapDetails.builder()
+	            .firstName(ldapDetailsDto.firstName())
+	            .lastName(ldapDetailsDto.lastName())
+	            .mail(ldapDetailsDto.mail())
+	            .phone(ldapDetailsDto.phone())
+	            .location(ldapDetailsDto.location())
+	            .title(ldapDetailsDto.title())
+	            .company(ldapDetailsDto.company())
+	            .role(convertedRole)
+	            .build();
   }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public String getMail() {
-    return mail;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public String getCompany() {
-    return this.company;
-  }
-
-  public Role getRole() {
-    return this.role;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserLdapDetails that = (UserLdapDetails) o;
-    return Objects.equals(firstName, that.firstName) &&
-      Objects.equals(lastName, that.lastName) &&
-      Objects.equals(mail, that.mail) &&
-      Objects.equals(phone, that.phone) &&
-      Objects.equals(location, that.location) &&
-      Objects.equals(title, that.title) &&
-      Objects.equals(company, that.company) &&
-      role == that.role;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(firstName, lastName, mail, phone, location, title, company, role);
-  }
-
+	 
 }

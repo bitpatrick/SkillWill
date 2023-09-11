@@ -3,68 +3,34 @@ package com.sinnerschrader.skillwill.domain.skills;
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
 
+import com.sinnerschrader.skillwill.dto.UserSkillDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
- * A skill owned by a person
- * includes name, skill level and will level
+ * A skill owned by a person includes name, skill level and will level
  *
  * @author torree
  */
+@Data
+@EqualsAndHashCode(of = "name")
+@AllArgsConstructor
+@Builder
 public class UserSkill {
 
-  @Id
-  private String name;
+	@Id
+	private String name;
 
-  private int skillLevel;
+	private int skillLevel;
 
-  private int willLevel;
+	private int willLevel;
 
-  private boolean hidden;
+	private boolean hidden;
 
-  private boolean mentor;
-
-  public UserSkill(String name, int skillLevel, int willLevel, boolean hidden, boolean mentor) {
-    this.name = name;
-    this.skillLevel = skillLevel;
-    this.willLevel = willLevel;
-    this.hidden = hidden;
-    this.mentor = mentor;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public int getSkillLevel() {
-    return skillLevel;
-  }
-
-  public void setSkillLevel(int skillLevel) {
-    this.skillLevel = skillLevel;
-  }
-
-  public int getWillLevel() {
-    return willLevel;
-  }
-
-  public void setWillLevel(int willLevel) {
-    this.willLevel = willLevel;
-  }
-
-  public void setHidden(boolean hidden) {
-    this.hidden = hidden;
-  }
-
-  public boolean isHidden() {
-    return this.hidden;
-  }
-
-  public void setMentor(boolean mentor) {
-    this.mentor = mentor;
-  }
-
-  public boolean isMentor() {
-    return this.mentor;
-  }
+	private boolean mentor;
 
   public JSONObject toJSON() {
     var json = new JSONObject();
@@ -73,6 +39,35 @@ public class UserSkill {
     json.put("willLevel", this.willLevel);
     json.put("mentor", this.mentor);
     return json;
+  }
+  
+  public UserSkillDto toDto() {
+	  
+	  return UserSkillDto.builder()
+			  .name(name)
+			  .skillLevel(skillLevel)
+			  .willLevel(willLevel)
+			  .hidden(hidden)
+			  .mentor(mentor)
+			  .build();
+	  
+  }
+  
+  public static UserSkill createUserSkill(UserSkillDto userSkillDto) {
+	  
+	  String name = userSkillDto.name();
+	  int skillLevel = userSkillDto.skillLevel();
+	  int willLevel = userSkillDto.willLevel();
+	  boolean hidden = userSkillDto.hidden();
+	  boolean mentor = userSkillDto.mentor();
+	  
+	  return UserSkill.builder()
+			  .name(name)
+			  .skillLevel(skillLevel)
+			  .willLevel(willLevel)
+			  .hidden(hidden)
+			  .mentor(mentor)
+			  .build();
   }
 
 }

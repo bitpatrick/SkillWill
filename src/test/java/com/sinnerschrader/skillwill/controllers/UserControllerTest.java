@@ -82,7 +82,11 @@ public class UserControllerTest {
 		String value = "mario";
 		
 		Map<String, String > params = new HashMap<String, String>();
+<<<<<<< HEAD
 		params.put("mail", "newmail@google.com");
+=======
+		params.put("mail", "mailto:newmail@google.com");
+>>>>>>> refs/remotes/origin/master
 
 		// then
 		MockHttpServletResponse response = mvc.perform(put("/users/{user}/", value).accept(MediaType.APPLICATION_JSON).param("prova", "valoreprova"))

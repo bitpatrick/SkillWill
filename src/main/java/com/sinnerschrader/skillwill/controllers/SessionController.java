@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
 import com.sinnerschrader.skillwill.services.SessionService;
 
@@ -53,7 +53,7 @@ public class SessionController {
     
     		) {
 
-		UserDetailsImpl userDetailsImpl = null;
+		User userDetailsImpl = null;
 
 		if (oAuthToken != null && !oAuthToken.isBlank()) {
 			logger.debug("Getting user from session {}", oAuthToken);
@@ -63,7 +63,7 @@ public class SessionController {
 			}
 
 		} else {
-			userDetailsImpl = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			userDetailsImpl = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 
 		return new ResponseEntity<>(userDetailsImpl.toJSON().toString(), HttpStatus.OK);

@@ -2,7 +2,7 @@ package com.sinnerschrader.skillwill.services;
 
 
 import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.domain.user.UserLdapDetailsFactory;
 import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
@@ -76,19 +76,16 @@ public class LdapService {
   @Value("${ldapLookupPassword}")
   private String ldapLookupPassword;
 
-  private final UserRepository userRepo;
+  @Autowired(required = false)
+  private UserRepository userRepo;
 
-  private final EmbeddedLdap embeddedLdap;
+  @Autowired(required = false)
+  private EmbeddedLdap embeddedLdap;
 
-  private final UserLdapDetailsFactory userLdapDetailsFactory;
+  @Autowired(required = false)
+  private UserLdapDetailsFactory userLdapDetailsFactory;
 
-  @Autowired
-  public LdapService(UserRepository userRepo, EmbeddedLdap embeddedLdap, UserLdapDetailsFactory userLdapDetailsFactory) {
-    this.userRepo = userRepo;
-    this.embeddedLdap = embeddedLdap;
-    this.userLdapDetailsFactory = userLdapDetailsFactory;
-  }
-
+ 
   private void tryStartEmbeddedLdap() {
     if (!ldapEmbedded) {
       return;
@@ -103,7 +100,7 @@ public class LdapService {
 
   @EventListener(ContextStartedEvent.class)
   public void openConnection() {
-    tryStartEmbeddedLdap();
+//    tryStartEmbeddedLdap();
     try {
       if (ldapSsl) {
         var sslUtil = new SSLUtil(new TrustAllTrustManager());
@@ -112,9 +109,10 @@ public class LdapService {
       } else {
         ldapConnection = new LDAPConnection();
       }
-      ldapConnection.connect(ldapUrl, ldapPort);
+//      ldapConnection.connect(ldapUrl, ldapPort);
       logger.info("Successfully connected to LDAP");
-    } catch (LDAPException | GeneralSecurityException e) {
+//    } catch (LDAPException | GeneralSecurityException e) {
+    } catch (GeneralSecurityException e) {
       logger.error("Failed to connect to LDAP", e);
     }
   }
@@ -169,7 +167,7 @@ public class LdapService {
     return getEntry("(uid=" + id + ")");
   }
 
-  public UserDetailsImpl createUserByMail(String mail) {
+  public User createUserByMail(String mail) {
       ensureConnection();
       try {
         bindAsTechnicalUser();
@@ -194,7 +192,7 @@ public class LdapService {
       var role = getAdminIds().contains(id) ? Role.ADMIN : Role.USER;
       var ldapDetails = userLdapDetailsFactory.create(ldapEntry, role);
 
-      var newUser = new UserDetailsImpl(id);
+      var newUser = new User(id);
       newUser.setLdapDN(dn);
       newUser.setLdapDetails(ldapDetails);
 
@@ -219,11 +217,11 @@ public class LdapService {
   }
 
   @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public UserDetailsImpl syncUser(UserDetailsImpl userDetailsImpl) {
+  public User syncUser(User userDetailsImpl) {
     return syncUsers(List.of(userDetailsImpl), false).get(0);
   }
 
-  public List<UserDetailsImpl> syncUsers(List<UserDetailsImpl> userDetailsImpls, boolean forceUpdate) {
+  public List<User> syncUsers(List<User> userDetailsImpls, boolean forceUpdate) {
     ensureConnection();
 
     try {
@@ -233,10 +231,10 @@ public class LdapService {
       return userDetailsImpls;
     }
 
-    var updated = new ArrayList<UserDetailsImpl>();
+    var updated = new ArrayList<User>();
     var adminIds = getAdminIds();
 
-    for (UserDetailsImpl userDetailsImpl : userDetailsImpls) {
+    for (User userDetailsImpl : userDetailsImpls) {
       SearchRequest ldapRequest;
       SearchResultEntry ldapEntry;
       var isRemoved = false;

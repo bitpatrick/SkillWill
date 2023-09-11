@@ -3,8 +3,10 @@ package com.sinnerschrader.skillwill.domain.user;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -18,9 +20,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
+import com.sinnerschrader.skillwill.dto.UserDetailsDto;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
+import com.sinnerschrader.skillwill.dto.UserSkillDto;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,15 +38,16 @@ import lombok.NoArgsConstructor;
  * @author torree
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class User implements UserDetails {
 
 	@Id
 	private String username;
-	
+
 	private String password;
-	
+
 	private List<UserSkill> skills;
 
 	private String ldapDN;
@@ -51,8 +60,30 @@ public class UserDetailsImpl implements UserDetails {
 
 	// LDAP Details will be updated regularly
 	private UserLdapDetails ldapDetails;
+	
+	public static User createUser(UserDetailsDto userDto) {
 
-	public UserDetailsImpl(String username, String password) {
+		String username = userDto.username();
+		String password = userDto.password();
+
+		String ldapDN = userDto.ldapDN();
+		Long version = userDto.version();
+		
+		return User.builder()
+				.username(username)
+				.password(password)
+				.ldapDN(ldapDN)
+				.version(version)
+				.build();
+	}
+	
+	public void update(UserDetailsDto userDto) {
+		
+		this.password = userDto.password();
+		this.ldapDN = userDto.ldapDN();
+	}
+
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 		this.skills = new ArrayList<>();
@@ -60,8 +91,8 @@ public class UserDetailsImpl implements UserDetails {
 		this.fitnessScore = null;
 		this.ldapDN = null;
 	}
-	
-	public UserDetailsImpl(String username) {
+
+	public User(String username) {
 		this.username = username;
 		this.password = null;
 		this.skills = new ArrayList<>();
@@ -75,7 +106,8 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public UserSkill getSkill(String name, boolean excludeHidden) {
-		return this.skills.stream().filter(s -> s.getName().equals(name)).filter(s -> !excludeHidden || !s.isHidden()).findFirst().orElse(null);
+		return this.skills.stream().filter(s -> s.getName().equals(name)).filter(s -> !excludeHidden || !s.isHidden())
+				.findFirst().orElse(null);
 	}
 
 	public boolean hasSkill(String skill) {
@@ -92,9 +124,28 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public void removeSkill(String name) throws SkillNotFoundException {
-		var toRemove = skills.stream().filter(s -> s.getName().equals(name)).findAny()
-				.orElseThrow(() -> new SkillNotFoundException("user does not have skill"));
-		skills.remove(toRemove);
+		
+//		Optional.ofNullable(this.skills)
+//        .orElseGet(ArrayList::new)
+//        .stream()
+//        .filter(s -> s.getName().equals(name))
+//        .findAny()
+//        .ifPresentOrElse(
+//            skills::remove,() -> { throw new SkillNotFoundException("user does not have skill"); 
+//        });
+		
+		if(this.skills == null) {
+		    this.skills = new ArrayList<>();
+		}
+
+		this.skills.stream()
+		           .filter(s -> s.getName().equals(name))
+		           .findFirst()
+		           .ifPresentOrElse(
+		               toRemove -> skills.remove(toRemove),
+		               () -> { throw new SkillNotFoundException("user does not have skill"); }
+		           );
+
 	}
 
 	public void setFitnessScore(Collection<Skill> searchedSkills, FitnessScoreProperties props) {
@@ -102,7 +153,7 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public double getFitnessScoreValue() {
-		
+
 		if (this.fitnessScore == null) {
 			throw new IllegalStateException("no fitness score set");
 		}
@@ -130,16 +181,78 @@ public class UserDetailsImpl implements UserDetails {
 		}
 
 		var skillsArr = new JSONArray();
-		this.skills.stream().filter(s -> !s.isHidden()).sorted(Comparator.comparing(UserSkill::getName))
-				.map(UserSkill::toJSON).forEach(skillsArr::put);
+		
+		this.skills.stream().filter(s -> !s.isHidden()).sorted(Comparator.comparing(UserSkill::getName)).map(UserSkill::toJSON).forEach(skillsArr::put);
 
 		json.put("skills", skillsArr);
 		return json;
 	}
 
+	public UserDetailsDto toUserDetailsDto() {
+	
+		return UserDetailsDto.builder()
+				.username(username)
+				.password(password)
+				.ldapDN(ldapDN)
+				.version(version)
+				.build();
+	}
+	
+	public UserDto toUserDto() {
+		
+		UserLdapDetailsDto userLdapDetailsDto = null;
+		List<UserSkillDto> skills = null;
+		FitnessScoreDto fitnessScoreDto = null;
+		
+		// create ldap
+		if (this.ldapDetails != null) {
+			
+			String firstName= ldapDetails.getFirstName();
+			String lastName= ldapDetails.getLastName();
+			String mail=ldapDetails.getMail();
+			String phone=ldapDetails.getPhone();
+			String location=ldapDetails.getLocation();
+			String title=ldapDetails.getTitle();
+			String company=ldapDetails.getCompany();
+			String role=ldapDetails.getRole().name();
+			
+			userLdapDetailsDto = UserLdapDetailsDto.builder()
+				.firstName(firstName)
+				.lastName(lastName)
+				.mail(mail)
+				.phone(phone)
+				.location(location)
+				.title(title)
+				.company(company)
+				.role(role)
+				.build();
+			
+		}
+		
+		// create skills list
+		if ( this.skills != null ) {
+			skills = this.skills.stream().map(UserSkill::toDto).toList();
+		}
+		
+		if ( this.fitnessScore != null  ) {
+			fitnessScoreDto = this.fitnessScore.toDto();
+		}
+		
+		return UserDto.builder()
+				.username(username)
+				.password(password)
+				.skills(skills)
+				.ldapDN(ldapDN)
+				.fitnessScore(fitnessScoreDto)
+				.version(version)
+				.userLdapDto(userLdapDetailsDto)
+				.build();
+	}
+
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
+
 		return Arrays.asList(new SimpleGrantedAuthority("USER"));
 	}
 
@@ -173,4 +286,5 @@ public class UserDetailsImpl implements UserDetails {
 		return true;
 	}
 
+	
 }
