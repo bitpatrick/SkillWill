@@ -49,7 +49,9 @@ public class SessionController {
             @RequestParam(required = false) Integer count,
 
             @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) 
-            @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken) {
+            @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
+    
+    		) {
 
 		UserDetailsImpl userDetailsImpl = null;
 

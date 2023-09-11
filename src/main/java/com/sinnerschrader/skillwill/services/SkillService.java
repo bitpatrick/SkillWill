@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.SkillAutocompleteComparator;
 import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.skills.SkillUtils;
 import com.sinnerschrader.skillwill.domain.skills.SuggestionSkill;
@@ -41,198 +42,230 @@ import com.sinnerschrader.skillwill.repositories.UserRepository;
 @EnableRetry
 public class SkillService {
 
-  private static final Logger logger = LoggerFactory.getLogger(SkillService.class);
-  private final SkillRepository skillRepository;
-  private final UserRepository UserRepository;
+	private static final Logger logger = LoggerFactory.getLogger(SkillService.class);
 
-  @Autowired
-  public SkillService(SkillRepository skillRepository, UserRepository UserRepository) {
-    this.skillRepository = skillRepository;
-    this.UserRepository = UserRepository;
-  }
+	@Autowired
+	private SkillRepository skillRepository;
 
-  private List<Skill> getAllSkills(boolean excludeHidden) {
-    return excludeHidden ? skillRepository.findAllExcludeHidden() : skillRepository.findAll();
-  }
+	@Autowired
+	private UserRepository UserRepository;
 
-  public List<Skill> findSkill(String search, boolean excludeHidden, int count) {
-    List<Skill> found;
+//	private List<Skill> getAllSkills(boolean excludeHidden) {
+//		return excludeHidden ? skillRepository.findAllExcludeHidden() : skillRepository.findAll();
+//	}
 
-    // empty search => find all
-    if (StringUtils.isEmpty(search)) {
-      found = getAllSkills(excludeHidden);
-    } else {
-      found = skillRepository.findByNameStemLike(SkillUtils.toStem(search)).stream()
-      .filter(skill -> !excludeHidden || !skill.isHidden())
-      .sorted(new SkillAutocompleteComparator(search))
-      .collect(Collectors.toList());
-    }
+	public List<Skill> findSkill(String search, boolean excludeHidden, int limit) {
+		
+		List<Skill> skills = new ArrayList<Skill>(limit);
+		boolean isHidden = !excludeHidden;
+		
+		if ( limit == 0 ) {
+			
+			if ( search == null || search.isBlank() ) {
+				
+				skills = skillRepository.findAll(isHidden);
+				
+			} else {
+				
+				skills = skillRepository.findByNameStemLike(search, isHidden);
+				
+			} 
+		
+		} else if ( limit > 0 ) {
+			
+			if ( search == null || search.isBlank() ) {
+				
+				skills = skillRepository.findAll(isHidden, limit);
+				
+			} else {
+				
+				skills = skillRepository.findByNameStemLike(search, isHidden, limit);
+			} 
+			
+		} else {
+			throw new IllegalArgumentException("count must be a positive integer");
+		}
+		
+		return skills;
+	}
 
-    // if count is set, limit number of results...
-    if (count > 0) {
-      found = found.stream().limit(count).collect(Collectors.toList());
-    }
+	public Skill getSkillByName(String name) throws SkillNotFoundException {
 
-    return found;
-  }
+		Optional<Skill> skill = skillRepository.findByNameIgnoreCase(name);
 
-  public Skill getSkillByName(String name) {
-    return skillRepository.findByName(name);
-  }
+		if (skill.isEmpty()) {
+			throw new SkillNotFoundException("Skill not found:" + name);
+		}
 
-  public SkillSearchResult searchSkillsByNames(List<String> names, boolean excludeHidden) throws SkillNotFoundException {
-    var mapped = new HashMap<String, Skill>();
-    var unmapped = new HashSet<String>();
+		return skill.get();
+	}
 
-    for (String name : names) {
-      var found = skillRepository.findByNameStem(SkillUtils.toStem(name));
+	public SkillSearchResult searchSkillsByNames(List<String> names, boolean excludeHidden) throws SkillNotFoundException {
+		
+		HashMap<String, Skill> mapped = new HashMap<String, Skill>();
+		HashSet<String> unmapped = new HashSet<String>();
 
-      if (found != null && (!excludeHidden || !found.isHidden())) {
-        mapped.put(name, found);
-      } else {
-        unmapped.add(name);
-      }
-    }
+		for (String name : names) {
+			
+			Skill found = skillRepository.findByNameStem(SkillUtils.toStem(name));
 
-    return new SkillSearchResult(mapped, unmapped);
-  }
+			if (found != null && (!excludeHidden || !found.isHidden())) {
+				mapped.put(name, found);
+			} else {
+				unmapped.add(name);
+			}
+		}
 
-  private List<SuggestionSkill> aggregateSuggestions(Collection<Skill> skills) {
-    List<SuggestionSkill> unaggregated = skills.stream().flatMap(s -> s.getSuggestions().stream())
-      .collect(Collectors.toList());
-    List<SuggestionSkill> aggregated = new ArrayList<>();
+		return new SkillSearchResult(mapped, unmapped);
+	}
 
-    for (SuggestionSkill s : unaggregated) {
-      var present = aggregated.stream()
-        .filter(a -> a.getName().equals(s.getName()))
-        .findAny();
-      if (present.isPresent()) {
-        present.get().incrementCount(s.getCount());
-      } else {
-        aggregated.add(s);
-      }
-    }
-    return aggregated;
-  }
+	private List<SuggestionSkill> aggregateSuggestions(Collection<Skill> skills) {
+		
+		List<SuggestionSkill> unaggregated = skills.stream().flatMap(s -> s.getSuggestions().stream()).collect(Collectors.toList());
+		
+		List<SuggestionSkill> aggregated = new ArrayList<>();
 
-  public List<Skill> getSuggestionSkills(List<String> references, int count) {
-    if (count < 1) {
-      throw new IllegalArgumentException("count must be a positive integer");
-    }
+		for (SuggestionSkill suggestionSkill : unaggregated) {
+			
+			Optional<SuggestionSkill> suggestionSkillOpt = aggregated.stream().filter(a -> a.getName().equals(suggestionSkill.getName())).findAny();
+			
+			if (suggestionSkillOpt.isPresent()) {
+				
+				suggestionSkillOpt.get().incrementCount(suggestionSkill.getCount());
+			
+			} else {
+				
+				aggregated.add(suggestionSkill);
+			}
+		}
+		return aggregated;
+	}
 
-    List<SuggestionSkill> suggestions;
-    if (CollectionUtils.isEmpty(references)) {
-      suggestions = aggregateSuggestions(skillRepository.findAllExcludeHidden());
-    } else {
-      var sanitizedReferenceskills = searchSkillsByNames(references, true).mappedSkills();
-      var sanitizedReferenceNames = sanitizedReferenceskills.stream()
-        .map(Skill::getName)
-        .collect(Collectors.toList());
-      suggestions = aggregateSuggestions(sanitizedReferenceskills).stream()
-        .filter(s -> !sanitizedReferenceNames.contains(s.getName()))
-        .collect(Collectors.toList());
-    }
+	public List<Skill> getSuggestionSkills(List<String> references, int count) throws SkillNotFoundException { 
+		
+		if (count < 1) {
+			throw new IllegalArgumentException("count must be a positive integer");
+		}
 
-    return suggestions.stream()
-      .sorted(Comparator.comparingInt(SuggestionSkill::getCount).reversed())
-      .limit(count)
-      .map(s -> skillRepository.findByName(s.getName()))
-      .filter(s -> !s.isHidden())
-      .collect(Collectors.toList());
-  }
+		List<SuggestionSkill> suggestions;
+		
+		if (CollectionUtils.isEmpty(references)) {
+			
+			suggestions = aggregateSuggestions(skillRepository.findAllByHidden(false));
+		
+		} else {
 
-  public void registerSkillSearch(Collection<Skill> searchedSkills) throws IllegalArgumentException {
+			// retrive skills by names
+			Set<Skill> sanitizedReferenceskills = searchSkillsByNames(references, true).mappedSkills();
+			
+			// get list of skill'strings
+			List<String> sanitizedReferenceNames = sanitizedReferenceskills.stream().map(Skill::getName).collect(Collectors.toList());
+			
+			suggestions = aggregateSuggestions(sanitizedReferenceskills).stream().filter(s -> !sanitizedReferenceNames.contains(s.getName())).collect(Collectors.toList());
+		}
 
-    if (searchedSkills.size() < 2) {
-      logger.debug("Searched for less than two skills, cannot update mutual suggestions");
-      return;
-    }
+		return suggestions.stream()
+				.sorted(Comparator.comparingInt(SuggestionSkill::getCount)
+				.reversed()).limit(count)
+				.flatMap(s -> skillRepository.findBySuggestion(s.getName()).stream())
+				.filter(s -> !s.isHidden()).collect(Collectors.toList());
+	}
 
-    for (Skill skill : searchedSkills) {
-      var others = searchedSkills.stream().filter(x -> !x.equals(skill)).collect(Collectors.toList());
-      for (Skill updateable : others) {
-        skill.incrementSuggestion(updateable.getName());
-      }
-    }
+	public void registerSkillSearch(Collection<Skill> searchedSkills) throws IllegalArgumentException {
 
-    try {
-      skillRepository.saveAll(searchedSkills);
-    } catch (OptimisticLockingFailureException e)  {
-      logger.error("Failed to register search for {} - optimistic locking error; will ignore search", searchedSkills);
-    }
+		if (searchedSkills.size() < 2) {
+			logger.debug("Searched for less than two skills, cannot update mutual suggestions");
+			return;
+		}
 
-    logger.info("Successfully registered search for {}", searchedSkills);
-  }
+		for (Skill skill : searchedSkills) {
+			var others = searchedSkills.stream().filter(x -> !x.equals(skill)).collect(Collectors.toList());
+			for (Skill updateable : others) {
+				skill.incrementSuggestion(updateable.getName());
+			}
+		}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills) throws EmptyArgumentException, DuplicateSkillException {
+		try {
+			skillRepository.saveAll(searchedSkills);
+		} catch (OptimisticLockingFailureException e) {
+			logger.error("Failed to register search for {} - optimistic locking error; will ignore search",
+					searchedSkills);
+		}
 
-    name = SkillUtils.sanitizeName(name);
-    subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n)).collect(Collectors.toSet());
+		logger.info("Successfully registered search for {}", searchedSkills);
+	}
 
-    if (StringUtils.isEmpty(name)) {
-     
-    	throw new EmptyArgumentException("name is empty");
-    }
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills)
+			throws EmptyArgumentException, DuplicateSkillException {
 
-    if (skillRepository.findByName(name) != null) {
-      
-    	logger.debug("Failed to create skill {}: already exists", name);
-      throw new DuplicateSkillException("skill already existing");
-    }
+		name = SkillUtils.sanitizeName(name);
+		subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n))
+				.collect(Collectors.toSet());
 
-    // check if subSkills are known
-    if (!isValidSubSkills(subSkills)) {
-      logger.debug("Failed to set subskills on skill {}: subskill not found", name);
-      throw new SkillNotFoundException("cannot set subskill: not found");
-    }
+		if (StringUtils.isEmpty(name)) {
 
-    try {
-    	
-      skillRepository.insert(new Skill(name, description, new ArrayList<>(), isHidden, subSkills));
-      logger.info("Successfully created skill {}", name);
-      
-    } catch (DuplicateKeyException e) {
-    	
-      logger.debug("Failed to create skill {}: already exists");
-      throw new DuplicateSkillException("skill already existing");
-    }
+			throw new EmptyArgumentException("name is empty");
+		}
 
-  }
+		if (skillRepository.findByNameIgnoreCase(name) != null) {
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public void updateSkill(String name, String newName, String description, Boolean hidden, Set<String> subSkills)
-    throws IllegalArgumentException, DuplicateSkillException {
+			logger.debug("Failed to create skill {}: already exists", name);
+			throw new DuplicateSkillException("skill already existing");
+		}
 
-    name = SkillUtils.sanitizeName(name);
-    newName = SkillUtils.sanitizeName(newName);
-    subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n)).collect(Collectors.toSet());
-    Skill oldSkill;
-    Skill newSkill;
+		// check if subSkills are known
+		if (!isValidSubSkills(subSkills)) {
+			logger.debug("Failed to set subskills on skill {}: subskill not found", name);
+			throw new SkillNotFoundException("cannot set subskill: not found");
+		}
 
-    if (StringUtils.isEmpty(name)) {
-      throw new SkillNotFoundException("skill not found");
-    }
+		try {
 
-    oldSkill = skillRepository.findByName(name);
-    if (oldSkill == null) {
-      logger.info("Failed to update {}: skill not found", name);
-      throw new SkillNotFoundException("skill not found");
-    }
+			skillRepository.insert(new Skill(name, description, new ArrayList<>(), isHidden, subSkills));
+			logger.info("Successfully created skill {}", name);
 
-    if (skillRepository.findByName(newName) != null) {
-      logger.info("Failed to update skill {}: new name {} already exists", name, newName);
-      throw new DuplicateSkillException("skillname already exists");
-    }
+		} catch (DuplicateKeyException e) {
 
-    if (!isValidSubSkills(subSkills)) {
-      logger.info("Failed to update skill {}: one or more subskills not found");
-      throw new SkillNotFoundException("one new subskill cannot be found");
-    }
+			logger.debug("Failed to create skill {}: already exists");
+			throw new DuplicateSkillException("skill already existing");
+		}
 
-    // @formatter:off
+	}
+
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	public void updateSkill(String name, String newName, String description, Boolean hidden, Set<String> subSkills)
+			throws IllegalArgumentException, DuplicateSkillException {
+
+		String nameSanitized = SkillUtils.sanitizeName(name);
+		String newNameSanitized = SkillUtils.sanitizeName(newName);
+		subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n))
+				.collect(Collectors.toSet());
+		Skill oldSkill;
+		Skill newSkill;
+
+		if (StringUtils.isEmpty(nameSanitized)) {
+			throw new SkillNotFoundException("skill not found");
+		}
+
+		oldSkill = skillRepository.findByNameIgnoreCase(nameSanitized).orElseThrow(() -> {
+			logger.info("Failed to update {}: skill not found", nameSanitized);
+			throw new SkillNotFoundException("skill not found");
+		});
+
+		if (skillRepository.findByNameIgnoreCase(newNameSanitized).isPresent()) {
+			logger.info("Failed to update skill {}: new name {} already exists", nameSanitized, newNameSanitized);
+			throw new DuplicateSkillException("skillname already exists");
+		}
+
+		if (!isValidSubSkills(subSkills)) {
+			logger.info("Failed to update skill {}: one or more subskills not found");
+			throw new SkillNotFoundException("one new subskill cannot be found");
+		}
+
+	// @formatter:off
     newSkill = new Skill(
-      StringUtils.isEmpty(newName) ? oldSkill.getName() : newName,
+      StringUtils.isEmpty(newNameSanitized) ? oldSkill.getName() : newNameSanitized,
       description == null ? oldSkill.getDescription() : description,
       oldSkill.getSuggestions(),
       hidden == null ? oldSkill.isHidden() : hidden,
@@ -240,113 +273,117 @@ public class SkillService {
     );
     // @formatter:on
 
-    if (newSkill.equals(oldSkill)) {
-      logger.info("Failed to update skill {}: new values contain no changes");
-      return;
-    }
+		if (newSkill.equals(oldSkill)) {
+			logger.info("Failed to update skill {}: new values contain no changes");
+			return;
+		}
 
-    skillRepository.delete(oldSkill);
-    skillRepository.insert(newSkill);
+		skillRepository.delete(oldSkill);
+		skillRepository.insert(newSkill);
 
-    if (!StringUtils.isEmpty(newName)) {
-      updateInSubskills(oldSkill, newSkill);
-      updateInSuggestions(oldSkill, newSkill);
-      updateInPersons(oldSkill, newSkill);
-    } else if (hidden != null) {
-      updateInPersons(oldSkill, newSkill);
-    }
-  }
+		if (!StringUtils.isEmpty(newNameSanitized)) {
+			updateInSubskills(oldSkill, newSkill);
+			updateInSuggestions(oldSkill, newSkill);
+			updateInPersons(oldSkill, newSkill);
+		} else if (hidden != null) {
+			updateInPersons(oldSkill, newSkill);
+		}
+	}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  private void updateInSuggestions(Skill oldSkill, Skill newSkill) {
-    var containingSkills = skillRepository.findBySuggestion(oldSkill.getName());
-    containingSkills.forEach(s -> s.renameSuggestion(oldSkill.getName(), newSkill.getName()));
-    skillRepository.saveAll(containingSkills);
-  }
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	private void updateInSuggestions(Skill oldSkill, Skill newSkill) {
+		var containingSkills = skillRepository.findBySuggestion(oldSkill.getName());
+		containingSkills.forEach(s -> s.renameSuggestion(oldSkill.getName(), newSkill.getName()));
+		skillRepository.saveAll(containingSkills);
+	}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  private void updateInSubskills(Skill oldSkill, Skill newSkill) {
-    var containingSkills = skillRepository.findBySubskillName(oldSkill.getName());
-    containingSkills.forEach(s -> s.renameSubSkill(oldSkill.getName(), newSkill.getName()));
-    skillRepository.saveAll(containingSkills);
-  }
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	private void updateInSubskills(Skill oldSkill, Skill newSkill) {
+		var containingSkills = skillRepository.findBySubskillName(oldSkill.getName());
+		containingSkills.forEach(s -> s.renameSubSkill(oldSkill.getName(), newSkill.getName()));
+		skillRepository.saveAll(containingSkills);
+	}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  private void updateInPersons(Skill oldSkill, Skill newSkill) {
-    logger.debug("updating Skill {} in users", oldSkill.getName());
-    var users = UserRepository.findBySkill(oldSkill.getName());
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	private void updateInPersons(Skill oldSkill, Skill newSkill) {
+		logger.debug("updating Skill {} in users", oldSkill.getName());
+		var users = UserRepository.findBySkill(oldSkill.getName());
 
-    users.forEach(p -> {
-      var oldUserSkill = p.getSkill(oldSkill.getName(), true);
-      p.addUpdateSkill(newSkill.getName(), oldUserSkill.getSkillLevel(), oldUserSkill.getWillLevel(), newSkill.isHidden(), oldUserSkill.isMentor());
-    });
-    UserRepository.saveAll(users);
-  }
+		users.forEach(p -> {
+			var oldUserSkill = p.getSkill(oldSkill.getName(), true);
+			p.addUpdateSkill(newSkill.getName(), oldUserSkill.getSkillLevel(), oldUserSkill.getWillLevel(),
+					newSkill.isHidden(), oldUserSkill.isMentor());
+		});
+		UserRepository.saveAll(users);
+	}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public void deleteSkill(String name, String migrateTo) throws IllegalArgumentException {
-    var deleteSkill = skillRepository.findByName(name);
-    if (deleteSkill == null) {
-      logger.debug("Failed to delete skill {}: not found", name);
-      throw new SkillNotFoundException("skill not found");
-    }
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	public void deleteSkill(String name, String migrateTo) throws IllegalArgumentException {
 
-    if (!StringUtils.isEmpty(migrateTo)) {
-      var migrateSkill = skillRepository.findByName(migrateTo);
-      migratePersonalSkills(deleteSkill, migrateSkill);
-    }
+		Objects.requireNonNull(name);
+		Objects.requireNonNull(migrateTo);
 
-    // delete from persons
-    for (UserDetailsImpl userDetailsImpl : UserRepository.findBySkill(name)) {
-      userDetailsImpl.removeSkill(name);
-      UserRepository.save(userDetailsImpl);
-    }
+		Skill deleteSkill = skillRepository.findByNameIgnoreCase(name).orElseThrow(() -> {
+			logger.debug("Failed to delete skill {}: not found", name);
+			throw new SkillNotFoundException("skill not found");
+		});
 
-    // delete from known skills
-    skillRepository.delete(skillRepository.findByName(name));
+		Skill migrateSkill = skillRepository.findByNameIgnoreCase(migrateTo).orElseThrow(() -> {
+			throw new SkillNotFoundException("skill not found");
+		});
 
-    // delete in suggestion
-    for (Skill skill : skillRepository.findBySuggestion(name)) {
-      skill.deleteSuggestion(name);
-      skillRepository.save(skill);
-    }
+		migratePersonalSkills(deleteSkill, migrateSkill);
 
-    logger.info("Successfully deleted skill {}", name);
-  }
+		// delete from persons
+		for (UserDetailsImpl userDetailsImpl : UserRepository.findBySkill(name)) {
+			userDetailsImpl.removeSkill(name);
+			UserRepository.save(userDetailsImpl);
+		}
 
-  private void migratePersonalSkills(Skill from, Skill to) throws IllegalArgumentException {
-    if (from == null || to == null) {
-      logger.info("Failed to migrate {} to {}: not found", from, to);
-      throw new SkillNotFoundException("Failed to migrate personal skills");
-    } else if (from.getName().equals(to.getName())) {
-      logger.info("Failed to migrate {} to {}: source and target equal");
-      throw new IllegalArgumentException("Source and target may not be equal");
-    }
+		// delete from known skills
+		skillRepository.delete(deleteSkill);
 
-    var migrateables = UserRepository.findBySkill(from.getName()).stream()
-      .filter(user -> !user.hasSkill(to.getName()))
-      .collect(Collectors.toList());
+		// delete in suggestion
+		for (Skill skill : skillRepository.findBySuggestion(name)) {
+			skill.deleteSuggestion(name);
+			skillRepository.save(skill);
+		}
 
-    migrateables.forEach(user -> {
-      var oldSkill = user.getSkill(from.getName(), true);
-      user.addUpdateSkill(to.getName(), oldSkill.getSkillLevel(), oldSkill.getWillLevel(), to.isHidden(), oldSkill.isMentor());
-      user.removeSkill(from.getName());
-    });
+		logger.info("Successfully deleted skill {}", name);
+	}
 
-    UserRepository.saveAll(migrateables);
-  }
+	private void migratePersonalSkills(Skill from, Skill to) throws IllegalArgumentException {
+		if (from == null || to == null) {
+			logger.info("Failed to migrate {} to {}: not found", from, to);
+			throw new SkillNotFoundException("Failed to migrate personal skills");
+		} else if (from.getName().equals(to.getName())) {
+			logger.info("Failed to migrate {} to {}: source and target equal");
+			throw new IllegalArgumentException("Source and target may not be equal");
+		}
 
-  @Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-  public boolean isHidden(String skillName) {
-    var skill = skillRepository.findByName(skillName);
-    if (skill == null) {
-      throw new SkillNotFoundException("skill not found");
-    }
-    return skill.isHidden();
-  }
+		var migrateables = UserRepository.findBySkill(from.getName()).stream()
+				.filter(user -> !user.hasSkill(to.getName())).collect(Collectors.toList());
 
-  private boolean isValidSubSkills(Collection<String> subSkills) {
-    return CollectionUtils.isEmpty(subSkills) || subSkills.size() == skillRepository.findByNameIn(subSkills).size();
-  }
+		migrateables.forEach(user -> {
+			var oldSkill = user.getSkill(from.getName(), true);
+			user.addUpdateSkill(to.getName(), oldSkill.getSkillLevel(), oldSkill.getWillLevel(), to.isHidden(),
+					oldSkill.isMentor());
+			user.removeSkill(from.getName());
+		});
+
+		UserRepository.saveAll(migrateables);
+	}
+
+	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
+	public boolean isHidden(String skillName) {
+		Skill skill = skillRepository.findByNameIgnoreCase(skillName).orElseThrow(() -> {
+			throw new SkillNotFoundException("skill not found");
+		});
+		return skill.isHidden();
+	}
+
+	private boolean isValidSubSkills(Collection<String> subSkills) {
+		return CollectionUtils.isEmpty(subSkills) || subSkills.size() == skillRepository.findByNameIn(subSkills).size();
+	}
 
 }

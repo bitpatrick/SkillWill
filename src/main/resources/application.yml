@@ -13,14 +13,4 @@ spring:
               - read
               - write
             client-name: GitHub #MyOAuthClient (nome che appare)
-          google: #registrationId: myoauthclient
-            client-id: a73d74d5da3ed7aeaf35
-            client-secret: 17d4bef1b1164fa0998e5a01e8e730bacba800fd
-            client-authentication-method: access_token #authorization_code
-            #authorization-grant-type: authorization_code
-            #redirect-uri: http://localhost:8080/login/oauth2/code/myoauthclient
-            scope:
-              - read
-              - write
-            client-name: Google #MyOAuthClient
        

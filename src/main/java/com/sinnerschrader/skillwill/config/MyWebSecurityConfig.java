@@ -56,9 +56,9 @@ public class MyWebSecurityConfig {
 					authorize -> {
 						
 						authorize
-							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).authenticated()
-							.requestMatchers(HttpMethod.GET, "/**").authenticated()
-							.anyRequest().authenticated();
+							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+							.requestMatchers(HttpMethod.GET, "/**").permitAll()
+							.anyRequest().permitAll();
 					
 					}
 					

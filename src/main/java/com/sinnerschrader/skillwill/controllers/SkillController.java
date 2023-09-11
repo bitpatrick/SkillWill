@@ -1,5 +1,8 @@
 package com.sinnerschrader.skillwill.controllers;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,19 +11,24 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.user.Role;
@@ -39,11 +47,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Controller handling /skills/{foo}
- *
- * @author torree
  */
 @Tag(name = "Skills", description = "Manage all skills")
-@Controller
+@RestController
 public class SkillController {
 
   private static final Logger logger = LoggerFactory.getLogger(SkillController.class);
@@ -53,6 +59,12 @@ public class SkillController {
 
   @Autowired
   private SessionService sessionService;
+  
+  @InitBinder("count")
+  public void initBinder(WebDataBinder binder) {
+      binder.registerCustomEditor(Integer.class, new CountPropertyEditor());
+  }
+
 
   /**
    * get/suggest skills based on search query -> can be used for autocompletion when user started
@@ -63,23 +75,23 @@ public class SkillController {
       @ApiResponse(responseCode = "200", description = "Success"),
       @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @GetMapping(path = "/skills")
-  public ResponseEntity<String> getSkills(
+  @GetMapping(path = "/skills", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<Page<Skill>> getSkills(
       @Parameter(description = "Name to search") @RequestParam(required = false) String search,
       @Parameter(description = "Do not return hidden skills", example = "true") @RequestParam(defaultValue = "true") Boolean exclude_hidden,
-      @Parameter(description = "Limit the number of skills to find", example = "-1") @RequestParam(defaultValue = "-1") Integer count
-  ) {
-
-    var skillsArr = new JSONArray(
-    		skillService.findSkill(search, exclude_hidden, count)
-    		.stream()
-    		.map(Skill::toJSON)
-    		.collect(Collectors.toList())
-    );
-    
-    return new ResponseEntity<String>(skillsArr.toString(), HttpStatus.OK);
+      @Parameter(description = "Limit the number of skills to find", example = "0") @RequestParam(defaultValue = "0") Integer count
+   
+      ) {
+	  
+	  // retrieve skills
+	  List<Skill> skills = skillService.findSkill(search, exclude_hidden, count);
+	  
+	  // pagineted skills
+	  Page<Skill> skillsPage = new PageImpl<Skill>(skills);
+	  
+	  return new ResponseEntity<Page<Skill>>(skillsPage, HttpStatus.OK);
   }
-
+  
   /**
    * Get a skill by its name
    */
@@ -89,19 +101,15 @@ public class SkillController {
       @ApiResponse(responseCode = "404", description = "Not Found"),
       @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @GetMapping(path = "/skills/{skill}")
-  public ResponseEntity<String> getSkill(
+  @GetMapping(path = "/skills/{skill}", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<Skill> getSkill(
       @PathVariable(name = "skill") String name
-  ) {
+      ) {
 	  
-    var skill = skillService.getSkillByName(name);
-    if (skill == null) {
-      logger.debug("Failed to get skill {}: not found", name);
-      return new StatusResponseEntity("skill not found", HttpStatus.NOT_FOUND);
-    }
-
-    logger.debug("Successfully got skill {}", name);
-    return new ResponseEntity<>(skill.toJSON().toString(), HttpStatus.OK);
+	  // retrive skill
+	  Skill skill = skillService.getSkillByName(name);
+    
+	  return new ResponseEntity<Skill>(skill, HttpStatus.OK);
   }
 
   /**
@@ -115,34 +123,27 @@ public class SkillController {
       @ApiResponse(responseCode = "500", description = "Failure")
   })
   @GetMapping(path = "/skills/next")
-  public ResponseEntity<String> getNext(
-      @Parameter(description = "Names of skills already entered, separated by comma") 
-      @RequestParam(required = false) String search,
+  public ResponseEntity<Page<Skill>> getNext(
+      @Parameter(description = "Names of skills already entered, separated by comma") @RequestParam(required = false) String search,
+      @Parameter(description = "Count of recommendations to get", required = false, example = "10") @RequestParam(defaultValue = "10") Integer count
+      ) {
+	  
+	  List<String> searchItems = StringUtils.hasText(search) ? List.of(search.split("\\s*,\\s*")) : Collections.emptyList();
+      
+	  // retrieve suggestionSkills
+	  List<Skill> suggestionSkills = skillService.getSuggestionSkills(searchItems, count);
+      
+//	  List<JSONObject> suggestionJsons = suggestionSkills.stream().map(Skill::toJSON).collect(Collectors.toList());
 
-      @Parameter(description = "Count of recommendations to get", required = false, example = "10") 
-      @RequestParam(defaultValue = "10") int count
-  ) {
-
-    if (count < 1) {
-      logger.debug("Failed to get suggestions for skills {}: count less than zero", search);
-      return new StatusResponseEntity("count must be a positive integer (or zero)", HttpStatus.BAD_REQUEST);
-    }
-
-    try {
-      List<String> searchItems = StringUtils.isEmpty(search) ? Collections.emptyList() : List.of(search.split("\\s*,\\s*"));
-      var suggestionSkills = skillService.getSuggestionSkills(searchItems, count);
-      var suggestionJsons = suggestionSkills.stream()
-        .map(Skill::toJSON)
-        .collect(Collectors.toList());
-
-      logger.debug("Successfully got {} suggestions for search [{}]", suggestionJsons.size(), search);
-      return new ResponseEntity<>(new JSONArray(suggestionJsons).toString(), HttpStatus.OK);
-    } catch (SkillNotFoundException e) {
-      logger.debug("Failed to get suggestions for skills {}: serach contains inkown skill", search);
-      return new StatusResponseEntity("search contains unknown skill", HttpStatus.BAD_REQUEST);
-    }
+//	  logger.debug("Successfully got {} suggestions for search [{}]", suggestionJsons.size(), search);
+      
+	  // pagineted skills
+	  Page<Skill> suggestionSkillsPage = new PageImpl<Skill>(suggestionSkills);
+	  
+      return new ResponseEntity<Page<Skill>>(suggestionSkillsPage, HttpStatus.OK);
+    
   }
-
+  
   /**
    * create new skill
    */
@@ -154,20 +155,11 @@ public class SkillController {
   })
   @PostMapping(path = "/skills")
   public ResponseEntity<String> addSkill(
-      @Parameter(description = "new skill's name", required = true) 
-      @RequestParam String name,
-
-      @Parameter(description = "Skill description") 
-      @RequestParam(required = false) String description,
-
-      @Parameter(description = "hide skill in search/suggestions", example = "false") 
-      @RequestParam(required = false, defaultValue = "false") boolean hidden,
-
-      @Parameter(description = "list of subskills (separated with comma)") 
-      @RequestParam(required = false, defaultValue = "") String subSkills,
-
-      @Parameter(description = "session token of the current user", required = true) 
-      @CookieValue(value="_oauth2_proxy", required = true) String oAuthToken
+      @Parameter(description = "new skill's name", required = true) @RequestParam String name,
+      @Parameter(description = "Skill description")  @RequestParam(required = false) String description,
+      @Parameter(description = "hide skill in search/suggestions", example = "false") @RequestParam(required = false, defaultValue = "false") Boolean hidden,
+      @Parameter(description = "list of subskills (separated with comma)") @RequestParam(required = false, defaultValue = "") String subSkills,
+      @Parameter(description = "session token of the current user", required = true) @CookieValue(value="_oauth2_proxy", required = true) String oAuthToken
   ) {
 
     if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
@@ -276,5 +268,18 @@ public class SkillController {
   private Set<String> createSubSkillSet(String s) {
 		return new HashSet<>(Arrays.asList(StringUtils.tokenizeToStringArray(s, ",")));
 	}
+  
+  public static class CountPropertyEditor extends PropertyEditorSupport {
+
+	    @Override
+	    public void setAsText(String text) throws IllegalArgumentException {
+	        int value = Integer.parseInt(text);
+	        if (value < 0) {
+	            throw new IllegalArgumentException("Count cannot be negative.");
+	        }
+	        setValue(value);
+	    }
+
+  }
 
 }

@@ -133,12 +133,12 @@ public class UserService {
       throw new UserNotFoundException("user not found");
     }
 
-    var skill = skillRepository.findByName(skillName);
-    if (skill == null || skill.isHidden()) {
-      logger.debug("Failed to add/modify {}'s skill {}: skill not found or hidden", username, skillName);
-      throw new SkillNotFoundException("skill not found/hidden");
-    }
-
+//    var skill = skillRepository.findByName(skillName);
+//    if (skill == null || skill.isHidden()) {
+//      logger.debug("Failed to add/modify {}'s skill {}: skill not found or hidden", username, skillName);
+//      throw new SkillNotFoundException("skill not found/hidden");
+//    }
+    
     if (!isValidLevelConfiguration(skillLevel, willLevel)) {
       logger.debug("Failed to add/modify {}'s skill {}: illegal levels {}/{}", username, skillName,
           skillLevel, willLevel);
@@ -166,7 +166,7 @@ public class UserService {
       throw new UserNotFoundException("user not found");
     }
 
-    if (skillRepository.findByName(skillName) == null) {
+    if (skillRepository.findByNameIgnoreCase(skillName) == null) {
       logger.debug("Failed to remove {}'s skill {}: skill not found", username, skillName);
       throw new SkillNotFoundException("skill not found");
     }

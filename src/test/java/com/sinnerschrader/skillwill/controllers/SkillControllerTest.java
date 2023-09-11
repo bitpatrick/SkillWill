@@ -1,5 +1,44 @@
 package com.sinnerschrader.skillwill.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.FileCopyUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
+import com.sinnerschrader.skillwill.services.SkillService;
+
+
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertFalse;
 //import static org.junit.Assert.assertNotEquals;
@@ -37,7 +76,144 @@ package com.sinnerschrader.skillwill.controllers;
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class SkillControllerTest {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SkillControllerTest.class);
+	
+	private MockMvc mvc;
+	
+	@Mock
+	private SkillService skillService;
+	
+	@InjectMocks
+	private SkillController skillController;
+
+	// This object will be magically initialized by the initFields method below.
+    private JacksonTester<Skill> jsonSkill;
+    
+    private JacksonTester<List<Skill>> jsonsSkill;
+    
+    private List<Skill> skillsInRepository;
+    
+    @BeforeEach
+    public void setup() throws IOException, JSONException {
+    	
+    	// Carica il file JSON dalla directory delle risorse dei test
+        ClassPathResource cpr = new ClassPathResource("mockdata/skills.json");
+        byte[] bdata = FileCopyUtils.copyToByteArray(cpr.getInputStream());
+        String data = new String(bdata, StandardCharsets.UTF_8);
+
+        assertThat(data).isNotBlank();
+        // Ora puoi utilizzare il contenuto del file 'data' come desideri
+        
+        JSONArray skillsJson = new JSONArray(data);
+        int skillsQty = skillsJson.length();
+        skillsInRepository = new ArrayList<Skill>(skillsQty);
+        
+        for (int i = 0; i < skillsQty; i++) {
+
+			// recupero la singola skill
+			JSONObject skillJson = skillsJson.getJSONObject(i);
+			
+			// Skill json -> java
+			Skill skill = new Skill(skillJson.getString("name"));
+			skill.setHidden(skillJson.getBoolean("hidden"));
+			JSONArray subskillsJsonArray = skillJson.getJSONArray("subskills");
+			
+			for (int j = 0; j < subskillsJsonArray.length(); j++) {
+				skill.addSubSkillName(subskillsJsonArray.getString(j));
+			}
+			
+			
+			skillsInRepository.add(skill);
+		}
+    	
+        // We would need this line if we would not use the MockitoExtension
+        // MockitoAnnotations.initMocks(this);
+        // Here we can't use @AutoConfigureJsonTesters because there isn't a Spring context
+        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.setSerializationInclusion(Include.NON_EMPTY);
+        JacksonTester.initFields(this, objectMapper);
+
+        // MockMvc standalone approach
+        mvc = MockMvcBuilders.standaloneSetup(skillController)
+                .setControllerAdvice(new MyControllerAdvice())
+//                .addFilters(new SuperHeroFilter())
+                .build();
+    }
+    
+    private List<Skill> getSkills() {
+    	
+    	Skill aws = new Skill("AWS");
+    	Skill net = new Skill(".NET", true, Stream.of("JavaScript","PHP","Java").collect(Collectors.toSet()));
+    	Skill jQuery = new Skill("jQuery", false, Stream.of("PHP", "Java").collect(Collectors.toSet()));
+    	
+    	return Arrays.asList(aws, net, jQuery);
+    }
+    
+    private Skill getSkillByNameFromMemory(String name) {
+    	
+    	List<Skill> skills = getSkills();
+    	
+    	return skills.stream().filter(skill -> skill.getName().equals(name)).findFirst().orElseThrow();
+
+    }
+    
+    private Skill getSkillByNameFromRepository(String name) {
+    	
+    	return skillsInRepository.stream().filter(skill -> skill.getName().equals(name)).findFirst().orElseThrow();
+    	
+    }
+    
+//    @Test
+//    public void canRetrieveJsonSkillsWithoutRequestParameters() throws Exception {
+//    	
+//    	// given
+//    	given(skillService.findSkill(null, true, -1)).willReturn(skillsInRepository);
+//    	
+//    	// when
+//    	MockHttpServletResponse response = mvc.perform(get("/skills").accept(APPLICATION_JSON)).andDo(MockMvcResultHandlers.print()).andReturn().getResponse();
+//    	
+//    	// then
+//    	assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+//    	assertThat(response.getContentAsString()).isEqualTo(jsonsSkill.write(getSkills()).getJson());
+//    	
+//    }
+    
+    @Test
+    public void canRetrieveSkillByNameWhenExists() throws Exception {
+    	
+	
+    	// given
+    	String value = "jQuery";
+    	given(skillService.getSkillByName(value)).willReturn(getSkillByNameFromMemory(value));
+    	
+    	// when
+    	MockHttpServletResponse response = mvc.perform(get("/skills/{parameter}", value).accept(APPLICATION_JSON)).andDo(MockMvcResultHandlers.print()).andReturn().getResponse();
+    	
+    	// then
+    	assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    	assertThat(response.getContentAsString()).isEqualTo(jsonSkill.write(getSkillByNameFromRepository(value)).getJson());
+    	
+    }
+    
+    @Test
+    public void throwSkillNotFoundExceptionIfSkillDoesntExist() throws Exception {
+    	
+    	// given
+    	String value = "Blockchain";
+    	given(skillService.getSkillByName(value)).willThrow(new SkillNotFoundException("Skill Not Found Exception"));
+    	
+    	// when
+    	MockHttpServletResponse response = mvc.perform(get("/skills/{parameter}", value).accept(APPLICATION_JSON)).andDo(MockMvcResultHandlers.print()).andReturn().getResponse();
+    	
+    	// then
+    	assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    	assertThat(response.getContentAsString()).isNotEmpty();
+    	
+    }
+	
 //
 //  @Autowired
 //  private SkillController skillController;
@@ -113,7 +289,7 @@ public class SkillControllerTest {
 //
 //  @Test
 //  public void testGetSkillsHidden() throws JSONException {
-//    // test getSkills with excluded hidden skills => no results
+//    // test getSkills with excluded hidden skillsInRepository => no results
 //    var response = skillController.getSkills("hidden", true, -1);
 //    assertEquals(0, new JSONArray(response.getBody()).length());
 //

@@ -1,0 +1,24 @@
+[
+  {
+    "hidden": false,
+    "name": "AWS",
+    "subskills": []
+  },
+  {
+    "hidden": true,
+    "name": ".NET",
+    "subskills": [
+      "JavaScript",
+      "PHP",
+      "Java"
+    ]
+  },
+  {
+    "hidden": false,
+    "name": "jQuery",
+    "subskills": [
+      "PHP",
+      "Java"
+    ]
+  }
+]

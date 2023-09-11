@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
@@ -41,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @author torree
  */
 @Tag(name = "Users", description = "User management and search")
-@Controller
+@RestController
 public class UserController {
 
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -63,7 +65,7 @@ public class UserController {
 	  @ApiResponse(responseCode = "200", description = "Success"),
 	  @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @GetMapping("/users")
+  @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> getUsers(
       @Parameter(description = "Names of skills to search, separated by ','") 
       @RequestParam(required = false) String skills,
@@ -122,7 +124,7 @@ public class UserController {
 	  @ApiResponse(responseCode = "500", description = "Failure"),
   })
   @PostMapping("/users/{user}/skills")
-  public ResponseEntity<String> updateSkills(
+  public ResponseEntity<String> addOrUpdateSkills(
 		    @Parameter(description = "User identifier") @PathVariable String user,
 		    @Parameter(description = "Name of skill", required = true) @RequestParam("skill") String skill,
 		    @Parameter(description = "Level of skill", required = true) @RequestParam("skill_level") String skill_level,

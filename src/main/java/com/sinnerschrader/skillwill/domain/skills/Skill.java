@@ -42,6 +42,24 @@ public class Skill {
     this.subSkillNames = subSkillNames;
     this.hidden = hidden;
   }
+  
+  public Skill(String name, String description, boolean hidden, Set<String> subSkillNames) {
+	    this.name = name;
+	    this.description = description;
+	    this.nameStem = SkillUtils.toStem(name);
+	    this.suggestions = new ArrayList<SuggestionSkill>();
+	    this.subSkillNames = subSkillNames;
+	    this.hidden = hidden;
+	  }
+  
+  public Skill(String name, boolean hidden, Set<String> subSkillNames) {
+	    this.name = name;
+	    this.description = "";
+	    this.nameStem = SkillUtils.toStem(name);
+	    this.suggestions = new ArrayList<SuggestionSkill>();
+	    this.subSkillNames = subSkillNames;
+	    this.hidden = hidden;
+	  }
 
   public Skill(String name) {
     this(name, "", new ArrayList<>(), false, new HashSet<>());
