@@ -2,7 +2,7 @@ package com.sinnerschrader.skillwill.mock;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.jobs.LdapSyncJob;
 import com.sinnerschrader.skillwill.repositories.SkillRepository;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
@@ -78,7 +78,7 @@ public class MockData {
     var usersJsonArray = readMockFileToJsonArray(personsPath);
     for (int i = 0; i < usersJsonArray.length(); i++) {
       var userJson = usersJsonArray.getJSONObject(i);
-      var user = new UserDetailsImpl(userJson.getString("id"));
+      var user = new User(userJson.getString("id"));
 
       var skillsJsonArray = userJson.getJSONArray("skills");
       for (int j = 0; j < skillsJsonArray.length(); j++) {

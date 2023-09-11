@@ -3,6 +3,8 @@ package com.sinnerschrader.skillwill.domain.user;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
+
 /**
  * Wrapper to load weights for fitness Scores
  */
@@ -15,7 +17,6 @@ public class FitnessScoreProperties {
   @Value("${weightAverageWills}")
   private double weightAverageWills;
 
-
   @Value("${weightSpecializationSkills}")
   private double weightSpecializationSkills;
 
@@ -24,6 +25,18 @@ public class FitnessScoreProperties {
 
   @Value("${maxLevelValue}")
   private int maxLevelValue;
+  
+  public static FitnessScoreProperties fromDto(FitnessScorePropertiesDto dto) {
+      FitnessScoreProperties properties = new FitnessScoreProperties();
+
+      properties.weightAverageSkills = dto.weightAverageSkills();
+      properties.weightAverageWills = dto.weightAverageWills();
+      properties.weightSpecializationSkills = dto.weightSpecializationSkills();
+      properties.weightSpecializationWills = dto.weightSpecializationWills();
+      properties.maxLevelValue = dto.maxLevelValue();
+
+      return properties;
+  }
 
   double getWeightAverageSkills() {
     return weightAverageSkills;

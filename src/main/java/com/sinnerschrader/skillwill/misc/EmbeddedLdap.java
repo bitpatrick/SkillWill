@@ -1,15 +1,16 @@
 package com.sinnerschrader.skillwill.misc;
 
+import java.net.InetAddress;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
 import com.unboundid.ldap.listener.InMemoryListenerConfig;
 import com.unboundid.ldap.sdk.LDAPException;
 import com.unboundid.ldif.LDIFReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 
 /**
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
  *
  * @author torree
  */
-@Service
+//@Service
 public class EmbeddedLdap {
 
   private static final Logger logger = LoggerFactory.getLogger(EmbeddedLdap.class);

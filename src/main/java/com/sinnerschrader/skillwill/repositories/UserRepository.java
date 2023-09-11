@@ -6,25 +6,25 @@ import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 
 /**
  * MongoRepository for Persons
  * Collection: person
- *
- * @author torree
  */
-public interface UserRepository extends MongoRepository<UserDetailsImpl, String> {
-
-  Optional<UserDetailsImpl> findByUsernameIgnoreCase(String username);
+public interface UserRepository extends MongoRepository<User, String> {
 
   @Query("{ 'skills._id' : '?0' }")
-  List<UserDetailsImpl> findBySkill(String skillName);
+  List<User> findBySkill(String skillName);
 
   @Query("{ 'skills._id' : { $all : ?0 } }")
-  List<UserDetailsImpl> findBySkills(List<String> skillNames);
+  List<User> findBySkills(List<String> skillNames);
 
   @Query("{ 'ldapDetails.mail' : '?0' }")
-  UserDetailsImpl findByMail(String mail);
+  User findByMail(String mail);
+  
+  
+ // Optional<UserDetailsImpl>  findByUsername(String username);
+//  Optional<UserDetailsImpl> findByIdIgnoreCase(String username);
 
 }

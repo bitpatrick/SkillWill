@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 public class CustomUserDetailsService implements UserDetailsService {
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Optional<UserDetailsImpl> userDetailsImplOpt = userRepository.findByUsernameIgnoreCase(username);
+		Optional<User> userDetailsImplOpt = userRepository.findById(username);
 		
 		if (userDetailsImplOpt.isEmpty() || !userDetailsImplOpt.isPresent()) {
 			throw new UsernameNotFoundException("user not found by username: " + username);

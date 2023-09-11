@@ -2,8 +2,16 @@ package com.sinnerschrader.skillwill.domain.user;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
+import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
+import com.sinnerschrader.skillwill.dto.SkillDto;
+import com.sinnerschrader.skillwill.dto.UserDetailsDto;
+
+import lombok.Builder;
+
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,17 +25,65 @@ public class FitnessScore {
 
   private final FitnessScoreProperties props;
 
-  private final UserDetailsImpl userDetailsImpl;
+  private final User userDetailsImpl;
 
   private final Collection<Skill> searchedSkills;
 
   private final double value;
 
-  public FitnessScore(UserDetailsImpl userDetailsImpl, Collection<Skill> searchedSkills, FitnessScoreProperties props) {
+  public FitnessScore(User userDetailsImpl, Collection<Skill> searchedSkills, FitnessScoreProperties props) {
     this.userDetailsImpl = userDetailsImpl;
     this.searchedSkills = searchedSkills;
     this.props = props;
     this.value = (double) Math.round(calculateValue() * 10000) / 10000;
+  }
+  
+  public static FitnessScore fromDto(FitnessScoreDto dto) {
+	  
+	  FitnessScoreProperties properties = FitnessScoreProperties.fromDto(dto.props());
+	  User userDetails = User.createUser(dto.userDetailsImpl()); // Assumendo che tu abbia un metodo simile in UserDetailsImpl
+	  Collection<Skill> skills = dto.searchedSkills().stream()
+	                                    .map(Skill::fromDto) // Assumendo che tu abbia un metodo simile in Skill
+	                                    .collect(Collectors.toList());
+
+	  return new FitnessScore(userDetails, skills, properties);
+     
+  }
+
+  
+  public FitnessScoreDto toDto() {
+	  
+	  FitnessScorePropertiesDto props = null;
+	  UserDetailsDto userDetailsDto = null;
+	  List<SkillDto> skills = null;
+	  
+	  if ( this.props != null ) {
+		  
+		  props = FitnessScorePropertiesDto.builder()
+				  .weightAverageSkills(this.props.getWeightAverageSkills())
+				  .weightAverageWills(this.props.getWeightAverageWills())
+				  .weightSpecializationSkills(this.props.getWeightSpecializationSkills())
+				  .weightSpecializationWills(this.props.getWeightSpecializationWills())
+				  .maxLevelValue(this.props.getMaxLevelValue())
+				  .build();
+	  }
+	  
+	  if ( userDetailsImpl != null) {
+		 
+		  userDetailsDto = this.userDetailsImpl.toUserDetailsDto();
+	  }
+	  
+	  if ( this.searchedSkills != null ) {
+
+		  skills = this.searchedSkills.stream().map(Skill::toDto).toList();  
+	  }
+	  
+	  return FitnessScoreDto.builder()
+			  .props(props)
+			  .userDetailsImpl(userDetailsDto)
+			  .searchedSkills(skills)
+			  .value(value)
+			  .build();
   }
 
   public double getValue() {

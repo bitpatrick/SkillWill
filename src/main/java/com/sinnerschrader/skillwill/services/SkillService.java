@@ -25,7 +25,7 @@ import com.sinnerschrader.skillwill.domain.skills.SkillAutocompleteComparator;
 import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.skills.SkillUtils;
 import com.sinnerschrader.skillwill.domain.skills.SuggestionSkill;
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
 import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
@@ -297,7 +297,7 @@ public class SkillService {
     }
 
     // delete from persons
-    for (UserDetailsImpl userDetailsImpl : UserRepository.findBySkill(name)) {
+    for (User userDetailsImpl : UserRepository.findBySkill(name)) {
       userDetailsImpl.removeSkill(name);
       UserRepository.save(userDetailsImpl);
     }

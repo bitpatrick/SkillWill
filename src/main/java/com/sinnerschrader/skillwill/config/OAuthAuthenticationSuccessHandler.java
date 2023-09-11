@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.context.SecurityContextRepository;
 
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 import jakarta.servlet.ServletException;
@@ -59,7 +59,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 		} catch (UsernameNotFoundException e) {
 
 			// create new user
-			UserDetailsImpl newUser = new UserDetailsImpl(username);
+			User newUser = new User(username);
 
 			// new user persistence
 			userRepository.save(newUser);
@@ -81,7 +81,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 	private void checkIfUserExist(String username) throws UsernameNotFoundException {
 
 		// recupero l'user dal repository
-		Optional<UserDetailsImpl> userDetails = userRepository.findByUsernameIgnoreCase(username);
+		Optional<User> userDetails = userRepository.findById(username);
 
 		// verifico se l'user esiste
 		if (userDetails.isEmpty() || !userDetails.isPresent()) {

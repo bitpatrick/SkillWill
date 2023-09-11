@@ -1,10 +1,13 @@
 package com.sinnerschrader.skillwill.domain.skills;
 
+import com.sinnerschrader.skillwill.dto.SuggestionSkillDto;
+
+import lombok.Builder;
+
 /**
  * A suggestable skill used by Skill
- *
- * @author torree
  */
+@Builder
 public class SuggestionSkill {
 
   private String name;
@@ -46,6 +49,20 @@ public class SuggestionSkill {
 
   public void incrementCount(int add) {
     this.count += add;
+  }
+  
+  public SuggestionSkillDto toDto() {
+	  
+	  return SuggestionSkillDto.builder()
+			  .name(name)
+			  .count(count)
+			  .build();
+  }
+  public static SuggestionSkill fromDto(SuggestionSkillDto dto) {
+      return SuggestionSkill.builder()
+                            .name(dto.name())
+                            .count(dto.count())
+                            .build();
   }
 
 }

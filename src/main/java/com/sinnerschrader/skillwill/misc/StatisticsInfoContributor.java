@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.UserSkill;
-import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.repositories.SkillRepository;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
@@ -35,7 +35,7 @@ public class StatisticsInfoContributor implements InfoContributor {
     builder.withDetail("skills_total", skillRepository.count());
   }
 
-  private void contributeUsedSkillCount(List<UserDetailsImpl> userDetailsImpls, Info.Builder builder) {
+  private void contributeUsedSkillCount(List<User> userDetailsImpls, Info.Builder builder) {
     var usedSkillCount = (int) userDetailsImpls.stream()
       .flatMap(user -> user.getSkills(true).stream())
       .map(UserSkill::getName)
@@ -51,7 +51,7 @@ public class StatisticsInfoContributor implements InfoContributor {
     );
   }
 
-  private void contributeUserSkills(List<UserDetailsImpl> userDetailsImpls, Info.Builder builder) {
+  private void contributeUserSkills(List<User> userDetailsImpls, Info.Builder builder) {
     var stats = userDetailsImpls.stream()
       .mapToInt(user -> user.getSkills(true).size())
       .summaryStatistics();
