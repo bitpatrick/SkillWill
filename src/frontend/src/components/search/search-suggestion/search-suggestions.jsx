@@ -2,8 +2,14 @@ import React from 'react'
 import { apiServer } from '../../../env.js'
 import config from '../../../config.json'
 import SuggestionItem from './suggestion-item'
+import {
+	stopLoading,
+	startLoading,
+	errorAlertManage
+} from '../../../actions'
+import { connect } from 'react-redux'
 
-export default class SearchSuggestions extends React.Component {
+class SearchSuggestions extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -52,8 +58,9 @@ export default class SearchSuggestions extends React.Component {
 
 	getAutoCompletion(searchTerm) {
 		this.setState({
-			autoCompleteTimeOut: setTimeout(() => {
-				fetch(
+			autoCompleteTimeOut: setTimeout(async () => {
+				this.props.startLoading();
+				await fetch(
 					`${apiServer}/skills?count=${config.suggestions
 						.count}&search=${encodeURIComponent(searchTerm)}`,
 					{
@@ -68,7 +75,11 @@ export default class SearchSuggestions extends React.Component {
 							hint: this.getHint(),
 						})
 					)
-					.catch(err => console.log(err))
+					.catch(err => {
+						console.log(err.message)
+						this.props.errorAlertManage(err.message);
+					})
+				this.props.stopLoading();
 			}, config.suggestions.autoCompleteDelay),
 		})
 	}
@@ -79,9 +90,10 @@ export default class SearchSuggestions extends React.Component {
 		}
 	}
 
-	getRecommendations(searchTerms) {
+	async getRecommendations(searchTerms) {
 		const searchString = searchTerms.map(t => t.trim()).join(',')
-		fetch(
+		this.props.startLoading();
+		await fetch(
 			`${apiServer}/skills/next?count=${config.suggestions
 				.count}&search=${encodeURIComponent(searchString)}`,
 			{
@@ -89,9 +101,12 @@ export default class SearchSuggestions extends React.Component {
 			}
 		)
 			.then(res => (res.status === 200 ? res.json() : []))
-			.then(data => this.setState({ results: data, hint: this.getHint() }))
+			.then(data => {
+				this.setState({ results: data, hint: this.getHint() });
+			})
 			.catch(err =>{
-				console.log(err,err.status);
+				console.log(err.message);
+                this.props.errorAlertManage(err.message);
 				if(err.status==302){
 					let el=document.getElementById('anchor');
 					if(el){
@@ -99,6 +114,7 @@ export default class SearchSuggestions extends React.Component {
 					}
 				}
 			});
+		this.props.stopLoading();
 	}
 
 	getHint() {
@@ -136,3 +152,13 @@ export default class SearchSuggestions extends React.Component {
 		)
 	}
 }
+
+function mapStateToProps(state) {
+	return {}
+}
+
+export default connect(mapStateToProps, {
+	startLoading,
+	stopLoading,
+	errorAlertManage
+})(SearchSuggestions)

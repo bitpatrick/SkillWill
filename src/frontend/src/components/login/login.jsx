@@ -6,7 +6,9 @@ import Logo from "../logo/logo";
 import Footer from "../footer/footer";
 import './login.less'
 import { apiServer } from "../../env";
-import { fetchCurrentUser } from "../../actions";
+import { fetchCurrentUser, startLoading, stopLoading, errorAlertManage } from "../../actions";
+import Spinner from "../common/spinner";
+import ErrorAlert from "../common/error-alert";
 
 
 class Login extends React.Component{
@@ -39,7 +41,7 @@ class Login extends React.Component{
         this.setState({password: e.target.value});
     }
 
-    login(e){
+    async login(e){
         e.preventDefault();
         var formBody = [];
         let details={username: this.state.username, password: this.state.password};
@@ -58,7 +60,8 @@ class Login extends React.Component{
             body: formBody
         };
 		const requestURL = `${apiServer}/login`
-		fetch(requestURL, options)
+        this.props.startLoading();
+		await fetch(requestURL, options)
 			.then(res => {
 				if (res.status === 403) {
                     alert('session invalid') // eslint-disable-line
@@ -75,12 +78,25 @@ class Login extends React.Component{
                     this.props.history.push('/my-profile')
                 }
 			})
-			.catch(err => console.log(err.message))
+			.catch(err =>{
+                console.log(err.message)
+                this.props.errorAlertManage(err.message);
+            })
+        this.props.stopLoading();
 	}
 
     render(){
+		const { isLoading, errorAlertAction } = this.props
         return (
             <div>
+                { isLoading.loading ? 
+                    <div className='spinner-div'>
+                        <Spinner/>
+                    </div> 
+                : null }
+                { errorAlertAction.visible ? 
+                    <ErrorAlert message={errorAlertAction.message}/>
+                : null }
                 <IconSymbols />
                 <Header login/>
                 <div className="search">
@@ -127,8 +143,13 @@ class Login extends React.Component{
 function mapStateToProps(state) {
 	return {
 		currentUser: state.currentUser,
+        isLoading: state.isLoading,
+        errorAlertAction: state.errorAlertAction
 	}
 }
 export default connect(mapStateToProps,{
-    fetchCurrentUser
+    fetchCurrentUser,
+    startLoading,
+    stopLoading,
+    errorAlertManage
 })(Login)

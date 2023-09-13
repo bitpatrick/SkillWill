@@ -29,9 +29,13 @@ export default class Header extends React.Component {
 					</NavigationItem>
 					<NavigationItem>
 						<NavigationList>
-							<NavigationListItem target={'/login'}>
-								<Icon name="logout" width={20} height={25} />
-							</NavigationListItem>
+							{
+								this.props.currentUser &&
+								this.props.currentUser.loaded &&
+								<NavigationListItem target={'/login'}>
+									<Icon name="logout" width={20} height={25} />
+								</NavigationListItem>
+							}
 							<NavigationListItem target={config.slackChannelUrl}>
 								<Icon name="slack" width={20} height={20} />
 							</NavigationListItem>

@@ -27,6 +27,7 @@
     "react-dom": "^15.6.2",
     "react-redux": "^5.0.6",
     "react-router-redux": "^4.0.8",
+    "react-spinners": "^0.13.8",
     "redux": "^3.7.2",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",

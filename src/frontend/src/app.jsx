@@ -8,6 +8,8 @@ import UserSearch from './components/search/user-search.jsx'
 import Results from './components/results/results.jsx'
 import { connect } from 'react-redux'
 import { fetchCurrentUser } from './actions/index.js'
+import Spinner from './components/common/spinner.js'
+import ErrorAlert from './components/common/error-alert.js'
 
 class App extends React.Component {
 
@@ -28,24 +30,34 @@ class App extends React.Component {
 	// }
 
 	render() {
-		const { isResultsLoaded, isSkillAnimated } = this.props
+		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction } = this.props
 
 		return (
-			<div className={isResultsLoaded ? 'results-loaded' : ''}>
-				<IconSymbols />
-				<Header />
-				<div className="search">
-					<Logo/>
-					<div className="container">
-						<UserSearch location={this.props.location} />
+			<div>
+				{ isLoading.loading ? 
+					<div className='spinner-div'>
+						<Spinner/>
+					</div> 
+				: null }
+                { errorAlertAction.visible ? 
+                    <ErrorAlert message={errorAlertAction.message}/>
+                : null }
+				<div className={isResultsLoaded ? 'results-loaded' : ''}>
+					<IconSymbols />
+					<Header />
+					<div className="search">
+						<Logo/>
+						<div className="container">
+							<UserSearch location={this.props.location} />
+						</div>
 					</div>
+					<div className="content">
+						<Results animated={isSkillAnimated} />
+						{this.props.children}
+					</div>
+					<Footer />
+					<div className="layer-overlay" />
 				</div>
-				<div className="content">
-					<Results animated={isSkillAnimated} />
-					{this.props.children}
-				</div>
-				<Footer />
-				<div className="layer-overlay" />
 			</div>
 		)
 	}
@@ -57,6 +69,8 @@ function mapStateToProps(state) {
 		isResultsLoaded: state.isResultsLoaded,
 		isSkillAnimated: state.isSkillAnimated,
 		currentUser: state.currentUser,
+		isLoading: state.isLoading,
+        errorAlertAction: state.errorAlertAction
 	}
 }
 export default connect(mapStateToProps,{

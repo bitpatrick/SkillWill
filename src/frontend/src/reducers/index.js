@@ -14,6 +14,10 @@ import {
 	SET_DIRECTION_FILTER,
 	START_ANIMATING,
 	STOP_ANIMATING,
+	START_LOADING,
+	STOP_LOADING,
+	ERROR_ALERT,
+	ERROR_HIDE,
 	SORT_USER_SKILLS_DESC,
 	SORT_USER_WILLS_DESC,
 	SORT_USER_SKILLS_BY_NAME,
@@ -21,7 +25,8 @@ import {
 	RECEIVE_CURRENT_USER,
 	SET_COMPANY_FILTER,
 	REQUEST_PROFILE_DATA,
-	RECEIVE_PROFILE_DATA
+	RECEIVE_PROFILE_DATA,
+	REDIRECT_LOGIN,
 } from '../actions'
 
 function sortSkillsUserHelper(user, criterion, order = 'asc') {
@@ -226,6 +231,55 @@ function isSkillAnimated(state = true, action) {
 	}
 }
 
+function isLoading(state = {
+	loading:false,
+	count: 0
+}, action) {
+	switch (action.type) {
+		case START_LOADING:
+			state.count++;
+			return {
+				loading: true,
+				count: state.count
+			};
+		case STOP_LOADING:
+			state.count--;
+			return {
+				loading: state.count==0 ? false : true,
+				count: state.count
+			};
+		default:
+			return state
+	}
+}
+
+function errorAlertAction(state = {
+	visible: false,
+	message: ''
+}, action){
+	switch (action.type){
+		case ERROR_ALERT:
+			return {
+				visible: true,
+				message: action.message
+			};
+		case ERROR_HIDE:
+			return {
+				visible: false,
+				message: ''
+			}
+		default: return state;
+	}
+}
+
+function redirLogin(state = false, action){
+	switch(action.type){
+		case REDIRECT_LOGIN:
+			return action.check;
+		default: return state;
+	}
+}
+
 function currentUser(state = {
 	loaded: false
 }, action){
@@ -261,5 +315,8 @@ export default {
 	isResultsLoaded,
 	isSkillAnimated,
 	currentUser,
-	companyFilter
+	companyFilter,
+	isLoading,
+	errorAlertAction,
+	redirLogin
 }

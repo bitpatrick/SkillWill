@@ -57,6 +57,7 @@ module.exports = {
 				css: ['style.css'],
 				js: ['bundle.js'],
 			},
+			favicon: "./src/images/favicon.ico",
 		}),
 	],
 }

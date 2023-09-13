@@ -10,12 +10,16 @@ import {
 	editSkill,
 	setLastSortedBy,
 	updateUserSkills,
-	fetchCurrentUser
+	fetchCurrentUser,
+	startLoading,
+	stopLoading,
+	errorAlertManage,
+	redirectLogin
 } from '../../actions'
 import { connect } from 'react-redux'
 
 class MyProfile extends React.Component {
-	constructor(props) {
+	constructor(props, context) {
 		super(props)
 		this.state = {
 			data: null,
@@ -32,10 +36,10 @@ class MyProfile extends React.Component {
 		this.deleteSkill = this.deleteSkill.bind(this)
 	}
 
-	componentWillMount() {
+	async componentWillMount() {
 		document.body.classList.add('my-profile-open')
-		this.props.fetchCurrentUser()
-		if(!this.props.currentUser.loaded){
+		await this.props.fetchCurrentUser();
+		if(this.props.redirLogin){
 			this.props.history.push('/login')
 		}
 	}
@@ -84,12 +88,13 @@ class MyProfile extends React.Component {
 		this.props.updateUserSkills(options, this.getCurrentUserId())
 	}
 
-	deleteSkill(skill) {
+	async deleteSkill(skill) {
 		const options = { method: 'DELETE', credentials: 'same-origin' }
 		const requestURL = `${apiServer}/users/${this.getCurrentUserId()}/skills?skill=${encodeURIComponent(
 			skill
 		)}`
-		fetch(requestURL, options)
+		this.props.startLoading();
+		await fetch(requestURL, options)
 			.then(res => {
 				if (res.status === 403) {
           alert('session invalid') // eslint-disable-line
@@ -105,7 +110,11 @@ class MyProfile extends React.Component {
 					this.props.fetchCurrentUser()
 				}
 			})
-			.catch(err => console.log(err))
+			.catch(err => {
+				console.log(err)
+                this.props.errorAlertManage(err.message);
+			})
+		this.props.stopLoading();
 	}
 
 	render() {
@@ -184,6 +193,7 @@ function mapStateToProps(state) {
 	return {
 		currentUser: state.currentUser,
 		lastSortedBy: state.lastSortedBy,
+		redirLogin: state.redirLogin
 	}
 }
 export default connect(mapStateToProps, {
@@ -192,5 +202,9 @@ export default connect(mapStateToProps, {
 	editSkill,
 	setLastSortedBy,
 	updateUserSkills,
-	fetchCurrentUser
+	fetchCurrentUser,
+	startLoading,
+	stopLoading,
+	errorAlertManage,
+	redirectLogin
 })(MyProfile)

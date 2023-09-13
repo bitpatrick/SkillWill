@@ -49,14 +49,18 @@ export function setSortFilter(criterion) {
 }
 
 export const FETCH_RESULTS = 'FETCH_RESULTS'
-export function fetchResults(searchTerms) {
+export async function fetchResults(searchTerms,dispatch) {
 	const requestURL = `${apiServer}/users?skills=${encodeURIComponent(
 		searchTerms
 	)}`
 	const options = {
 		credentials: 'same-origin',
 	}
-	const request = fetch(requestURL, options).then(response => response.json())
+	const request = await fetch(requestURL, options).then(response => response.json())
+	.catch(err=>{
+		console.log(err.message)
+		dispatch(errorAlertManage(err.message))
+	})
 	return {
 		type: FETCH_RESULTS,
 		payload: request,
@@ -71,7 +75,9 @@ export function getUserBySearchTerms(term, method) {
 			dispatch(addSearchTerms(term))
 		}
 		const { searchTerms, lastSortedBy: { lastSortedBy } } = getState()
+		dispatch(startLoading())
 		dispatch(fetchResults(searchTerms))
+		dispatch(stopLoading())
 		dispatch(setSortFilter(lastSortedBy))
 	}
 }
@@ -93,14 +99,18 @@ export function deleteSkillSearch(searchTerm) {
 }
 
 export const FETCH_SKILLS = 'FETCH_SKILLS'
-export function fetchSkills(searchTerm) {
+export async function fetchSkills(searchTerm) {
 	const requestURL = `${apiServer}/skills?search=${encodeURIComponent(
 		searchTerm
 	)}`
 	const options = {
 		credentials: 'same-origin',
 	}
-	const request = fetch(requestURL, options).then(response => response.json())
+	const request = await fetch(requestURL, options).then(response => response.json())
+	.catch(err=>{
+		console.log(err.message)
+		dispatch(errorAlertManage(err.message))
+	})
 	return {
 		type: FETCH_SKILLS,
 		payload: request,
@@ -115,7 +125,9 @@ export function getSkillsBySearchTerm(term, method) {
 			dispatch(addSkillSearch(term))
 		}
 		const { skillSearchTerms } = getState()
+		dispatch(startLoading())
 		dispatch(fetchSkills(skillSearchTerms))
+		dispatch(stopLoading())
 	}
 }
 
@@ -131,17 +143,23 @@ export const receiveProfileData = (payload) => ({
 })
 
 export function getUserProfileData(profile) {
-	return (dispatch) => {
+	return async (dispatch) => {
 		dispatch(requestProfileData())
 		const requestURL = `${apiServer}/users/${profile}`
 		const options = {
 			credentials: 'same-origin',
 		}
-		fetch(requestURL, options)
+		dispatch(startLoading())
+		await fetch(requestURL, options)
 		.then(response => response.json())
 		.then(json => {
 			dispatch(receiveProfileData(json))
 		})
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
+		})
+		dispatch(stopLoading())
 	}
 }
 
@@ -191,8 +209,8 @@ export function exitSkillsEditMode() {
 }
 
 export const EDIT_SKILL = 'EDIT_SKILL'
-export function editSkill(requestURL, options) {
-	const request = fetch(requestURL, options).then(response => response.json())
+export async function editSkill(requestURL, options) {
+	const request = await fetch(requestURL, options).then(response => response.json())
 	return {
 		type: EDIT_SKILL,
 		payload: request,
@@ -202,9 +220,11 @@ export function editSkill(requestURL, options) {
 export function updateUserSkills(options, user) {
 	const requestURL = `${apiServer}/users/${user}/skills`
 	return function(dispatch) {
-		dispatch(editSkill(requestURL, options)).then(() =>
+		dispatch(startLoading())
+		dispatch(editSkill(requestURL, options)).then(() =>{
 			dispatch(getUserProfileData(user))
-		)
+			dispatch(stopLoading())
+		})
 	}
 }
 
@@ -219,6 +239,44 @@ export const STOP_ANIMATING = 'STOP_ANIMATING'
 export function stopAnimating() {
 	return {
 		type: STOP_ANIMATING,
+	}
+}
+
+export const START_LOADING = 'START_LOADING'
+export function startLoading() {
+	return {
+		type: START_LOADING,
+	}
+}
+
+export const STOP_LOADING = 'STOP_LOADING'
+export function stopLoading() {
+	return {
+		type: STOP_LOADING,
+	}
+}
+
+export const ERROR_ALERT = 'ERROR_ALERT'
+export function errorAlert(message){
+	return {
+		type: ERROR_ALERT,
+		message: message
+	}
+}
+
+export const ERROR_HIDE = 'ERROR_HIDE'
+export function errorHide(){
+	return {
+		type: ERROR_HIDE
+	}
+}
+
+export function errorAlertManage(message){
+	return function(dispatch){
+		dispatch(errorAlert(message));
+		setTimeout(()=>{
+			dispatch(errorHide());
+		},3000);
 	}
 }
 
@@ -245,15 +303,33 @@ export function setCompanyFilter(filter) {
 	}
 }
 
+export const REDIRECT_LOGIN = 'REDIRECT_LOGIN'
+export function redirectLogin(check) {
+	return {
+		type: REDIRECT_LOGIN,
+		check: check
+	}
+}
+
 export function fetchCurrentUser() {
-	return function(dispatch){
+	return async function(dispatch){
 		dispatch(requestCurrentUser())
+		dispatch(startLoading())
 		const requestURL = `${apiServer}/session/user`
-		fetch(requestURL, {credentials: 'include'})
-		.then(res => res.json())
+		await fetch(requestURL, {credentials: 'include', redirect: 'manual'})
+		.then(res => {
+			if(!res.ok && res.status==0){
+				dispatch(redirectLogin(true))
+			}
+			return res.json();
+		})
 		.then(user => {
 			dispatch(receiveCurrentUser(user))
 		})
-		.catch(err=>console.log(err.message))
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
+		})
+		dispatch(stopLoading())
 	}
 }

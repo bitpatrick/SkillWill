@@ -46,14 +46,11 @@ public class MyWebSecurityConfig {
 			.cors(corsCustomizer -> {
 				corsCustomizer.configurationSource(corsConfigurationSource -> {
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
-//					corsConfiguration.applyPermitDefaultValues();
+					corsConfiguration.addAllowedOrigin("http://127.0.0.1:8888");
 					corsConfiguration.addAllowedOrigin("http://localhost:8888");
-					corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-					corsConfiguration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-					corsConfiguration.setExposedHeaders(Arrays.asList("x-auth-token"));
-					UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-					source.registerCorsConfiguration("/**", corsConfiguration);
 					corsConfiguration.setAllowCredentials(true);
+					corsConfiguration.applyPermitDefaultValues();
+					
 					return corsConfiguration;
 				});
 			})
