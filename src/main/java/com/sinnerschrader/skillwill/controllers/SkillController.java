@@ -8,13 +8,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
@@ -65,7 +63,6 @@ public class SkillController {
       binder.registerCustomEditor(Integer.class, new CountPropertyEditor());
   }
 
-
   /**
    * get/suggest skills based on search query -> can be used for autocompletion when user started
    * typing
@@ -76,20 +73,19 @@ public class SkillController {
       @ApiResponse(responseCode = "500", description = "Failure")
   })
   @GetMapping(path = "/skills", produces = APPLICATION_JSON_VALUE)
-  public ResponseEntity<Page<Skill>> getSkills(
+  public ResponseEntity<List<Skill>> getSkills(
       @Parameter(description = "Name to search") @RequestParam(required = false) String search,
       @Parameter(description = "Do not return hidden skills", example = "true") @RequestParam(defaultValue = "true") Boolean exclude_hidden,
-      @Parameter(description = "Limit the number of skills to find", example = "0") @RequestParam(defaultValue = "0") Integer count
-   
+      @Parameter(description = "Limit the number of skills to find", example = "0") @RequestParam(defaultValue = "0") int count
       ) {
 	  
 	  // retrieve skills
 	  List<Skill> skills = skillService.findSkill(search, exclude_hidden, count);
 	  
-	  // pagineted skills
-	  Page<Skill> skillsPage = new PageImpl<Skill>(skills);
+	  // TODO pagineted skills
+//	  Page<Skill> skillsPage = new PageImpl<Skill>(skills);
 	  
-	  return new ResponseEntity<Page<Skill>>(skillsPage, HttpStatus.OK);
+	  return new ResponseEntity<List<Skill>>(skills, HttpStatus.OK);
   }
   
   /**
@@ -122,8 +118,8 @@ public class SkillController {
       @ApiResponse(responseCode = "200", description = "Success"),
       @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @GetMapping(path = "/skills/next")
-  public ResponseEntity<Page<Skill>> getNext(
+  @GetMapping(path = "/skills/next", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<Skill>> getNext(
       @Parameter(description = "Names of skills already entered, separated by comma") @RequestParam(required = false) String search,
       @Parameter(description = "Count of recommendations to get", required = false, example = "10") @RequestParam(defaultValue = "10") Integer count
       ) {
@@ -137,10 +133,10 @@ public class SkillController {
 
 //	  logger.debug("Successfully got {} suggestions for search [{}]", suggestionJsons.size(), search);
       
-	  // pagineted skills
-	  Page<Skill> suggestionSkillsPage = new PageImpl<Skill>(suggestionSkills);
+	  // TODO pagineted skills
+//	  Page<Skill> suggestionSkillsPage = new PageImpl<Skill>(suggestionSkills);
 	  
-      return new ResponseEntity<Page<Skill>>(suggestionSkillsPage, HttpStatus.OK);
+      return new ResponseEntity<List<Skill>>(suggestionSkills, HttpStatus.OK);
     
   }
   

@@ -146,10 +146,11 @@ public class SkillControllerTest {
     private List<Skill> getSkills() {
     	
     	Skill aws = new Skill("AWS");
-    	Skill net = new Skill(".NET", true, Stream.of("JavaScript","PHP","Java").collect(Collectors.toSet()));
-    	Skill jQuery = new Skill("jQuery", false, Stream.of("PHP", "Java").collect(Collectors.toSet()));
+//    	Skill net = new Skill(".NET", true, Stream.of("JavaScript","PHP","Java").collect(Collectors.toSet()));
+//    	Skill jQuery = new Skill("jQuery", false, Stream.of("PHP", "Java").collect(Collectors.toSet()));
     	
-    	return Arrays.asList(aws, net, jQuery);
+//    	return Arrays.asList(aws, net, jQuery);
+    	return Arrays.asList(aws);
     }
     
     private Skill getSkillByNameFromMemory(String name) {

@@ -111,6 +111,17 @@ public class Skill {
 	public void addSubSkillName(String name) {
 		this.subSkillNames.add(name);
 	}
+	
+	public void addSuggestion(String name, int count) {
+		
+		SuggestionSkill suggestionSkill = new SuggestionSkill(name, count);
+		
+		if ( this.suggestions.contains(suggestionSkill) ) {
+			return;
+		}
+		
+		this.suggestions.add(suggestionSkill);
+	}
 
 	public void removeSubSkillName(String name) {
 		this.subSkillNames.remove(name);

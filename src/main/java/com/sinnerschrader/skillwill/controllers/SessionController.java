@@ -53,7 +53,7 @@ public class SessionController {
     
     		) {
 
-		User userDetailsImpl = null;
+		User userDetailsImpl;
 
 		if (oAuthToken != null && !oAuthToken.isBlank()) {
 			logger.debug("Getting user from session {}", oAuthToken);
@@ -63,6 +63,7 @@ public class SessionController {
 			}
 
 		} else {
+			
 			userDetailsImpl = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 

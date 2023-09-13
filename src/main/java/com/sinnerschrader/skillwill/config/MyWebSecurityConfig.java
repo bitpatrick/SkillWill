@@ -1,5 +1,7 @@
 package com.sinnerschrader.skillwill.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +12,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
@@ -42,7 +46,14 @@ public class MyWebSecurityConfig {
 			.cors(corsCustomizer -> {
 				corsCustomizer.configurationSource(corsConfigurationSource -> {
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
-					corsConfiguration.applyPermitDefaultValues();
+//					corsConfiguration.applyPermitDefaultValues();
+					corsConfiguration.addAllowedOrigin("http://localhost:8888");
+					corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+					corsConfiguration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+					corsConfiguration.setExposedHeaders(Arrays.asList("x-auth-token"));
+					UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+					source.registerCorsConfiguration("/**", corsConfiguration);
+					corsConfiguration.setAllowCredentials(true);
 					return corsConfiguration;
 				});
 			})
@@ -57,38 +68,35 @@ public class MyWebSecurityConfig {
 						
 						authorize
 							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+							.requestMatchers("/session/**").authenticated()
 							.requestMatchers(HttpMethod.GET, "/**").permitAll()
 							.anyRequest().permitAll();
 					
-					}
+			})
+			.formLogin(formLoginCustomizer -> { formLoginCustomizer
 					
-					)
-//			.formLogin(formLoginCustomizer -> {
-//				
-//				formLoginCustomizer
-//					.loginPage("http://127.0.0.1:8888/login")
-//					.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
-//					.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
-//				
-//			})
-			
+				.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
+				.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
+				
+			})
 			.oauth2Login(
 					o -> { o
 						
-//						.loginPage("http://127.0.0.1:8888/login")
 						.successHandler(oAuthAuthenticationSuccessHandler());
-						
-					})
+			})
+			.logout(logoutCustomizer -> { logoutCustomizer
+					
+				.logoutSuccessUrl("http://127.0.0.1:8888/");
+				
+			})
+			.requestCache(requestCacheCustomizer -> { requestCacheCustomizer
+				
+				.disable();
 			
-//			.logout(logoutCustomizer -> {
-//				
-//				logoutCustomizer
-//					.logoutSuccessUrl("http://127.0.0.1:8888/");
-//				
-//			})
-			.requestCache(requestCacheCustomizer -> {
-				requestCacheCustomizer.disable();
-			});
+			}).exceptionHandling(eh -> eh
+					
+					.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("http://127.0.0.1:8888/login")
+			));
 		
 		return http.build();
 	}

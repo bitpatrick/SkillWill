@@ -1,27 +1,25 @@
 package com.sinnerschrader.skillwill.mock;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.jobs.LdapSyncJob;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
+
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.jobs.LdapSyncJob;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 /**
  * Reads Mock Data from files specified in application.properties and
@@ -34,11 +32,14 @@ public class MockData {
 
   private static final Logger logger = LoggerFactory.getLogger(MockData.class);
 
-  private final SkillRepository skillRepo;
+  @Autowired
+  private SkillRepository skillRepo;
 
-  private final UserRepository userRepo;
+  @Autowired
+  private UserRepository userRepo;
 
-  private final LdapSyncJob ldapSyncJob;
+  @Autowired
+  private LdapSyncJob ldapSyncJob;
 
   @Value("${mockInit}")
   private boolean initmock;
@@ -48,13 +49,6 @@ public class MockData {
 
   @Value("${mockPersonsFilePath}")
   private String personsPath;
-
-  @Autowired
-  public MockData(SkillRepository skillRepo, UserRepository userRepo, LdapSyncJob ldapSyncJob) {
-    this.skillRepo = skillRepo;
-    this.userRepo = userRepo;
-    this.ldapSyncJob = ldapSyncJob;
-  }
 
   private JSONArray readMockFileToJsonArray(String path) throws IOException {
     InputStreamReader reader = new InputStreamReader(getClass()
@@ -102,16 +96,31 @@ public class MockData {
     logger.warn("Deleting all skills in DB!");
     skillRepo.deleteAll();
 
-    var skillsJsonArray = readMockFileToJsonArray(skillsPath);
+    JSONArray skillsJsonArray = readMockFileToJsonArray(skillsPath);
     for (int i = 0; i < skillsJsonArray.length(); i++) {
-      var skillJson = skillsJsonArray.getJSONObject(i);
-      var skill = new Skill(skillJson.getString("name"));
+      JSONObject skillJson = skillsJsonArray.getJSONObject(i);
+      Skill skill = new Skill(skillJson.getString("name"));
       skill.setHidden(skillJson.getBoolean("hidden"));
 
-      var subskillsJsonArray = skillJson.getJSONArray("subskills");
-      for (int j = 0; j < subskillsJsonArray.length(); j++) {
-        skill.addSubSkillName(subskillsJsonArray.getString(j));
-      }
+      try {
+    	  
+    	  // subskills
+          JSONArray subskillsJsonArray = skillJson.getJSONArray("subskills");
+          for (int j = 0; j < subskillsJsonArray.length(); j++) {
+            skill.addSubSkillName(subskillsJsonArray.getString(j));
+          }
+          
+          // suggestions
+          JSONArray suggestionsJsonArray = skillJson.getJSONArray("suggestions");
+          for (int k = 0; k < suggestionsJsonArray.length(); k++) {
+            JSONObject suggestion = suggestionsJsonArray.getJSONObject(k);
+            String name = suggestion.getString("name");
+            int count = suggestion.getInt("count");
+            skill.addSuggestion(name, count);
+          }
+    	  
+      } catch (JSONException e) {}
+      
       skillRepo.save(skill);
     }
 
