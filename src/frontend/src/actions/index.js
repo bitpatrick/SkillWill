@@ -318,8 +318,10 @@ export function fetchCurrentUser() {
 		const requestURL = `${apiServer}/session/user`
 		await fetch(requestURL, {credentials: 'include', redirect: 'manual'})
 		.then(res => {
+			console.log(res)
 			if(!res.ok && res.status==0){
 				dispatch(redirectLogin(true))
+				throw Error("Utente non autorizzato")
 			}
 			return res.json();
 		})
