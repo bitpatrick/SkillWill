@@ -1,22 +1,20 @@
 package com.sinnerschrader.skillwill.config;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
@@ -24,6 +22,7 @@ import jakarta.servlet.DispatcherType;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class MyWebSecurityConfig {
 
 	@Autowired
@@ -64,14 +63,14 @@ public class MyWebSecurityConfig {
 					authorize -> {
 						
 						authorize
-							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-							.requestMatchers("/session/**").authenticated()
+							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll() // sto controllando solo le request che vengono da fuori
+							.requestMatchers("/session/**").authenticated() // dentro session c'è GET
 							.requestMatchers(HttpMethod.GET, "/**").permitAll()
-							.anyRequest().permitAll();
+							.anyRequest().authenticated();
 					
 			})
 			.formLogin(formLoginCustomizer -> { formLoginCustomizer
-					
+				
 				.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
 				.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
 				
@@ -82,7 +81,7 @@ public class MyWebSecurityConfig {
 						.successHandler(oAuthAuthenticationSuccessHandler());
 			})
 			.logout(logoutCustomizer -> { logoutCustomizer
-					
+				
 				.logoutSuccessUrl("http://127.0.0.1:8888/");
 				
 			})
@@ -143,8 +142,8 @@ public class MyWebSecurityConfig {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setUserDetailsService(new CustomUserDetailsService(userRepository));
-//		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-		provider.setPasswordEncoder(new BCryptPasswordEncoder());
+		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//		provider.setPasswordEncoder(new BCryptPasswordEncoder());
 
 		return provider;
 	}

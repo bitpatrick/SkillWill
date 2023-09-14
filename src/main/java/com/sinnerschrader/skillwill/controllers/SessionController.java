@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
 import com.sinnerschrader.skillwill.services.SessionService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Controller
 public class SessionController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SkillController.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionController.class);
 
 	@Autowired
 	private SessionService sessionService;
@@ -38,19 +38,11 @@ public class SessionController {
         @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
     @GetMapping("/session/user")
-    public ResponseEntity<String> getCurrentUser(
-            @Parameter(description = "Nome da cercare", in = ParameterIn.QUERY) 
-            @RequestParam(required = false) String search,
-
-            @Parameter(description = "Non restituire competenze nascoste", in = ParameterIn.QUERY) 
-            @RequestParam(name = "exclude_hidden", defaultValue = "true") boolean exclude_hidden,
-
-            @Parameter(description = "Limita il numero di competenze da trovare", in = ParameterIn.QUERY) 
-            @RequestParam(required = false) Integer count,
-
-            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) 
-            @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
-    
+    public ResponseEntity<User> getCurrentUser(
+            @Parameter(description = "Nome da cercare", in = ParameterIn.QUERY) @RequestParam(required = false) String search,
+            @Parameter(description = "Non restituire competenze nascoste", in = ParameterIn.QUERY) @RequestParam(name = "exclude_hidden", defaultValue = "true") boolean exclude_hidden,
+            @Parameter(description = "Limita il numero di competenze da trovare", in = ParameterIn.QUERY) @RequestParam(required = false) Integer count,
+            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
     		) {
 
 		User userDetailsImpl;
@@ -59,7 +51,8 @@ public class SessionController {
 			logger.debug("Getting user from session {}", oAuthToken);
 			userDetailsImpl = sessionService.getUserByToken(oAuthToken);
 			if (userDetailsImpl == null) {
-				return new StatusResponseEntity("no current session", HttpStatus.UNAUTHORIZED);
+//				return new StatusResponseEntity("no current session", HttpStatus.UNAUTHORIZED);
+				throw new AccessDeniedException("no current session");
 			}
 
 		} else {
@@ -67,7 +60,7 @@ public class SessionController {
 			userDetailsImpl = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		}
 
-		return new ResponseEntity<>(userDetailsImpl.toJSON().toString(), HttpStatus.OK);
+		return new ResponseEntity<User>(userDetailsImpl, HttpStatus.OK);
 	}
 
 }

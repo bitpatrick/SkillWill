@@ -104,6 +104,11 @@ public class SkillController {
 	  
 	  // retrive skill
 	  Skill skill = skillService.getSkillByName(name);
+	  /*
+	   * COMMENT FOR TEST:
+	   * voglio mockare questo metodo o no ? no--> non voglio testare il controller che ritorna un json, ma voglio testare
+	   * solo la funzionalità del service, che comunica con il db ???????
+	   */
     
 	  return new ResponseEntity<Skill>(skill, HttpStatus.OK);
   }

@@ -69,14 +69,14 @@ public class MockData {
     logger.warn("Deleting all users in DB");
     userRepo.deleteAll();
 
-    var usersJsonArray = readMockFileToJsonArray(personsPath);
+    JSONArray usersJsonArray = readMockFileToJsonArray(personsPath);
     for (int i = 0; i < usersJsonArray.length(); i++) {
-      var userJson = usersJsonArray.getJSONObject(i);
-      var user = new User(userJson.getString("id"));
+      JSONObject userJson = usersJsonArray.getJSONObject(i);
+      User user = new User(userJson.getString("id"), "password");
 
-      var skillsJsonArray = userJson.getJSONArray("skills");
+      JSONArray skillsJsonArray = userJson.getJSONArray("skills");
       for (int j = 0; j < skillsJsonArray.length(); j++) {
-        var skillJson = skillsJsonArray.getJSONObject(j);
+        JSONObject skillJson = skillsJsonArray.getJSONObject(j);
         user.addUpdateSkill(
           skillJson.getString("name"),
           skillJson.getInt("skillLevel"),

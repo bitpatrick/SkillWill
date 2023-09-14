@@ -14,12 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,7 +73,9 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Failure"), 
 	})
+	@PreAuthorize("hasRole('ADMIN')") // solamente un admin può accedere a questo metodo, ovvero, creare un utente
 	@PutMapping(value = "/user")
+	@ResponseStatus(HttpStatus.CREATED)
 	public void createUser(
 			@Parameter(description = "Informations to create a user") @RequestBody UserDetailsDto user) {
 		
@@ -93,7 +95,6 @@ public class UserController {
 	public ResponseEntity<UserDto> getUser(
 			@Parameter(description = "Username of the user to retrieve") @PathVariable String username
 			) {
-		
 		
 		UserDto userDto = userService.getUser(username);
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
@@ -145,6 +146,7 @@ public class UserController {
 	})
 	@PatchMapping(value = "users/{user}", consumes = APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("isAuthenticated()")
 	public void updateUser(
 			@Parameter(description = "User identifier")@PathVariable("user") String username,
 			@Parameter(description = "Details of the user to be updated, including all user's informations uptdated or not ")@RequestBody UserDetailsDto userDto
@@ -171,7 +173,6 @@ public class UserController {
 		
 	}
 	
-	
 	@Operation(summary = "Update Fitness Score", description = "Updates user's fitness score")
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "200", description = "Success"),
@@ -190,8 +191,6 @@ public class UserController {
 		
 	}
 	
-	
-	
 	@Operation(summary = "Delete User", description = "Delete an existing user")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success"),
@@ -202,6 +201,7 @@ public class UserController {
 	})
 	@DeleteMapping(value = "users/{user}")
 	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteUser(
 			@Parameter(description = "User identifier") @PathVariable("user") String username) {
 		
@@ -223,8 +223,8 @@ public class UserController {
 	public ResponseEntity<String> updateSkills(
 			@Parameter(description = "User identifier") @PathVariable String user,
 			@Parameter(description = "Name of skill", required = true) @RequestParam("skill") String skill,
-			@Parameter(description = "Level of skill", required = true) @RequestParam("skill_level") String skill_level,
-			@Parameter(description = "Level of will", required = true) @RequestParam("will_level") String will_level,
+			@Parameter(description = "Level of skill", required = true) @RequestParam("skill_level") int skill_level,
+			@Parameter(description = "Level of will", required = true) @RequestParam("will_level") int will_level,
 			@Parameter(description = "Mentor flag", required = true) @RequestParam("mentor") boolean mentor,
 			@Parameter(description = "Session token of the current user", required = true) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
 			) {
@@ -235,7 +235,7 @@ public class UserController {
 //    }
 
 		try {
-			userService.updateSkills(user, skill, Integer.parseInt(skill_level), Integer.parseInt(will_level), mentor);
+			userService.updateSkills(user, skill, skill_level, will_level, mentor);
 			return new StatusResponseEntity("success", HttpStatus.OK);
 		} catch (UserNotFoundException e) {
 			return new StatusResponseEntity("user not found", HttpStatus.NOT_FOUND);
