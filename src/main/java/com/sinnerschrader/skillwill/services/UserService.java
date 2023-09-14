@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
 import com.sinnerschrader.skillwill.domain.user.FitnessScore;
 import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
 import com.sinnerschrader.skillwill.domain.user.Role;
@@ -26,10 +25,8 @@ import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.domain.user.UserLdapDetails;
 import com.sinnerschrader.skillwill.domain.user.UserSimilarityUtils;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.UserDetailsDto;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
-import com.sinnerschrader.skillwill.dto.UserSkillDto;
 import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
 import com.sinnerschrader.skillwill.exceptions.IllegalLevelConfigurationException;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
@@ -124,7 +121,7 @@ public class UserService {
 				.collect(Collectors.toList());
 	}
 
-	public UserDetailsDto getUserDetails(String username) throws UserNotFoundException {
+	public UserDto getUserDetails(String username) throws UserNotFoundException {
 
 		User userFromRepo = userRepository.findById(username).orElseThrow(() -> {
 			throw new UserNotFoundException("user not found");
@@ -134,7 +131,7 @@ public class UserService {
 //			ldapService.syncUser(userFromRepo);
 //		}
 
-		UserDetailsDto userDto = userFromRepo.toUserDetailsDto();
+		UserDto userDto = userFromRepo.toUserDto();
 
 		logger.debug("Successfully found user {}", username);
 		return userDto;
@@ -227,7 +224,7 @@ public class UserService {
 		return user.get().getLdapDetails().getRole();
 	}
 
-	public void updateUserDetails(UserDetailsDto userDto, String username)
+	public void updateUserDetails(UserDto userDto, String username)
 			throws UserNotFoundException, UserIdException {
 
 		// recupero l'user cn le informazioni vecchie dal db
@@ -248,7 +245,7 @@ public class UserService {
 
 	}
 
-	public void create(UserDetailsDto userDto) {
+	public void create(UserDto userDto) {
 
 		String username = userDto.username();
 

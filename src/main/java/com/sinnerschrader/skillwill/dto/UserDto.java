@@ -8,6 +8,7 @@ import lombok.Builder;
 public record UserDto(
 		String username,
 		String password,
+		List<String> authorities,
 		String ldapDN, 
 		Long version,
 		List<UserSkillDto> skills,

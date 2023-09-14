@@ -1,19 +1,17 @@
 package com.sinnerschrader.skillwill.domain.user;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
-import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
-import com.sinnerschrader.skillwill.dto.SkillDto;
-import com.sinnerschrader.skillwill.dto.UserDetailsDto;
-
-import lombok.Builder;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
+import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
+import com.sinnerschrader.skillwill.dto.SkillDto;
+import com.sinnerschrader.skillwill.dto.UserDto;
 
 /**
  * Calculate how well a user fits into a searched skill set.
@@ -41,7 +39,7 @@ public class FitnessScore {
   public static FitnessScore fromDto(FitnessScoreDto dto) {
 	  
 	  FitnessScoreProperties properties = FitnessScoreProperties.fromDto(dto.props());
-	  User userDetails = User.createUser(dto.userDetailsImpl()); // Assumendo che tu abbia un metodo simile in UserDetailsImpl
+	  User userDetails = User.createUser(dto.user()); // Assumendo che tu abbia un metodo simile in UserDetailsImpl
 	  Collection<Skill> skills = dto.searchedSkills().stream()
 	                                    .map(Skill::fromDto) // Assumendo che tu abbia un metodo simile in Skill
 	                                    .collect(Collectors.toList());
@@ -54,7 +52,7 @@ public class FitnessScore {
   public FitnessScoreDto toDto() {
 	  
 	  FitnessScorePropertiesDto props = null;
-	  UserDetailsDto userDetailsDto = null;
+	  UserDto userDto = null;
 	  List<SkillDto> skills = null;
 	  
 	  if ( this.props != null ) {
@@ -70,7 +68,7 @@ public class FitnessScore {
 	  
 	  if ( userDetailsImpl != null) {
 		 
-		  userDetailsDto = this.userDetailsImpl.toUserDetailsDto();
+		  userDto = this.userDetailsImpl.toUserDto();
 	  }
 	  
 	  if ( this.searchedSkills != null ) {
@@ -80,7 +78,7 @@ public class FitnessScore {
 	  
 	  return FitnessScoreDto.builder()
 			  .props(props)
-			  .userDetailsImpl(userDetailsDto)
+			  .user(userDto)
 			  .searchedSkills(skills)
 			  .value(value)
 			  .build();

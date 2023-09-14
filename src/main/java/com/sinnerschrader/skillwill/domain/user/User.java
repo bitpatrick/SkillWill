@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -19,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.skills.UserSkill;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.UserDetailsDto;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
 import com.sinnerschrader.skillwill.dto.UserSkillDto;
@@ -49,6 +49,8 @@ public class User implements UserDetails {
 	private List<UserSkill> skills;
 
 	private String ldapDN;
+	
+	private List<GrantedAuthority> authorities;
 
 	@Transient
 	private FitnessScore fitnessScore;
@@ -59,26 +61,37 @@ public class User implements UserDetails {
 	// LDAP Details will be updated regularly
 	private UserLdapDetails ldapDetails;
 	
-	public static User createUser(UserDetailsDto userDto) {
+	public static User createUser(UserDto userDto) {
 
 		String username = userDto.username();
 		String password = userDto.password();
-
 		String ldapDN = userDto.ldapDN();
 		Long version = userDto.version();
+		List<GrantedAuthority> authorities = userDto.authorities().stream()
+													.map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role))
+													.toList();
 		
 		return User.builder()
 				.username(username)
 				.password(password)
 				.ldapDN(ldapDN)
 				.version(version)
+				.authorities(authorities)
 				.build();
+		
 	}
 	
-	public void update(UserDetailsDto userDto) {
+	public void update(UserDto userDto) {
 		
 		this.password = userDto.password();
 		this.ldapDN = userDto.ldapDN();
+	}
+	
+	public User(String username, String password, List<GrantedAuthority> authorities) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.authorities = authorities;
 	}
 
 	public User(String username, String password) {
@@ -186,16 +199,6 @@ public class User implements UserDetails {
 		return json;
 	}
 
-	public UserDetailsDto toUserDetailsDto() {
-	
-		return UserDetailsDto.builder()
-				.username(username)
-				.password(password)
-				.ldapDN(ldapDN)
-				.version(version)
-				.build();
-	}
-	
 	public UserDto toUserDto() {
 		
 		UserLdapDetailsDto userLdapDetailsDto = null;
@@ -239,6 +242,7 @@ public class User implements UserDetails {
 		return UserDto.builder()
 				.username(username)
 				.password(password)
+				.authorities(Optional.ofNullable(authorities).orElse(null).stream().map(Object::toString).toList())
 				.skills(skills)
 				.ldapDN(ldapDN)
 				.fitnessScore(fitnessScoreDto)
@@ -283,6 +287,8 @@ public class User implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	
 
 	
 }

@@ -19,12 +19,8 @@ public class SessionCleanupJob {
 
   private static final Logger logger = LoggerFactory.getLogger(SessionCleanupJob.class);
 
-  private final SessionService sessionService;
-
   @Autowired
-  public SessionCleanupJob(SessionService sessionService) {
-    this.sessionService = sessionService;
-  }
+  private SessionService sessionService;
 
   @Scheduled(cron = "${sessionCleanUpCron}")
   private void run() {

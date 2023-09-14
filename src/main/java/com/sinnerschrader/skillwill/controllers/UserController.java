@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sinnerschrader.skillwill.domain.skills.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.UserDetailsDto;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
 import com.sinnerschrader.skillwill.exceptions.UserNotFoundException;
@@ -77,7 +76,7 @@ public class UserController {
 	@PutMapping(value = "/user")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createUser(
-			@Parameter(description = "Informations to create a user") @RequestBody UserDetailsDto user) {
+			@Parameter(description = "Informations to create a user") @RequestBody UserDto user) {
 		
 		userService.create(user);
 	}
@@ -149,7 +148,7 @@ public class UserController {
 	@PreAuthorize("isAuthenticated()")
 	public void updateUser(
 			@Parameter(description = "User identifier")@PathVariable("user") String username,
-			@Parameter(description = "Details of the user to be updated, including all user's informations uptdated or not ")@RequestBody UserDetailsDto userDto
+			@Parameter(description = "Details of the user to be updated, including all user's informations uptdated or not ")@RequestBody UserDto userDto
 			 ) {
 
 		userService.updateUserDetails(userDto,username);

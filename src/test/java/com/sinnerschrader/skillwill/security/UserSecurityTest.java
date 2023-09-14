@@ -23,7 +23,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
 import com.sinnerschrader.skillwill.controllers.UserController;
-import com.sinnerschrader.skillwill.dto.UserDetailsDto;
+import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 import com.sinnerschrader.skillwill.services.SessionService;
 import com.sinnerschrader.skillwill.services.SkillService;
@@ -51,12 +51,12 @@ class UserSecurityTest {
 	@MockBean
 	private UserRepository userRepository;
 	
-	private UserDetailsDto userDto;
+	private UserDto userDto;
 	
 	@BeforeEach
 	void setup() {
 		
-		userDto =  UserDetailsDto.builder().username("pippo").password("pwd").build();
+		userDto =  UserDto.builder().username("pippo").password("pwd").build();
 	}
 	
 	@WithMockUser(roles="WRONG")

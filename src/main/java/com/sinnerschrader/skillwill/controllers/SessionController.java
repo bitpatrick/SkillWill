@@ -4,20 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.services.SessionService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,30 +34,34 @@ public class SessionController {
         @ApiResponse(responseCode = "401", description = "Non autorizzato"),
         @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
-    @GetMapping("/session/user")
-    public ResponseEntity<User> getCurrentUser(
-            @Parameter(description = "Nome da cercare", in = ParameterIn.QUERY) @RequestParam(required = false) String search,
-            @Parameter(description = "Non restituire competenze nascoste", in = ParameterIn.QUERY) @RequestParam(name = "exclude_hidden", defaultValue = "true") boolean exclude_hidden,
-            @Parameter(description = "Limita il numero di competenze da trovare", in = ParameterIn.QUERY) @RequestParam(required = false) Integer count,
-            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
+    @GetMapping(value = "/session/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> getCurrentUser(
+//            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
     		) {
 
-		User userDetailsImpl;
+		UserDto userDto;
 
-		if (oAuthToken != null && !oAuthToken.isBlank()) {
-			logger.debug("Getting user from session {}", oAuthToken);
-			userDetailsImpl = sessionService.getUserByToken(oAuthToken);
-			if (userDetailsImpl == null) {
+//		if (oAuthToken != null && !oAuthToken.isBlank()) {
+//			logger.debug("Getting user from session {}", oAuthToken);
+//			userDetailsImpl = sessionService.getUserByToken(oAuthToken);
+//			if (userDetailsImpl == null) {
 //				return new StatusResponseEntity("no current session", HttpStatus.UNAUTHORIZED);
-				throw new AccessDeniedException("no current session");
-			}
-
-		} else {
+//				throw new AccessDeniedException("no current session");
+//			}
+//		}
 			
-			userDetailsImpl = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		}
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			
+		userDto = UserDto.builder()
+				.username(user.getUsername())
+				.password(user.getPassword())
+				.authorities(user.getAuthorities().stream().map(authority -> authority.getAuthority()).toList())
+				.build();
+		
 
-		return new ResponseEntity<User>(userDetailsImpl, HttpStatus.OK);
+		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
+	
+	
 
 }

@@ -1,16 +1,11 @@
 package com.sinnerschrader.skillwill.services;
 
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.repositories.SessionRepository;
-import com.sinnerschrader.skillwill.session.Session;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
-import java.util.List;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+
+import com.sinnerschrader.skillwill.domain.user.Role;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.repositories.SessionRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.session.Session;
 
 /**
  * Manage all sessions
@@ -41,18 +42,14 @@ public class SessionService {
   @Value("${oAuthUrl}")
   private String oAuthUrl;
 
-  private final SessionRepository sessionRepo;
-
-  private final UserRepository UserRepository;
-
-  private final LdapService ldapService;
+  @Autowired
+  private SessionRepository sessionRepo;
 
   @Autowired
-  public SessionService(SessionRepository sessionRepo, UserRepository UserRepository, LdapService ldapService) {
-    this.sessionRepo = sessionRepo;
-    this.UserRepository = UserRepository;
-    this.ldapService = ldapService;
-  }
+  private UserRepository UserRepository;
+
+  @Autowired
+  private LdapService ldapService;
 
   private boolean isTokenInProxy(String token) {
     try {

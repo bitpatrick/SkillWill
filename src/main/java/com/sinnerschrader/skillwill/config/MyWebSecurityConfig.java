@@ -96,46 +96,6 @@ public class MyWebSecurityConfig {
 		
 		return http.build();
 	}
-	
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//		.cors().configurationSource(ccs -> {
-//			CorsConfiguration corsConfiguration = new CorsConfiguration();
-//			corsConfiguration.applyPermitDefaultValues();
-//			return corsConfiguration;
-//		})
-//		.and()
-//		.csrf().disable()
-//		.authenticationProvider(daoAuthenticationProvider())
-//		.authorizeRequests()
-//				.antMatchers("/session/user").authenticated()
-//				.and()
-//				.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").permitAll()
-//				.and()
-//				.authorizeRequests().antMatchers("/users/**").authenticated()
-//				.anyRequest().permitAll()
-//				.and()
-//				.formLogin()
-//					.loginPage("http://127.0.0.1:8888/login")
-//					.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
-//					.loginProcessingUrl("/login")
-//				.and()
-//				.logout()
-//					.logoutSuccessUrl("http://127.0.0.1:8888/")
-//				.and()
-//				.requestCache().disable();
-//	}
-
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//		builder.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("joe")
-//				.password(passwordEncoder.encode("123")).roles("USER").and().withUser("sara")
-//				.password(passwordEncoder.encode("234")).roles("ADMIN");
-//
-//		builder.authenticationProvider(daoAuthenticationProvider());
-//	}
 
 	@Bean
 	AuthenticationProvider daoAuthenticationProvider() {

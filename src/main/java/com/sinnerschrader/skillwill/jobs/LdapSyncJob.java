@@ -20,15 +20,11 @@ public class LdapSyncJob {
 
   private static final Logger logger = LoggerFactory.getLogger(LdapSyncJob.class);
 
-  private final LdapService ldapService;
-
-  private final UserRepository UserRepository;
+  @Autowired
+  private LdapService ldapService;
 
   @Autowired
-  public LdapSyncJob(LdapService ldapService, UserRepository UserRepository) {
-    this.ldapService = ldapService;
-    this.UserRepository = UserRepository;
-  }
+  private UserRepository UserRepository;
 
   @Scheduled(cron = "${ldapSyncCron}")
   public void run() {

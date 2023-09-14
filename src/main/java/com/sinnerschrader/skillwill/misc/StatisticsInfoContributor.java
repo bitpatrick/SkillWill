@@ -16,16 +16,12 @@ import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 @Component
 public class StatisticsInfoContributor implements InfoContributor {
-
-  private final UserRepository UserRepository;
-
-  private final SkillRepository skillRepository;
+	
+  @Autowired
+  private UserRepository UserRepository;
 
   @Autowired
-  public StatisticsInfoContributor(UserRepository UserRepository, SkillRepository skillRepository) {
-    this.UserRepository = UserRepository;
-    this.skillRepository = skillRepository;
-  }
+  private SkillRepository skillRepository;
 
   private void contributeUserCount(Info.Builder builder) {
     builder.withDetail("users_total", UserRepository.count());
