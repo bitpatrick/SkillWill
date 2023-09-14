@@ -3,6 +3,7 @@ package com.sinnerschrader.skillwill.config;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -74,7 +75,7 @@ public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessH
 			securityContextRepository.saveContext(securityContext, request, response);
 
 			// redirect
-			response.sendRedirect("/");
+			response.setStatus(HttpStatus.OK.value());;
 		}
 	}
 

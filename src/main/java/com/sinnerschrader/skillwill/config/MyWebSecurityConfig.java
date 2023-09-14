@@ -1,16 +1,22 @@
 package com.sinnerschrader.skillwill.config;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -19,6 +25,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +53,7 @@ public class MyWebSecurityConfig {
 		http
 			.cors(corsCustomizer -> {
 				corsCustomizer.configurationSource(corsConfigurationSource -> {
+					
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
 					corsConfiguration.addAllowedOrigin("http://127.0.0.1:8888");
 					corsConfiguration.addAllowedOrigin("http://localhost:8888");
@@ -71,8 +81,14 @@ public class MyWebSecurityConfig {
 			})
 			.formLogin(formLoginCustomizer -> { formLoginCustomizer
 				
-				.defaultSuccessUrl("http://127.0.0.1:8888/my-profile")
+				// invio lo status 200 dopo che ha effettuato il login con successo
+				.successHandler( (HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {
+					
+					response.setStatus(HttpStatus.OK.value());
+					
+				})
 				.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
+				
 				
 			})
 			.oauth2Login(
