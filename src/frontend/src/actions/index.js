@@ -54,7 +54,7 @@ export async function fetchResults(searchTerms,dispatch) {
 		searchTerms
 	)}`
 	const options = {
-		credentials: 'same-origin',
+		credentials: 'include',
 	}
 	const request = await fetch(requestURL, options).then(response => response.json())
 	.catch(err=>{
@@ -104,7 +104,7 @@ export async function fetchSkills(searchTerm) {
 		searchTerm
 	)}`
 	const options = {
-		credentials: 'same-origin',
+		credentials: 'include',
 	}
 	const request = await fetch(requestURL, options).then(response => response.json())
 	.catch(err=>{
@@ -147,7 +147,7 @@ export function getUserProfileData(profile) {
 		dispatch(requestProfileData())
 		const requestURL = `${apiServer}/users/${profile}`
 		const options = {
-			credentials: 'same-origin',
+			credentials: 'include',
 		}
 		dispatch(startLoading())
 		await fetch(requestURL, options)
@@ -223,6 +223,11 @@ export function updateUserSkills(options, user) {
 		dispatch(startLoading())
 		dispatch(editSkill(requestURL, options)).then(() =>{
 			dispatch(getUserProfileData(user))
+			dispatch(stopLoading())
+		})
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
 			dispatch(stopLoading())
 		})
 	}
@@ -318,7 +323,6 @@ export function fetchCurrentUser() {
 		const requestURL = `${apiServer}/session/user`
 		await fetch(requestURL, {credentials: 'include', redirect: 'manual'})
 		.then(res => {
-			console.log(res)
 			if(!res.ok && res.status==0){
 				dispatch(redirectLogin(true))
 				throw Error("Utente non autorizzato")
@@ -326,6 +330,10 @@ export function fetchCurrentUser() {
 			return res.json();
 		})
 		.then(user => {
+			console.log(user)
+			user['id']=user['username']
+			if(!user['skills']) user['skills']=[]
+			if(!user['mail']) user['mail']=''
 			dispatch(receiveCurrentUser(user))
 		})
 		.catch(err=>{

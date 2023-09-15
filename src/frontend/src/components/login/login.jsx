@@ -53,7 +53,7 @@ class Login extends React.Component{
         formBody = formBody.join("&");
 		const options = { 
             method: 'POST', 
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },

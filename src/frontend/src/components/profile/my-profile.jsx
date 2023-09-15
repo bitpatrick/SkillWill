@@ -19,7 +19,7 @@ import {
 import { connect } from 'react-redux'
 
 class MyProfile extends React.Component {
-	constructor(props, context) {
+	constructor(props) {
 		super(props)
 		this.state = {
 			data: null,
@@ -75,21 +75,27 @@ class MyProfile extends React.Component {
       alert('Please select a value greater than 0') // eslint-disable-line
 			return
 		}
-		let postData = new FormData()
-		postData.append('skill', skill)
-		postData.append('skill_level', skillLevel)
-		postData.append('will_level', willLevel)
-		postData.append('mentor', isMentor)
+        var formBody = [];
+        let details={skill: skill, skill_level: skillLevel, will_level: willLevel, mentor: isMentor};
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
 		const options = {
-			method: 'POST',
-			body: postData,
-			credentials: 'same-origin',
+			method: 'PATCH',
+			body: formBody,
+			credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
 		}
 		this.props.updateUserSkills(options, this.getCurrentUserId())
 	}
 
 	async deleteSkill(skill) {
-		const options = { method: 'DELETE', credentials: 'same-origin' }
+		const options = { method: 'DELETE', credentials: 'include' }
 		const requestURL = `${apiServer}/users/${this.getCurrentUserId()}/skills?skill=${encodeURIComponent(
 			skill
 		)}`

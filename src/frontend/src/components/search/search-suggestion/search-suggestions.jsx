@@ -64,7 +64,7 @@ class SearchSuggestions extends React.Component {
 					`${apiServer}/skills?count=${config.suggestions
 						.count}&search=${encodeURIComponent(searchTerm)}`,
 					{
-						credentials: 'same-origin',
+						credentials: 'include',
 					}
 				)
 					.then(res => (res.status === 200 ? res.json() : []))
@@ -97,7 +97,7 @@ class SearchSuggestions extends React.Component {
 			`${apiServer}/skills/next?count=${config.suggestions
 				.count}&search=${encodeURIComponent(searchString)}`,
 			{
-				credentials: 'same-origin',
+				credentials: 'include',
 			}
 		)
 			.then(res => (res.status === 200 ? res.json() : []))
