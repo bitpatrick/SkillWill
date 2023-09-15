@@ -1,5 +1,41 @@
 package com.sinnerschrader.skillwill.domain.person;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.domain.user.FitnessScore;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.dto.UserSkillDto;
+import com.sinnerschrader.skillwill.repositories.SkillRepository;
+import com.sinnerschrader.skillwill.repositories.UserRepository;
+
+import static org.mockito.BDDMockito.then;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.BDDMockito.given;
+import static org.assertj.core.api.BDDAssertions.then;
+
 //import static org.junit.Assert.assertEquals;
 //
 //import org.json.JSONException;
@@ -21,7 +57,77 @@ package com.sinnerschrader.skillwill.domain.person;
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootTest
+
 public class UserTest {
+	
+	User user;
+	User anonymousUser;
+	
+	List<UserSkill> userSkills;
+	
+	@BeforeEach
+	public void setup () {
+		
+		UserSkill userSkill1 = new UserSkill("Java", 1, 2, false, true);
+		UserSkill userSkill2 = new UserSkill("JavaScript", 2, 3, true, false);
+		UserSkill userSkill3 = new UserSkill("Python", 0, 1, true, true);
+	    
+		userSkills = List.of(userSkill1, userSkill2, userSkill3);
+		
+		// create user
+		user = User.builder()
+				.username("pippo")
+				.password("password")
+				.skills(userSkills)
+				.ldapDN("ldapDN")
+				.authorities(List.of((GrantedAuthority) new SimpleGrantedAuthority("USER")))
+				.fitnessScore(null)
+				.version(1l)
+				.ldapDetails(null)
+				.build();
+
+		// create anonymous user
+		anonymousUser = User.builder().build();
+	}
+	
+	@Test
+	public void test() {
+	
+		// given
+		UserSkillDto expectedUserSkill1 = new UserSkillDto("Java", 1, 2, false, true);
+		UserSkillDto expectedUserSkill2 = new UserSkillDto("JavaScript", 2, 3, true, false);
+		UserSkillDto expectedUserSkill3 = new UserSkillDto("Python", 0, 1, true, true);
+		
+		UserDto expectedUser = UserDto.builder()
+				.username("pippo")
+				.password("password")
+				.skills(List.of(expectedUserSkill1, expectedUserSkill2, expectedUserSkill3))
+				.ldapDN("ldapDN")
+				.authorities(List.of("USER"))
+				.fitnessScore(null)
+				.version(1l)
+				.userLdapDto(null)
+				.build();
+				
+		// when
+		UserDto actualUser = user.toUserDto();
+		
+		// Then
+		assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
+	}
+	
+	@Test
+	public void test2() {
+		
+		// given
+		UserDto expectedUser = UserDto.builder().authorities(Collections.emptyList()).build();
+		
+		// when
+		UserDto actualUser = anonymousUser.toUserDto();		
+		
+		// then
+		assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
+	}
 
 //  private UserDetailsImpl userDetailsImpl;
 //
