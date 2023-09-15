@@ -1,8 +1,5 @@
 package com.sinnerschrader.skillwill.config;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
@@ -25,7 +21,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
 
 import jakarta.servlet.DispatcherType;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -55,7 +50,7 @@ public class MyWebSecurityConfig {
 				corsCustomizer.configurationSource(corsConfigurationSource -> {
 					
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
-					corsConfiguration.addAllowedOrigin("http://127.0.0.1:8888");
+					corsConfiguration.addAllowedOrigin("http://localhost:8888");
 					corsConfiguration.addAllowedOrigin("http://localhost:8888");
 					corsConfiguration.setAllowCredentials(true);
 					corsConfiguration.applyPermitDefaultValues();
@@ -91,14 +86,14 @@ public class MyWebSecurityConfig {
 				
 				
 			})
-			.oauth2Login(
-					o -> { o
-						
-						.successHandler(oAuthAuthenticationSuccessHandler());
-			})
+//			.oauth2Login(
+//					o -> { o
+//						
+//						.successHandler(oAuthAuthenticationSuccessHandler());
+//			})
 			.logout(logoutCustomizer -> { logoutCustomizer
 				
-				.logoutSuccessUrl("http://127.0.0.1:8888/");
+				.logoutSuccessUrl("http://localhost:8888/");
 				
 			})
 			.requestCache(requestCacheCustomizer -> { requestCacheCustomizer
@@ -107,7 +102,7 @@ public class MyWebSecurityConfig {
 			
 			}).exceptionHandling(eh -> eh
 					
-					.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("http://127.0.0.1:8888/login")
+					.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("http://localhost:8888/login")
 			));
 		
 		return http.build();
