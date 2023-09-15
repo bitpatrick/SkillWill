@@ -1,5 +1,7 @@
 package com.sinnerschrader.skillwill.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,8 +53,9 @@ public class MyWebSecurityConfig {
 					
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
 					corsConfiguration.addAllowedOrigin("http://localhost:8888");
-					corsConfiguration.addAllowedOrigin("http://localhost:8888");
+					corsConfiguration.addAllowedOrigin("http://127.0.0.1:8888");
 					corsConfiguration.setAllowCredentials(true);
+					corsConfiguration.setAllowedMethods(List.of("*"));
 					corsConfiguration.applyPermitDefaultValues();
 					
 					return corsConfiguration;
