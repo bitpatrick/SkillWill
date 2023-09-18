@@ -77,7 +77,7 @@ public class UserTest {
 		// create user
 		user = User.builder()
 				.username("pippo")
-				.password("password")
+				.password("password") 
 				.skills(userSkills)
 				.ldapDN("ldapDN")
 				.authorities(List.of((GrantedAuthority) new SimpleGrantedAuthority("USER")))
