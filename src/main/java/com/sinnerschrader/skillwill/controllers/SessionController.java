@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import static org.springframework.http.MediaType.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,31 +28,19 @@ public class SessionController {
 	@Autowired
 	private SessionService sessionService;
 
-	@Operation(summary = "Utente della sessione", description = "Crea utente della sessione")
+	@Operation(summary = "Session User", description = "Create session user")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Operazione riuscita"),
         @ApiResponse(responseCode = "401", description = "Non autorizzato"),
         @ApiResponse(responseCode = "500", description = "Errore interno del server")
     })
-    @GetMapping(value = "/session/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> getCurrentUser(
-//            @Parameter(description = "Token OAuth2", in = ParameterIn.COOKIE) @CookieValue(value = "_oauth2_proxy", required = false) String oAuthToken
-    		) {
+    @GetMapping(value = "/session/user", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> getCurrentUser() {
 
-		UserDto userDto;
-
-//		if (oAuthToken != null && !oAuthToken.isBlank()) {
-//			logger.debug("Getting user from session {}", oAuthToken);
-//			userDetailsImpl = sessionService.getUserByToken(oAuthToken);
-//			if (userDetailsImpl == null) {
-//				return new StatusResponseEntity("no current session", HttpStatus.UNAUTHORIZED);
-//				throw new AccessDeniedException("no current session");
-//			}
-//		}
-			
+		// recupera l'utente dal contesto di sicurezza
 		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			
-		userDto = UserDto.builder()
+		UserDto userDto = UserDto.builder()
 				.username(user.getUsername())
 				.password(user.getPassword())
 				.authorities(user.getAuthorities().stream().map(authority -> authority.getAuthority()).toList())
@@ -61,7 +49,5 @@ public class SessionController {
 
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
-	
-	
 
 }

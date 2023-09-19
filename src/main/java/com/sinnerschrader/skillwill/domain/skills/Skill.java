@@ -18,6 +18,7 @@ import com.sinnerschrader.skillwill.dto.SuggestionSkillDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * A skill known to the system including a list of suggestable skills

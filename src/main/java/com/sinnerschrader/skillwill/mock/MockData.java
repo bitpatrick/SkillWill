@@ -137,9 +137,9 @@ public class MockData {
     mockSkills();
     mockUsers();
 
-    logger.info("Syncing mocked users with LDAP");
-    ldapSyncJob.run();
-    logger.info("Finished mock data setup");
+//    logger.info("Syncing mocked users with LDAP");
+//    ldapSyncJob.run();
+//    logger.info("Finished mock data setup");
   }
 
 }

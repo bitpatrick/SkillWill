@@ -3,6 +3,7 @@ package com.sinnerschrader.skillwill.domain.user;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -242,7 +243,7 @@ public class User implements UserDetails {
 		return UserDto.builder()
 				.username(username)
 				.password(password)
-				.authorities(Optional.ofNullable(authorities).orElse(null).stream().map(Object::toString).toList())
+				.authorities(Optional.ofNullable(authorities).orElse(Collections.emptyList()).stream().map(Object::toString).toList())
 				.skills(skills)
 				.ldapDN(ldapDN)
 				.fitnessScore(fitnessScoreDto)

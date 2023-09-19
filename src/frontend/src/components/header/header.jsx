@@ -7,8 +7,9 @@ import NavigationListItem from '../navigation/navigation-list-item'
 import Logo from '../logo/logo'
 import Icon from '../icon/icon.jsx'
 import config from '../../config.json'
+import { connect } from 'react-redux'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 	constructor(props){
 		super(props)
 	}
@@ -51,3 +52,10 @@ export default class Header extends React.Component {
 	}
 
 }
+
+function mapStateToProps(state) {
+	return {
+		currentUser: state.currentUser,
+	}
+}
+export default connect(mapStateToProps, {})(Header)

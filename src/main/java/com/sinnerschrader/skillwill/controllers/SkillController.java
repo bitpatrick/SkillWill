@@ -2,7 +2,6 @@ package com.sinnerschrader.skillwill.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import java.beans.PropertyEditorSupport;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -22,13 +22,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sinnerschrader.skillwill.domain.skills.Skill;
 import com.sinnerschrader.skillwill.domain.user.Role;
 import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
 import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
 import com.sinnerschrader.skillwill.services.SessionService;
@@ -55,11 +56,6 @@ public class SkillController {
   @Autowired
   private SessionService sessionService;
   
-  @InitBinder("count")
-  public void initBinder(WebDataBinder binder) {
-      binder.registerCustomEditor(Integer.class, new CountPropertyEditor());
-  }
-
   /**
    * get/suggest skills based on search query -> can be used for autocompletion when user started
    * typing
@@ -151,30 +147,24 @@ public class SkillController {
       @ApiResponse(responseCode = "400", description = "Bad Request"),
       @ApiResponse(responseCode = "500", description = "Failure")
   })
-  @PostMapping(path = "/skills")
-  public ResponseEntity<String> addSkill(
+  @ResponseStatus(HttpStatus.CREATED)
+  @PutMapping(path = "/skills")
+  @PreAuthorize("hasRole('ADMIN')")
+  public void createSkill(
       @Parameter(description = "new skill's name", required = true) @RequestParam String name,
       @Parameter(description = "Skill description")  @RequestParam(required = false) String description,
       @Parameter(description = "hide skill in search/suggestions", example = "false") @RequestParam(required = false, defaultValue = "false") Boolean hidden,
-      @Parameter(description = "list of subskills (separated with comma)") @RequestParam(required = false, defaultValue = "") String subSkills,
-      @Parameter(description = "session token of the current user", required = true) @CookieValue(value="_oauth2_proxy", required = true) String oAuthToken
+      @Parameter(description = "list of subskills (separated with comma)") @RequestParam(required = false) Set<String> subSkills
   ) {
-
-    if (!sessionService.checkTokenRole(oAuthToken, Role.ADMIN)) {
-      return new StatusResponseEntity("invalid session token or user is not admin", HttpStatus.FORBIDDEN);
-    }
-
-    try {
-      skillService.createSkill(name, description, hidden, createSubSkillSet(subSkills));
-      logger.info("Successfully created new skill {}", name);
-      return new StatusResponseEntity("success", HttpStatus.OK);
-    } catch (EmptyArgumentException | DuplicateSkillException e) {
-      logger.debug("Failed to create skill {}: argument empty or skill already exists", name);
-      return new StatusResponseEntity("argument empty or skill already existing", HttpStatus.BAD_REQUEST);
-    } catch (SkillNotFoundException e) {
-      logger.debug("Failed to add skill {}, subskill not found", name);
-      return new StatusResponseEntity("subskill not found", HttpStatus.BAD_REQUEST);
-    }
+	  
+	name = name.trim();
+	skillService.createSkill(name, description, hidden, subSkills);
+	logger.info("Successfully created new skill {}", name);
+  }
+  
+  @InitBinder("subSkills")
+  private void initBinder(WebDataBinder webDataBinder) {
+	  webDataBinder.registerCustomEditor(Set.class, new SubSkillsEditor());
   }
 
   /**
@@ -267,17 +257,4 @@ public class SkillController {
 		return new HashSet<>(Arrays.asList(StringUtils.tokenizeToStringArray(s, ",")));
 	}
   
-  public static class CountPropertyEditor extends PropertyEditorSupport {
-
-	    @Override
-	    public void setAsText(String text) throws IllegalArgumentException {
-	        int value = Integer.parseInt(text);
-	        if (value < 0) {
-	            throw new IllegalArgumentException("Count cannot be negative.");
-	        }
-	        setValue(value);
-	    }
-
-  }
-
 }

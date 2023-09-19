@@ -24,8 +24,12 @@ public interface SkillRepository extends MongoRepository<Skill, String> {
 	List<SuggestionSkill> findAllAggregatedSuggestionSkills();
 	
 	Optional<Skill> findByNameIgnoreCase(String name);
+	
+	boolean existsByNameIgnoreCase(String name);
 
 	List<Skill> findByNameIn(Collection<String> names);
+	
+	Integer countByNameIn(Collection<String> names);
 
 	@Query("{ 'suggestions.name' : '?0' }")
 	List<Skill> findBySuggestion(String suggestion);

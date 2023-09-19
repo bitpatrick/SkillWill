@@ -28,7 +28,6 @@ import com.sinnerschrader.skillwill.domain.skills.SkillUtils;
 import com.sinnerschrader.skillwill.domain.skills.SuggestionSkill;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.exceptions.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exceptions.EmptyArgumentException;
 import com.sinnerschrader.skillwill.exceptions.SkillNotFoundException;
 import com.sinnerschrader.skillwill.repositories.SkillRepository;
 import com.sinnerschrader.skillwill.repositories.UserRepository;
@@ -45,7 +44,7 @@ public class SkillService {
 	private SkillRepository skillRepository;
 
 	@Autowired
-	private UserRepository UserRepository;
+	private UserRepository userRepository;
 
 	private List<Skill> getAllSkills(boolean excludeHidden) {
 		
@@ -231,40 +230,36 @@ public class SkillService {
 		logger.info("Successfully registered search for {}", searchedSkills);
 	}
 
-	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-	public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills)
-			throws EmptyArgumentException, DuplicateSkillException {
+	public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills) throws DuplicateSkillException, SkillNotFoundException {
 
-		name = SkillUtils.sanitizeName(name);
-		subSkills = subSkills.stream().map(SkillUtils::sanitizeName).filter(n -> !StringUtils.isEmpty(n))
-				.collect(Collectors.toSet());
-
-		if (StringUtils.isEmpty(name)) {
-
-			throw new EmptyArgumentException("name is empty");
-		}
-
-		if (skillRepository.findByNameIgnoreCase(name) != null) {
-
-			logger.debug("Failed to create skill {}: already exists", name);
-			throw new DuplicateSkillException("skill already existing");
-		}
-
+		/* 
+		 * Validations
+		 */
+		Objects.requireNonNull(name, "name must not be null");
+		Objects.requireNonNull(subSkills, "sub skills must not be null");
+		
+		/*
+		 * Bussiness Logic
+		 */
 		// check if subSkills are known
-		if (!isValidSubSkills(subSkills)) {
-			logger.debug("Failed to set subskills on skill {}: subskill not found", name);
-			throw new SkillNotFoundException("cannot set subskill: not found");
+		if (this.skillRepository.existsByNameIgnoreCase(name)) {
+			logger.debug("Failed to create skill {}: the name already exists", name);
+			throw new DuplicateSkillException("the name skill already existing");
 		}
-
+		
+		if (subSkills.size() != this.skillRepository.countByNameIn(subSkills)) {
+			logger.debug("Failed to set subskills on skill {}: subskill not found", name);
+			throw new SkillNotFoundException("cannot set subskills on " + name);
+		}
+		
 		try {
-
 			skillRepository.insert(new Skill(name, description, new ArrayList<>(), isHidden, subSkills));
 			logger.info("Successfully created skill {}", name);
 
 		} catch (DuplicateKeyException e) {
 
-			logger.debug("Failed to create skill {}: already exists");
-			throw new DuplicateSkillException("skill already existing");
+			logger.debug("Failed to create skill {}: the name stem already exists");
+			throw new DuplicateSkillException("the name stem skill already existing");
 		}
 
 	}
@@ -343,14 +338,14 @@ public class SkillService {
 	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
 	private void updateInPersons(Skill oldSkill, Skill newSkill) {
 		logger.debug("updating Skill {} in users", oldSkill.getName());
-		var users = UserRepository.findBySkill(oldSkill.getName());
+		var users = userRepository.findBySkill(oldSkill.getName());
 
 		users.forEach(p -> {
 			var oldUserSkill = p.getSkill(oldSkill.getName(), true);
 			p.addUpdateSkill(newSkill.getName(), oldUserSkill.getSkillLevel(), oldUserSkill.getWillLevel(),
 					newSkill.isHidden(), oldUserSkill.isMentor());
 		});
-		UserRepository.saveAll(users);
+		userRepository.saveAll(users);
 	}
 
 	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
@@ -371,9 +366,9 @@ public class SkillService {
 		migratePersonalSkills(deleteSkill, migrateSkill);
 
 		// delete from persons
-		for (User userDetailsImpl : UserRepository.findBySkill(name)) {
+		for (User userDetailsImpl : userRepository.findBySkill(name)) {
 			userDetailsImpl.removeSkill(name);
-			UserRepository.save(userDetailsImpl);
+			userRepository.save(userDetailsImpl);
 		}
 
 		// delete from known skills
@@ -397,7 +392,7 @@ public class SkillService {
 			throw new IllegalArgumentException("Source and target may not be equal");
 		}
 
-		var migrateables = UserRepository.findBySkill(from.getName()).stream()
+		var migrateables = userRepository.findBySkill(from.getName()).stream()
 				.filter(user -> !user.hasSkill(to.getName())).collect(Collectors.toList());
 
 		migrateables.forEach(user -> {
@@ -407,7 +402,7 @@ public class SkillService {
 			user.removeSkill(from.getName());
 		});
 
-		UserRepository.saveAll(migrateables);
+		userRepository.saveAll(migrateables);
 	}
 
 	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)

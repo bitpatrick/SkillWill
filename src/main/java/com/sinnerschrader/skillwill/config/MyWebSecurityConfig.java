@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.List;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,13 +64,6 @@ public class MyWebSecurityConfig {
 		return new OAuthAuthenticationSuccessHandler(userRepository, securityContextRepository());
 	}
 	
-	
-	
-//	@Bean
-//	JwtUtils jwtUtils() {
-//		return new JwtUtils();
-//	}
-	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
@@ -76,8 +73,9 @@ public class MyWebSecurityConfig {
 					
 					CorsConfiguration corsConfiguration = new CorsConfiguration();
 					corsConfiguration.addAllowedOrigin("http://localhost:8888");
-					corsConfiguration.addAllowedOrigin("http://localhost:8888");
+					corsConfiguration.addAllowedOrigin("http://127.0.0.1:8888");
 					corsConfiguration.setAllowCredentials(true);
+					corsConfiguration.setAllowedMethods(List.of("*"));
 					corsConfiguration.applyPermitDefaultValues();
 					
 					return corsConfiguration;
@@ -135,8 +133,6 @@ public class MyWebSecurityConfig {
 		
 		return http.build();
 	}
-	
-	
 
 	@Bean
 	AuthenticationProvider daoAuthenticationProvider() {

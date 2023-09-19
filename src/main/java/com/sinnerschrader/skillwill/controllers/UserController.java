@@ -103,7 +103,7 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Failure"), 
 	})
-	@GetMapping(value = "/user/{username}", produces = APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/users/{username}", produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserDto> getUser(
 			@Parameter(description = "Username of the user to retrieve") @PathVariable String username
 			) {
