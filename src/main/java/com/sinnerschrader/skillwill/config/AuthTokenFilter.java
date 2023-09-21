@@ -2,16 +2,17 @@ package com.sinnerschrader.skillwill.config;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,7 +22,8 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
-
+	
+	private JwtUtils jwtUtils;
 	
 	private UserRepository userRepository;
 	
@@ -35,30 +37,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			/*
 			 * check if token is valid
 			 */
-			if ( jwt != null && JwtUtils.validateJwtToken(jwt) ) {
+			if ( jwt != null && jwtUtils.validateJwtToken(jwt) ) {
 				
 				// recupero username dal token
-				String username = JwtUtils.getUsernameFromJwtToken(jwt);
+				String username = jwtUtils.getUsernameFromJwtToken(jwt);
 				
 				// recupero username dal repository
-				UserDetails userDetails = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException(username));
+				User user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException(username));
 				
 				// creo un token per la matriosca, non si tratta di un vero e proprio token tipo il jwt ma sarebbe un contenitore che all'interno ha le informazioni dell'utente come principal e credentials , il parametro null sarebbe a password poiche in questo contesto non serve 
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
 				// vari dettagli della request
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				
 				// setto il token all'interno della matriosca
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-			
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			logger.error("Cannot set user authentication: {}", e);
 		}
-		filterChain.doFilter(request, response);
 		
+		filterChain.doFilter(request, response);
 	}
 	
 	private String parseJwt(HttpServletRequest request) {

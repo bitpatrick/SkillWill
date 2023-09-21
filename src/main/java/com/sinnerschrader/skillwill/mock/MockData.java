@@ -15,11 +15,11 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
+import com.sinnerschrader.skillwill.domain.skill.Skill;
 import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.jobs.LdapSyncJob;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.job.LdapSyncJob;
+import com.sinnerschrader.skillwill.repository.SkillRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 
 /**
  * Reads Mock Data from files specified in application.properties and
@@ -38,8 +38,8 @@ public class MockData {
   @Autowired
   private UserRepository userRepo;
 
-  @Autowired
-  private LdapSyncJob ldapSyncJob;
+//  @Autowired
+//  private LdapSyncJob ldapSyncJob;
 
   @Value("${mockInit}")
   private boolean initmock;
@@ -70,14 +70,14 @@ public class MockData {
     userRepo.deleteAll();
 
     JSONArray usersJsonArray = readMockFileToJsonArray(personsPath);
-    for (int i = 0; i < usersJsonArray.length(); i++) {
+    for (int i = 0; i < usersJsonArray.length()-1; i++) {
       JSONObject userJson = usersJsonArray.getJSONObject(i);
       User user = new User(userJson.getString("id"), "password");
 
       JSONArray skillsJsonArray = userJson.getJSONArray("skills");
       for (int j = 0; j < skillsJsonArray.length(); j++) {
         JSONObject skillJson = skillsJsonArray.getJSONObject(j);
-        user.addUpdateSkill(
+        user.updateSkill(
           skillJson.getString("name"),
           skillJson.getInt("skillLevel"),
           skillJson.getInt("willLevel"),

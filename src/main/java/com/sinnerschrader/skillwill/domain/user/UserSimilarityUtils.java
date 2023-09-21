@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 
 /**
  * Get n Persons that are similar to the reference user

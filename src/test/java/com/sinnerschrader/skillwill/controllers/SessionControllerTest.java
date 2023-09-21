@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +25,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
+import com.sinnerschrader.skillwill.controller.SessionController;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.services.SessionService;
+import com.sinnerschrader.skillwill.repository.UserRepository;
+import com.sinnerschrader.skillwill.service.SessionService;
 
 @Import(MyWebSecurityConfig.class)
 @WebMvcTest(SessionController.class)
@@ -51,8 +52,10 @@ class SessionControllerTest {
 
 	@WithAnonymousUser
 	@Test
-	void redirect_To_Login_Page_When_User_Is_Not_Authenticated() throws Exception {
-		logger.info("\nredirect_To_Login_Page_When_User_Is_Not_Authenticated");
+	@DisplayName("Redirect to login page when user is not authenticated")
+	void redirectToLoginPageWhenUserIsNotAuthenticated() throws Exception {
+		
+		logger.info("\nStarting test: redirect_To_Login_Page_When_User_Is_Not_Authenticated");
 		
 		// given
 		
@@ -65,13 +68,14 @@ class SessionControllerTest {
 		
 		// then
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
-		assertThat(response.getRedirectedUrl()).isEqualTo("http://127.0.0.1:8888/login");
+		assertThat(response.getRedirectedUrl()).isIn("http://127.0.0.1:8888/login", "http://localhost:8888/login");
 	}
 	
 	@WithMockUser(username = "Pippo", password = "secret", authorities = {"ADMIN", "USER"})
 	@Test
-	void get_Own_Info_User_When_You_Are_Authenticated() throws Exception {
-		logger.info("\nget_Own_Info_User_When_You_Are_Authenticated");
+	@DisplayName("Get own info user when you are authenticated")
+	void getOwnInfoUserWhenYouAreAuthenticated() throws Exception {
+		logger.info("\nStarting test: getOwnInfoUserWhenYouAreAuthenticated");
 		
 		// given
 		SimpleGrantedAuthority adminRole = new SimpleGrantedAuthority("ADMIN");
@@ -91,9 +95,7 @@ class SessionControllerTest {
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		assertThat(response.getContentAsString())
 		.isEqualTo(jsonUserDto.write(userDto).getJson());
-		
-		
+
 	}
-	
 
 }

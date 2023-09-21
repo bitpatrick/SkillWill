@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.context.SecurityContextRepository;
 
 import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

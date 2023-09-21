@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
 import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
 import com.sinnerschrader.skillwill.dto.SkillDto;

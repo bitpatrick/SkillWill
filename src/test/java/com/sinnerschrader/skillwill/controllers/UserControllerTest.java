@@ -16,9 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.sinnerschrader.skillwill.services.SessionService;
-import com.sinnerschrader.skillwill.services.SkillService;
-import com.sinnerschrader.skillwill.services.UserService;
+import com.sinnerschrader.skillwill.controller.UserController;
+import com.sinnerschrader.skillwill.service.SessionService;
+import com.sinnerschrader.skillwill.service.SkillService;
+import com.sinnerschrader.skillwill.service.UserService;
 
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertFalse;
@@ -39,13 +40,13 @@ import com.sinnerschrader.skillwill.services.UserService;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
-//import com.sinnerschrader.skillwill.domain.skills.Skill;
+//import com.sinnerschrader.skillwill.domain.skill.Skill;
 //import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
 //import com.sinnerschrader.skillwill.misc.EmbeddedLdap;
-//import com.sinnerschrader.skillwill.repositories.SessionRepository;
-//import com.sinnerschrader.skillwill.repositories.SkillRepository;
-//import com.sinnerschrader.skillwill.repositories.UserRepository;
-//import com.sinnerschrader.skillwill.services.LdapService;
+//import com.sinnerschrader.skillwill.repository.SessionRepository;
+//import com.sinnerschrader.skillwill.repository.SkillRepository;
+//import com.sinnerschrader.skillwill.repository.UserRepository;
+//import com.sinnerschrader.skillwill.service.LdapService;
 //import com.sinnerschrader.skillwill.session.Session;
 //import com.unboundid.ldap.sdk.LDAPException;
 

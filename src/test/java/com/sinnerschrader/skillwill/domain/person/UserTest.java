@@ -1,40 +1,20 @@
 package com.sinnerschrader.skillwill.domain.person;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
-import com.sinnerschrader.skillwill.domain.user.FitnessScore;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.dto.UserSkillDto;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-
-import static org.mockito.BDDMockito.then;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.BDDAssertions.then;
 
 //import static org.junit.Assert.assertEquals;
 //
@@ -63,7 +43,7 @@ public class UserTest {
 	User user;
 	User anonymousUser;
 	
-	List<UserSkill> userSkills;
+	Set<UserSkill> userSkills;
 	
 	@BeforeEach
 	public void setup () {
@@ -72,7 +52,7 @@ public class UserTest {
 		UserSkill userSkill2 = new UserSkill("JavaScript", 2, 3, true, false);
 		UserSkill userSkill3 = new UserSkill("Python", 0, 1, true, true);
 	    
-		userSkills = List.of(userSkill1, userSkill2, userSkill3);
+		userSkills = Set.of(userSkill1, userSkill2, userSkill3);
 		
 		// create user
 		user = User.builder()

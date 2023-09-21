@@ -8,11 +8,11 @@ import org.springframework.boot.actuate.info.Info;
 import org.springframework.boot.actuate.info.InfoContributor;
 import org.springframework.stereotype.Component;
 
-import com.sinnerschrader.skillwill.domain.skills.Skill;
-import com.sinnerschrader.skillwill.domain.skills.UserSkill;
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.repositories.SkillRepository;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.repository.SkillRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 
 @Component
 public class StatisticsInfoContributor implements InfoContributor {

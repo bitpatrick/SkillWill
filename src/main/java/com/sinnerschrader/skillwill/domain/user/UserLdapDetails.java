@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 @Data
 @Builder
-
 public class UserLdapDetails {
 
   private final String firstName;

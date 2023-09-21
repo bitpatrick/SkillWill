@@ -3,7 +3,7 @@ package com.sinnerschrader.skillwill.domain.person;
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertTrue;
 //
-//import com.sinnerschrader.skillwill.domain.skills.Skill;
+//import com.sinnerschrader.skillwill.domain.skill.Skill;
 //import com.sinnerschrader.skillwill.domain.user.FitnessScore;
 //import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
 //import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;

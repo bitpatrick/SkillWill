@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.sinnerschrader.skillwill.misc.StatusResponseEntity;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.services.SessionService;
+import com.sinnerschrader.skillwill.repository.UserRepository;
+import com.sinnerschrader.skillwill.service.SessionService;
 
 @Controller
 public class OAuthMock {

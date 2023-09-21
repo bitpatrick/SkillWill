@@ -4,7 +4,7 @@ package com.sinnerschrader.skillwill.services;
 //
 //import com.sinnerschrader.skillwill.domain.user.Role;
 //import com.sinnerschrader.skillwill.domain.user.UserDetailsImpl;
-//import com.sinnerschrader.skillwill.repositories.UserRepository;
+//import com.sinnerschrader.skillwill.repository.UserRepository;
 //import java.util.Optional;
 //import org.junit.Before;
 //import org.junit.Test;

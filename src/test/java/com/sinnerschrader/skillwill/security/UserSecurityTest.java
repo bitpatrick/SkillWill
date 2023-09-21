@@ -22,12 +22,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
-import com.sinnerschrader.skillwill.controllers.UserController;
+import com.sinnerschrader.skillwill.controller.UserController;
 import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.repositories.UserRepository;
-import com.sinnerschrader.skillwill.services.SessionService;
-import com.sinnerschrader.skillwill.services.SkillService;
-import com.sinnerschrader.skillwill.services.UserService;
+import com.sinnerschrader.skillwill.repository.UserRepository;
+import com.sinnerschrader.skillwill.service.SessionService;
+import com.sinnerschrader.skillwill.service.SkillService;
+import com.sinnerschrader.skillwill.service.UserService;
 
 @WebMvcTest(UserController.class)
 @Import(MyWebSecurityConfig.class)

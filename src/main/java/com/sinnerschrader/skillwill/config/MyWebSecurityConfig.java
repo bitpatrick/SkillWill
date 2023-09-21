@@ -5,10 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.util.List;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,24 +19,24 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuthenticationProvider;
-import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.NullSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
-import com.sinnerschrader.skillwill.repositories.UserRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,10 +45,21 @@ import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class MyWebSecurityConfig {
-
+public class MyWebSecurityConfig  {
+	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JwtUtils jwtUtils;
+	
+	@Bean
+	AuthTokenFilter authenticationJwtTokenFilter() {
+		return new AuthTokenFilter(jwtUtils, userRepository);
+	}
 	
 	@Bean
 	SecurityContextRepository securityContextRepository() {
@@ -65,6 +72,7 @@ public class MyWebSecurityConfig {
 	}
 	
 	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE)
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http
@@ -124,8 +132,6 @@ public class MyWebSecurityConfig {
 				.disable();
 			
 			})
-			
-			.addFilterBefore(new AuthTokenFilter(userRepository), UsernamePasswordAuthenticationFilter.class)
 			.exceptionHandling(eh -> eh
 					
 					.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("http://localhost:8888/login")
@@ -133,12 +139,31 @@ public class MyWebSecurityConfig {
 		
 		return http.build();
 	}
+	
+	@Bean
+	@Order(Ordered.LOWEST_PRECEDENCE)
+	SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+		
+		 http
+			.cors(corsCustomizer -> corsCustomizer.disable())
+			.csrf(csrfCustomizer -> csrfCustomizer.disable())
+			.securityContext(secuirtyContextCustomizer -> secuirtyContextCustomizer.securityContextRepository(new NullSecurityContextRepository())) // non posso salvaere sessione
+			.sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // non posso creare sessione
+			.securityMatcher("/api/**")
+			.requestCache(requestCacheCustomizer -> requestCacheCustomizer.disable())
+			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+			.formLogin(formLoginCustomizer -> formLoginCustomizer.disable())
+			.rememberMe(rememberMeCustomizer -> rememberMeCustomizer.disable())
+			.exceptionHandling(exeptionHandlingCustomizer -> exeptionHandlingCustomizer.authenticationEntryPoint(new AuthyEntryPointUnauthorizedJwt()));
+			
+		return http.build();
+	}
 
 	@Bean
 	AuthenticationProvider daoAuthenticationProvider() {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(new CustomUserDetailsService(userRepository));
+		provider.setUserDetailsService(userDetailsService);
 		
 		/*
 		 * implementazione aggiunta per il jwt token
