@@ -66,7 +66,7 @@ public class User implements UserDetails {
 	private boolean accountNonLocked = true;
 	
 	@Transient
-	private boolean accountNonExpired = false;
+	private boolean accountNonExpired = true;
 	
 	@Transient
 	private boolean credentialsNonExpired = true;

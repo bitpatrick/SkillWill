@@ -20,16 +20,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
 import com.sinnerschrader.skillwill.controller.SessionController;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.repository.UserRepository;
-import com.sinnerschrader.skillwill.service.SessionService;
 
 @Import(MyWebSecurityConfig.class)
 @WebMvcTest(SessionController.class)
@@ -42,7 +43,10 @@ class SessionControllerTest {
 	private UserRepository userRepository;
 	
 	@MockBean
-	private SessionService sessionService;
+	private UserDetailsService userDetailsService;
+	
+	@MockBean
+	private JwtUtils jwtUtils;
 	
 	@Autowired
 	private MockMvc mvc;
@@ -95,7 +99,6 @@ class SessionControllerTest {
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 		assertThat(response.getContentAsString())
 		.isEqualTo(jsonUserDto.write(userDto).getJson());
-
 	}
 
 }

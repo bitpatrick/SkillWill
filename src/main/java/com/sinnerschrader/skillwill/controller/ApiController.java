@@ -36,9 +36,6 @@ public class ApiController {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
 	private JwtUtils jwtUtils;
 
 	@Operation(summary = "Authenticate User", description = "Permit user to authenticate")

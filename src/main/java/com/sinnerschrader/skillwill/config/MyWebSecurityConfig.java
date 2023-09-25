@@ -12,6 +12,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -76,6 +77,7 @@ public class MyWebSecurityConfig  {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http
+			.authenticationManager(providerManager())
 			.cors(corsCustomizer -> {
 				corsCustomizer.configurationSource(corsConfigurationSource -> {
 					
@@ -159,8 +161,9 @@ public class MyWebSecurityConfig  {
 		return http.build();
 	}
 
+	// crea un parent
 	@Bean
-	AuthenticationProvider daoAuthenticationProvider() {
+	DaoAuthenticationProvider daoAuthenticationProvider() {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setUserDetailsService(userDetailsService);
@@ -193,6 +196,11 @@ public class MyWebSecurityConfig  {
 
 		return provider;
 	}
+	
+//	@Bean
+//	AnonymousAuthenticationProvider anonymousAuthenticationProvider() {
+//		return new AnonymousAuthenticationProvider(null);
+//	}
 	
 	@Bean
 	AuthenticationManager providerManager() {

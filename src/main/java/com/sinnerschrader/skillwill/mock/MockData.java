@@ -70,7 +70,7 @@ public class MockData {
     userRepo.deleteAll();
 
     JSONArray usersJsonArray = readMockFileToJsonArray(personsPath);
-    for (int i = 0; i < usersJsonArray.length()-1; i++) {
+    for (int i = 0; i < usersJsonArray.length(); i++) {
       JSONObject userJson = usersJsonArray.getJSONObject(i);
       User user = new User(userJson.getString("id"), "password");
 

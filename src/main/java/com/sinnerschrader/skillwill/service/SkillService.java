@@ -18,12 +18,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.mongodb.BasicDBObject;
 import com.sinnerschrader.skillwill.domain.skill.Skill;
 import com.sinnerschrader.skillwill.domain.skill.SkillAutocompleteComparator;
 import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
@@ -43,6 +47,9 @@ import com.sinnerschrader.skillwill.repository.UserRepository;
 public class SkillService {
 
 	private static final Logger logger = LoggerFactory.getLogger(SkillService.class);
+	
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	@Autowired
 	private SkillRepository skillRepository;
@@ -315,6 +322,7 @@ public class SkillService {
 		userRepository.saveAll(users);
 	}
 
+	@Transactional
 	public void deleteSkill(String name, String migrateTo) throws SkillNotFoundException {
 		
 		// validate
@@ -327,11 +335,12 @@ public class SkillService {
 		});
 		
 		// count user with the skill to delete
-		int usersWithSkill = userRepository.countUsersWithSkill(name);
+		Integer usersWithSkill = userRepository.countBySkillId(name);
 		
 		// check if there are not users with skill to delete
-		if (  usersWithSkill == 0 ) {
-			
+		try {
+			usersWithSkill.intValue();
+		} catch (NullPointerException e) {
 			// delete skill 
 			skillRepository.delete(deleteSkill);
 			return;
@@ -349,7 +358,7 @@ public class SkillService {
 		migratePersonalSkills(deleteSkill, migrateSkill);
 
 		// delete from persons
-		userRepository.removeSkillFromAllUsers(name);
+		removeSkillFromAllUsers(name);
 		
 		// delete from known skills
 		skillRepository.delete(deleteSkill);
@@ -359,6 +368,17 @@ public class SkillService {
 
 		logger.info("Successfully deleted skill {}", name);
 	}
+	
+	private void removeSkillFromAllUsers(String skill) {
+        // Definisci la query (in questo caso, una query vuota per selezionare tutti i documenti)
+        Query query = new Query();
+
+        // Definisci l'operazione di aggiornamento
+        Update update = new Update().pull("skills", new BasicDBObject("_id", skill));
+
+        // Esegui l'aggiornamento
+        mongoTemplate.updateMulti(query, update, "user");
+    }
 
 	private void migratePersonalSkills(Skill from, Skill to) throws IllegalArgumentException {
 		

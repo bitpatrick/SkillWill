@@ -20,23 +20,37 @@ public interface UserRepository extends MongoRepository<User, String> {
   @Query("{ '$and': [ { 'skills._id': ?0 }, { 'skills._id': { $ne: ?1 } } ] }")
   List<User> findUsersNeedMigrateSkills(String from, String to);
   
-  @Query("{'$pull': {'skills': {'name': ?0}}}")
-  void removeSkillFromAllUsers(String skillName);
-  
-  @Aggregation(pipeline = {
-	        "{ $match: { 'skills._id': { $regex: ?0, $options: 'i' } } }",
-	        "{ $count: 'usersWithSkillCount' }"
-	        })
-  public int countUsersWithSkill(String skillName);
-
   @Query("{ 'skills._id' : { $all : ?0 } }")
   List<User> findBySkills(List<String> skillNames);
 
   @Query("{ 'ldapDetails.mail' : '?0' }")
   User findByMail(String mail);
   
+//  @Aggregation(pipeline = {
+//		    "{ $match: { 'skills._id': { $regex: ?0, $options: 'i' } } }",
+//		    "{ $count: 'usersWithExactSkill' }"
+//		})
+//  Integer countUsersWithSkill(String skillName);
+
+  @Aggregation(pipeline = {
+		    "{ $match: { '$and': [ { 'skills._id': ?0 }, { 'skills._id': { $ne: ?1 } } ] } }",
+		    "{ $count: 'usersWithSkillAndWithoutAnotherSkill' }"
+		})
+  Integer countUsersWithSkillAndWithoutMigrateSkill(String from, String migrateTo);
+
+  @Aggregation(pipeline = {
+		    "{ $match: { '$and': [ { 'skills._id': ?0 }, { 'skills._id': ?1  } ] } }",
+		    "{ $count: 'usersWith2Skill' }"
+		})
+  Integer countUsersWith2Skill(String from, String migrateTo);
   
- // Optional<UserDetailsImpl>  findByUsername(String username);
+  @Aggregation(pipeline = {
+		    "{ $match: { 'skills._id': ?0 } }",
+		    "{ $count: 'usersWithSkill' }"
+		})
+  Integer countBySkillId(String skillName);
+  
+//  Optional<UserDetailsImpl>  findByUsername(String username);
 //  Optional<UserDetailsImpl> findByIdIgnoreCase(String username);
 
 }
