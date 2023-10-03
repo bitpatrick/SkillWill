@@ -3,11 +3,13 @@ package com.sinnerschrader.skillwill.domain.skill;
 import com.sinnerschrader.skillwill.dto.SuggestionSkillDto;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 
 /**
  * A suggestable skill used by Skill
  */
 @Builder
+@EqualsAndHashCode(of = {"name"})
 public class SuggestionSkill {
 
   private String name;

@@ -1,4 +1,4 @@
-package com.sinnerschrader.skillwill.services;
+package com.sinnerschrader.skillwill.service;
 
 //import static org.junit.Assert.*;
 //

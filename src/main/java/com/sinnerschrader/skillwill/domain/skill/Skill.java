@@ -2,10 +2,8 @@ package com.sinnerschrader.skillwill.domain.skill;
 
 import static com.sinnerschrader.skillwill.domain.skill.SkillUtils.generateStemName;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,13 +28,13 @@ import lombok.EqualsAndHashCode;
 @Builder
 @Data
 public class Skill {
-
-	private String name;
-
+	
 	@Id
 	private String nameStem;
 
-	private List<SuggestionSkill> suggestions;
+	private String name;
+
+	private Set<SuggestionSkill> suggestions;
 
 	private Set<String> subSkillNames;
 
@@ -47,22 +45,21 @@ public class Skill {
 	@Version
 	private Long version;
 
-	public Skill(String name, String description, List<SuggestionSkill> suggestions, boolean hidden,
-			Set<String> subSkillNames) {
+	public Skill(String name, String description, Set<SuggestionSkill> suggestions, boolean hidden, Set<String> subSkillNames) {
+		this.nameStem = generateStemName(name);
 		this.name = name;
 		this.description = description;
-		this.nameStem = generateStemName(name);
 		this.suggestions = suggestions;
 		this.subSkillNames = subSkillNames;
 		this.hidden = hidden;
 	}
 
 	public Skill(String name) {
-		this(name, "", new ArrayList<>(), false, new HashSet<>());
+		this(name, "", new HashSet<>(), false, new HashSet<>());
 	}
 
 	public Skill() {
-		this("", "", new ArrayList<>(), false, new HashSet<>());
+		this("", "", new HashSet<>(), false, new HashSet<>());
 	}
 
 	public void setName(String name) {
@@ -70,7 +67,7 @@ public class Skill {
 		this.nameStem = generateStemName(name);
 	}
 
-	public void setSuggestions(List<SuggestionSkill> suggestions) {
+	public void setSuggestions(Set<SuggestionSkill> suggestions) {
 		this.suggestions = suggestions;
 	}
 
@@ -145,8 +142,8 @@ public class Skill {
 
 	public static Skill fromDto(SkillDto dto) {
 
-		List<SuggestionSkill> suggestionSkills = dto.suggestions().stream().map(SuggestionSkill::fromDto)
-				.collect(Collectors.toList());
+		Set<SuggestionSkill> suggestionSkills = dto.suggestions().stream().map(SuggestionSkill::fromDto)
+				.collect(Collectors.toSet());
 
 		return Skill.builder().name(dto.name()).description(dto.description()).suggestions(suggestionSkills)
 				.subSkillNames(dto.subSkillNames()).hidden(dto.hidden()).build();

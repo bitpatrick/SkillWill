@@ -3,6 +3,7 @@ package com.sinnerschrader.skillwill.repository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -21,9 +22,15 @@ public interface SkillRepository extends MongoRepository<Skill, String> {
 	        "{ $group: { _id: '$suggestions.name', count: { $sum: '$suggestions.count' } } }",
 	        "{ $project: { name: '$_id', count: '$count', _id: 0 } }"
 	})
-	List<SuggestionSkill> findAllAggregatedSuggestionSkills();
+	Set<SuggestionSkill> findAllAggregatedSuggestionSkills();
 	
-	Optional<Skill> findByNameIgnoreCase(String name);
+	@Aggregation({
+	    "{ $match: { name: { $regex: ?0, $options: 'i' } } }",
+	    "{ $unwind: '$subSkillNames' }",
+	    "{ $project: { _id: 0, subSkillName: '$subSkillNames' } }"
+	})
+	Set<String> findAllSubSkillNamesByNameIgnoreCase(String skillName);
+	
 	
 	boolean existsByNameIgnoreCase(String name);
 
@@ -46,5 +53,11 @@ public interface SkillRepository extends MongoRepository<Skill, String> {
 	
 	@Query(value = "{ 'suggestions.name' : '?0' }", delete = true)
 	void removeSkillInSuggestion(String skillName);
+
+	void deleteByNameIgnoreCase(String name);
+
+	Set<SuggestionSkill> findAllSuggestionSkillByNameIgnoreCase(String newName);
+
+	Optional<Skill> findByNameIgnoreCase(String name);
 		
 }

@@ -151,7 +151,7 @@ public class SkillService {
 		// check if count is bigger than zero
 		Optional.of(count).filter(c -> c > 0).orElseThrow(() -> new IllegalArgumentException("count must be a positive integer"));
 
-		List<SuggestionSkill> suggestions;
+		Set<SuggestionSkill> suggestions;
 		
 		if (references.isEmpty()) {
 			
@@ -174,7 +174,7 @@ public class SkillService {
 					.collect(Collectors.toList());
 
 			suggestions = aggregateSuggestions(sanitizedReferenceskills).stream()
-					.filter(s -> !sanitizedReferenceNames.contains(s.getName())).collect(Collectors.toList());
+					.filter(s -> !sanitizedReferenceNames.contains(s.getName())).collect(Collectors.toSet());
 		}
 
 		return suggestions.stream().sorted(Comparator.comparingInt(SuggestionSkill::getCount).reversed()).limit(count)
@@ -229,7 +229,7 @@ public class SkillService {
 		}
 		
 		try {
-			skillRepository.insert(new Skill(name, description, new ArrayList<>(), isHidden, subSkills));
+			skillRepository.insert(new Skill(name, description, new HashSet<>(), isHidden, subSkills));
 			logger.info("Successfully created skill {}", name);
 
 		} catch (DuplicateKeyException e) {

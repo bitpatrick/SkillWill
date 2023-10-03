@@ -1,4 +1,4 @@
-package com.sinnerschrader.skillwill.controllers;
+package com.sinnerschrader.skillwill.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
