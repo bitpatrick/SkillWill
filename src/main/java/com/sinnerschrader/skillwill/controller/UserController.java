@@ -72,7 +72,7 @@ public class UserController {
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Failure"), 
 	})
-//	@PreAuthorize("hasRole('USER')") // solamente un admin può accedere a questo metodo, ovvero, creare un utente
+	@PreAuthorize("hasRole('ADMIN')") // solamente un admin può accedere a questo metodo, ovvero, creare un utente
 	@PutMapping(value = "/user")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createUser(
@@ -127,6 +127,7 @@ public class UserController {
 		JSONObject json = new JSONObject();
 		json.put("results",
 				new JSONArray(foundUsers.stream().map(User::toJSON).collect(Collectors.toList())));
+		
 		json.put("searched", searchResult == null ? new JSONArray() : searchResult.mappingJson());
 
 		skillService.registerSkillSearch(searchResult.mappedSkills());
@@ -200,7 +201,7 @@ public class UserController {
 	})
 	@DeleteMapping(value = "users/{user}")
 	@ResponseStatus(HttpStatus.OK)
-//	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteUser(
 			@Parameter(description = "User identifier") @PathVariable("user") String username) {
 		

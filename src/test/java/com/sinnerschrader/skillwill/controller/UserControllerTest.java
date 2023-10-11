@@ -1,22 +1,49 @@
 package com.sinnerschrader.skillwill.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import com.sinnerschrader.skillwill.controller.UserController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sinnerschrader.skillwill.config.JwtUtils;
+import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import com.sinnerschrader.skillwill.service.SessionService;
 import com.sinnerschrader.skillwill.service.SkillService;
 import com.sinnerschrader.skillwill.service.UserService;
@@ -58,7 +85,8 @@ import com.sinnerschrader.skillwill.service.UserService;
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootTest
 @WebMvcTest(controllers = UserController.class)
-@AutoConfigureMockMvc(addFilters = false)
+//@AutoConfigureMockMvc(addFilters = false)
+@Import(MyWebSecurityConfig.class)
 public class UserControllerTest {
 
 	@Autowired
@@ -69,30 +97,187 @@ public class UserControllerTest {
 
 	@MockBean
 	private UserService userService;
+	
+	@MockBean
+	private UserDetailsService userDetailsService;
 
 	@MockBean
 	private SkillService skillService;
 
 	@MockBean
 	private SessionService sessionService;
+	
 
+	@MockBean
+	private UserRepository userRepository;
+	
+	@MockBean
+	private JwtUtils jwtUtils;
+	
+
+	private UserDto userDto;
+
+	@BeforeEach
+	void setup() {
+
+		userDto = UserDto.builder().username("pippo").password("pwd").build();
+	}
+
+
+	@WithMockUser(roles = "ADMIN")
 	@Test
-	public void test() throws Exception {
+	void testGetUsersReturnJson() throws Exception {
+		
+		//given
+		User user1= User.builder().username("pippo").build();
+		User user2= User.builder().username("anna").build();
+		User user3= User.builder().username("mario").build();
+		
+		List<User> users = List.of(user2,user1,user3);
+		
+		//parametri da passare nella request
+		String skills = "JAVA,SQL,PHP";
+		String company = "Leonardo";
+		String location = "Roma";
+		
+		String skillName1 = "JAVA";
+		String skillName2 = "SQL";
+		String skillName3 = "PHP";
+		
+		List<String> skillNames= List.of(skillName1,skillName2,skillName3);
+		
+		
+		Skill skill1 = new Skill(skillName1);
+		Skill skill2 = new Skill(skillName2);
+		Skill skill3 = new Skill(skillName3);
+		
+		Map<String, Skill> map = new HashMap<String, Skill>();
+		map.put(skillName1, skill1);
+		map.put(skillName2, skill2);
+		map.put(skillName3, skill3);
+		
+		Set<String> set = new HashSet<String>();
+		set.add(skillName1);
+		
+		SkillSearchResult skillSearchResult = new SkillSearchResult(map, set);
+		
+		given(skillService.searchSkillsByNames(skillNames, true)).willReturn(skillSearchResult);
+		given(userService.getUsers(skillSearchResult, company, location)).willReturn(users);
+		doNothing().when(skillService).registerSkillSearch(skillSearchResult.mappedSkills());
+
+		
+		//devo passare ora i parametri da me voluti
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+		params.add("skills", skills);
+		params.add("location", location);
+		params.add("company", company);
+		
+		//when
+		MockHttpServletResponse response =	mvc.perform(get("/users").params(params).accept(MediaType.APPLICATION_JSON_VALUE))
+		 		.andDo(print())
+			    .andReturn()
+			    .getResponse();
+		//then
+		 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+				assertThat(response.getContentAsString());	
+				
+				// Verifica che l'header Content-Type sia impostato su application/json
+			    assertThat(response.getHeader("Content-Type")).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+
+			    // Verifica che il contenuto della response sia un JSON valido
+			    ObjectMapper objectMapper = new ObjectMapper();
+			    try {
+			        objectMapper.readTree(response.getContentAsString());
+			    } catch (JsonProcessingException e) {
+			        fail("La response non è in formato JSON valido.");
+			    }
+				
+	}
+	
+	@WithMockUser(roles = "WRONG")
+	@Test
+	void throwExceptionWhenCreateUserWithoutAdminRole() {
+
+		// When
+		Throwable throwable = catchThrowable(() -> userController.createUser(userDto));
+
+		// Then 1
+		then(throwable)
+//		.as("An IAE should be thrown if a city with ID is passed")
+				.isExactlyInstanceOf(AccessDeniedException.class);
+//		.as("Check that message contains the city name")
+//		.hasMessageContaining(inputCity.getName());
+
+		// Then 2
+//		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(() -> userController.createUser(user));
+	}
+
+	@WithMockUser(roles = "ADMIN")
+	@Test
+	void createUserSeccessfulWithAdminRole() {
+
+		assertThatNoException().isThrownBy(() -> userController.createUser(userDto));
+	}
+
+	@WithAnonymousUser
+	@Test
+	void throwExceptionWhenCallingUpdateUserWithoutAuthentication() {
+
+		Throwable throwable = catchThrowable(() -> userController.updateUser("pippo", userDto));
+		then(throwable)
+//		.as("An IAE should be thrown if a city with ID is passed")
+				.isExactlyInstanceOf(AccessDeniedException.class);
+	}
+
+	@WithAnonymousUser
+	@Test
+	void whenCallingUpdateUserSkillsWithoutAuthenticationRedirectToLoginPage() throws Exception {
 
 		// given
-		String value = "mario";
-		
-		Map<String, String > params = new HashMap<String, String>();
-		params.put("mail", "newmail@google.com");
+//        given(superHeroRepository.getSuperHero(2))
+//                .willReturn(new SuperHero("Rob", "Mannon", "RobotMan"));
+		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+		queryParams.add("skill", "value1A");
+		queryParams.add("skill_level", "2");
+		queryParams.add("will_level", "3");
+		queryParams.add("mentor", "true");
 
-		// then
-		MockHttpServletResponse response = mvc.perform(put("/users/{user}/", value).accept(MediaType.APPLICATION_JSON).param("prova", "valoreprova"))
+		// when
+		MockHttpServletResponse response = mvc.perform(patch("/users/{user}/skills", "pippo").queryParams(queryParams))
 				.andReturn().getResponse();
 
 		// then
-		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
+		assertThat(response.getRedirectedUrl()).isIn("http://127.0.0.1:8888/login", "http://localhost:8888/login");
+
+	}
+
+	@WithMockUser(roles = "USER")
+	@Test
+	void throwExceptionWhenCallingDeleteUserWithoutAdminRole() {
+		
+		Throwable throwable = catchThrowable(() -> userController.deleteUser("pippo"));
+		then(throwable)
+				.isExactlyInstanceOf(AccessDeniedException.class);
 		
 	}
+
+	@WithMockUser(roles = "ADMIN")
+	@Test
+	void deleteUserSeccessfulWithAdminRole() {
+		
+		assertThatNoException().isThrownBy(() -> userController.deleteUser("pippo"));
+		
+	}
+
+	
+	
+	
+	
+	
+
+
+	
 
 //  @Autowired
 //  private UserController userController;

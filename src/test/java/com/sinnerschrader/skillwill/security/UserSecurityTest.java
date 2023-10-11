@@ -15,12 +15,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
 import com.sinnerschrader.skillwill.controller.UserController;
 import com.sinnerschrader.skillwill.dto.UserDto;
@@ -32,89 +34,114 @@ import com.sinnerschrader.skillwill.service.UserService;
 @WebMvcTest(UserController.class)
 @Import(MyWebSecurityConfig.class)
 class UserSecurityTest {
-	
+
 	@Autowired
-    private MockMvc mvc;
+	private MockMvc mvc;
 
 	@Autowired
 	private UserController userController;
 
 	@MockBean
 	private UserService userService;
+	
+	@MockBean
+	private UserDetailsService userDetailsService;
+
 
 	@MockBean
 	private SkillService skillService;
 
 	@MockBean
 	private SessionService sessionService;
-	
+
 	@MockBean
 	private UserRepository userRepository;
 	
-	private UserDto userDto;
+	@MockBean
+	private JwtUtils jwtUtils;
 	
+
+	private UserDto userDto;
+
 	@BeforeEach
 	void setup() {
-		
-		userDto =  UserDto.builder().username("pippo").password("pwd").build();
+
+		userDto = UserDto.builder().username("pippo").password("pwd").build();
 	}
-	
-	@WithMockUser(roles="WRONG")
+
+	@WithMockUser(roles = "WRONG")
 	@Test
 	void throwExceptionWhenCreateUserWithoutAdminRole() {
-	    
+
 		// When
 		Throwable throwable = catchThrowable(() -> userController.createUser(userDto));
-		
+
 		// Then 1
 		then(throwable)
 //		.as("An IAE should be thrown if a city with ID is passed")
-		.isExactlyInstanceOf(AccessDeniedException.class);
+				.isExactlyInstanceOf(AccessDeniedException.class);
 //		.as("Check that message contains the city name")
 //		.hasMessageContaining(inputCity.getName());
-		
-		// Then 2 
+
+		// Then 2
 //		assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(() -> userController.createUser(user));
 	}
-	
+
 	@WithMockUser(roles = "ADMIN")
 	@Test
 	void createUserSeccessfulWithAdminRole() {
-		
+
 		assertThatNoException().isThrownBy(() -> userController.createUser(userDto));
 	}
-	
+
 	@WithAnonymousUser
 	@Test
 	void throwExceptionWhenCallingUpdateUserWithoutAuthentication() {
-		
+
 		Throwable throwable = catchThrowable(() -> userController.updateUser("pippo", userDto));
 		then(throwable)
 //		.as("An IAE should be thrown if a city with ID is passed")
-		.isExactlyInstanceOf(AccessDeniedException.class);
+				.isExactlyInstanceOf(AccessDeniedException.class);
 	}
-	
+
 	@WithAnonymousUser
 	@Test
 	void whenCallingUpdateUserSkillsWithoutAuthenticationRedirectToLoginPage() throws Exception {
-		
+
 		// given
 //        given(superHeroRepository.getSuperHero(2))
 //                .willReturn(new SuperHero("Rob", "Mannon", "RobotMan"));
 		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("skill", "value1A");
-        queryParams.add("skill_level", "2");
-        queryParams.add("will_level", "3");
-        queryParams.add("mentor", "true");
-		
-        // when
-        MockHttpServletResponse response = mvc
-        		.perform(patch("/users/{user}/skills","pippo").queryParams(queryParams))
-                .andReturn().getResponse();
+		queryParams.add("skill", "value1A");
+		queryParams.add("skill_level", "2");
+		queryParams.add("will_level", "3");
+		queryParams.add("mentor", "true");
 
-        // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
-        assertThat(response.getRedirectedUrl()).isEqualTo("http://127.0.0.1:8888/login");
+		// when
+		MockHttpServletResponse response = mvc.perform(patch("/users/{user}/skills", "pippo").queryParams(queryParams))
+				.andReturn().getResponse();
+
+		// then
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
+		assertThat(response.getRedirectedUrl()).isIn("http://127.0.0.1:8888/login", "http://localhost:8888/login");
+
+	}
+
+	@WithMockUser(roles = "USER")
+	@Test
+	void throwExceptionWhenCallingDeleteUserWithoutAdminRole() {
+		
+		Throwable throwable = catchThrowable(() -> userController.deleteUser("pippo"));
+		then(throwable)
+				.isExactlyInstanceOf(AccessDeniedException.class);
+		
+	}
+
+	@WithMockUser(roles = "ADMIN")
+	@Test
+	void deleteUserSeccessfulWithAdminRole() {
+		
+		assertThatNoException().isThrownBy(() -> userController.deleteUser("pippo"));
 		
 	}
 

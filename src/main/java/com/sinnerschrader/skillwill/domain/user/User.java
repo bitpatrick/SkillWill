@@ -190,7 +190,10 @@ public class User implements UserDetails {
 
 		var skillsArr = new JSONArray();
 		
-		this.skills.stream().filter(s -> !s.isHidden()).sorted(Comparator.comparing(UserSkill::getName)).map(UserSkill::toJSON).forEach(skillsArr::put);
+		if(skills!=null) {
+			this.skills.stream().filter(s -> !s.isHidden()).sorted(Comparator.comparing(UserSkill::getName)).map(UserSkill::toJSON).forEach(skillsArr::put);
+
+		}
 
 		json.put("skills", skillsArr);
 		return json;
