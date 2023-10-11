@@ -62,7 +62,7 @@ class Login extends React.Component{
 		const requestURL = `${apiServer}/login`
         this.props.startLoading();
 		await fetch(requestURL, options)
-			.then(res => {
+			.then(async res => {
 				if (res.status === 403) {
                     alert('session invalid') // eslint-disable-line
 					this.setState({
@@ -74,7 +74,7 @@ class Login extends React.Component{
 				if (res.status !== 200) {
 					throw Error('error while logging')
 				} else {
-					this.props.fetchCurrentUser()
+					await this.props.fetchCurrentUser()
                     this.props.history.push('/my-profile')
                 }
 			})

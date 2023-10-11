@@ -39,6 +39,7 @@ class MyProfile extends React.Component {
 	async componentWillMount() {
 		document.body.classList.add('my-profile-open')
 		await this.props.fetchCurrentUser();
+		console.log(this.props)
 		if(this.props.redirLogin){
 			this.props.history.push('/login')
 		}
@@ -101,19 +102,19 @@ class MyProfile extends React.Component {
 		)}`
 		this.props.startLoading();
 		await fetch(requestURL, options)
-			.then(res => {
+			.then(async res => {
 				if (res.status === 403) {
           alert('session invalid') // eslint-disable-line
 					this.setState({
 						editLayerOpen: false,
 					})
-					this.props.fetchCurrentUser()
+					await this.props.fetchCurrentUser()
 				}
 
 				if (res.status !== 200) {
 					throw Error('error while deleting skills')
 				} else {
-					this.props.fetchCurrentUser()
+					await this.props.fetchCurrentUser()
 				}
 			})
 			.catch(err => {

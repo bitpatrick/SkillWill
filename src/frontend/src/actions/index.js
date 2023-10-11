@@ -221,8 +221,8 @@ export function updateUserSkills(options, user) {
 	const requestURL = `${apiServer}/users/${user}/skills`
 	return function(dispatch) {
 		dispatch(startLoading())
-		dispatch(editSkill(requestURL, options)).then(() =>{
-			dispatch(getUserProfileData(user))
+		dispatch(editSkill(requestURL, options)).then(async () =>{
+			await dispatch(fetchCurrentUser())
 			dispatch(stopLoading())
 		})
 		.catch(err=>{
@@ -329,12 +329,22 @@ export function fetchCurrentUser() {
 			}
 			return res.json();
 		})
-		.then(user => {
-			console.log(user)
-			user['id']=user['username']
-			if(!user['skills']) user['skills']=[]
-			if(!user['mail']) user['mail']=''
-			dispatch(receiveCurrentUser(user))
+		.then(async user => {
+			const requestURLData = `${apiServer}/users/${user['username']}`
+			const optionsData = {
+				credentials: 'include',
+			}
+			dispatch(startLoading())
+			dispatch(requestProfileData())
+			await fetch(requestURLData, optionsData).then(response => response.json())
+			.then(json => {
+				json['id']=json['username']
+				if(!json['skills']) json['skills']=[]
+				if(!json['mail']) json['mail']=''
+				dispatch(receiveCurrentUser(json))
+				dispatch(receiveProfileData(json))
+				dispatch(stopLoading())
+			})
 		})
 		.catch(err=>{
 			console.log(err.message)
