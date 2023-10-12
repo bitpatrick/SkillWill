@@ -13,6 +13,7 @@ import { fetchCurrentUser,
     errorAlertManage } from './actions/index.js'
 import Spinner from './components/common/spinner.js'
 import ErrorAlert from './components/common/error-alert.js'
+import { apiServer } from "./env.js";
 
 class App extends React.Component {
 
@@ -21,6 +22,7 @@ class App extends React.Component {
 
 		console.log(this.props)
 		this.checkUser = this.checkUser.bind(this);
+		this.logout = this.logout.bind(this);
 
 	}
 
@@ -35,7 +37,7 @@ class App extends React.Component {
 	async logout(e){
         e.preventDefault();
         var formBody = [];
-        let details={username: this.state.username, password: this.state.password};
+        let details={username: this.props.currentUser.username, password: this.props.currentUser.password};
         for (var property in details) {
           var encodedKey = encodeURIComponent(property);
           var encodedValue = encodeURIComponent(details[property]);
@@ -51,6 +53,8 @@ class App extends React.Component {
             body: formBody
         };
 		const requestURL = `${apiServer}/logout`
+		// await this.props.fetchCurrentUser()
+		this.props.history.push('/login')
 		return
 		//add logout api
         this.props.startLoading();
@@ -64,7 +68,8 @@ class App extends React.Component {
 	}
 
 	render() {
-		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction } = this.props
+		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction,
+		currentUser } = this.props
 
 		return (
 			<div>
