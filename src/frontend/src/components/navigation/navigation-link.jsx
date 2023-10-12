@@ -4,12 +4,24 @@ import './navigation.less'
 
 const NavigationLink = props => {
 	return (
-		<Link
-			className="navigation__link"
-			activeClassName={`${props.setActive ? 'navigation__link--active' : ''}`}
-			to={props.target}>
-			{props.children}
-		</Link>
+		<div>
+			{
+				props.target=='/login' ?
+				<Link
+					onClick={props.logout}
+					className="navigation__link"
+					activeClassName={`${props.location.pathname.includes(props.target) ? 'navigation__link--active' : ''}`}
+					to={props.target}>
+					{props.children}
+				</Link> :
+				<Link
+					className="navigation__link"
+					activeClassName={`${props.location.pathname.includes(props.target) ? 'navigation__link--active' : ''}`}
+					to={props.target}>
+					{props.children}
+				</Link>
+			}
+		</div>
 	)
 }
 

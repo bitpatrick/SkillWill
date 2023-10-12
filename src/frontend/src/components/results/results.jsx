@@ -58,7 +58,7 @@ class Results extends React.Component {
 				locationFilter
 			)
 			sortedUserList = sortedUserList.filter((user) => {
-				return user.company === companyFilter || companyFilter === 'all'
+				return user.company === companyFilter || companyFilter === 'all'
 			})
 			return (
 				<div ref={(ref) => { this.node = ref }} className={`results-container ${animated ? 'animateable' : ''}`}>

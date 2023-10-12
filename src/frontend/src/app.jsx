@@ -7,7 +7,10 @@ import Footer from './components/footer/footer.jsx'
 import UserSearch from './components/search/user-search.jsx'
 import Results from './components/results/results.jsx'
 import { connect } from 'react-redux'
-import { fetchCurrentUser } from './actions/index.js'
+import { fetchCurrentUser,
+    startLoading,
+    stopLoading,
+    errorAlertManage } from './actions/index.js'
 import Spinner from './components/common/spinner.js'
 import ErrorAlert from './components/common/error-alert.js'
 
@@ -17,17 +20,48 @@ class App extends React.Component {
 		super(props)
 
 		console.log(this.props)
-		// this.checkUser = this.checkUser.bind(this);
-		// this.checkUser();
+		this.checkUser = this.checkUser.bind(this);
 
 	}
 
-	// async checkUser(){
-	// 	await this.props.fetchCurrentUser();
-	// 	if(!this.props.currentUser.loaded){
-	// 		this.props.history.push('/login')
-	// 	}
-	// }
+	componentDidMount(){
+		this.checkUser();
+	}
+
+	async checkUser(){
+		await this.props.fetchCurrentUser();
+	}
+
+	async logout(e){
+        e.preventDefault();
+        var formBody = [];
+        let details={username: this.state.username, password: this.state.password};
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+		const options = { 
+            method: 'POST', 
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        };
+		const requestURL = `${apiServer}/logout`
+		return
+		//add logout api
+        this.props.startLoading();
+		await fetch(requestURL, options)
+			.then( res => {})
+			.catch(err =>{
+                console.log(err.message)
+                this.props.errorAlertManage(err.message);
+            })
+        this.props.stopLoading();
+	}
 
 	render() {
 		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction } = this.props
@@ -44,7 +78,7 @@ class App extends React.Component {
                 : null }
 				<div className={isResultsLoaded ? 'results-loaded' : ''}>
 					<IconSymbols />
-					<Header />
+					<Header location={this.props.location} logout={this.logout}/>
 					<div className="search">
 						<Logo/>
 						<div className="container">
@@ -74,5 +108,8 @@ function mapStateToProps(state) {
 	}
 }
 export default connect(mapStateToProps,{
-	// fetchCurrentUser
+	fetchCurrentUser,
+    startLoading,
+    stopLoading,
+    errorAlertManage
 })(App)

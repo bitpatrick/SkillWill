@@ -24,10 +24,6 @@ class Login extends React.Component{
         this.handlePassword = this.handlePassword.bind(this);
         this.login = this.login.bind(this);
 
-        if(this.props.currentUser.loaded){
-            // add logout api
-        }
-
         console.log(this.props)
     }
 
