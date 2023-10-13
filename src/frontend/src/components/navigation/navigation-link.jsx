@@ -14,12 +14,22 @@ const NavigationLink = props => {
 					to={props.target}>
 					{props.children}
 				</Link> :
-				<Link
-					className="navigation__link"
-					activeClassName={`${props.location.pathname.includes(props.target) ? 'navigation__link--active' : ''}`}
-					to={props.target}>
-					{props.children}
-				</Link>
+				(
+					props.target=='/' ?
+					<Link
+						onClick={props.refreshReloaded}
+						className="navigation__link"
+						activeClassName={`${props.location.pathname.includes(props.target) ? 'navigation__link--active' : ''}`}
+						to={props.target}>
+						{props.children}
+					</Link> :
+					<Link
+						className="navigation__link"
+						activeClassName={`${props.location.pathname.includes(props.target) ? 'navigation__link--active' : ''}`}
+						to={props.target}>
+						{props.children}
+					</Link>
+				)
 			}
 		</div>
 	)

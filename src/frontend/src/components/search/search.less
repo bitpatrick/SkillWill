@@ -199,3 +199,34 @@
     margin-bottom: @l-stack;
   }
 }
+
+.input-container{
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+  input{
+      padding: 18px 5px 18px 5px;
+      box-sizing: content-box;
+      background-color: transparent;
+      border-radius: 0;
+      color: gray;
+      width: 100%;
+
+      &::placeholder{
+        color: gray;
+      }
+
+      &::-ms-reveal{
+        filter: invert(100%);
+      }
+  }
+}
+
+.radio-container{
+  display: flex;
+  justify-content: space-evenly;
+
+  span{
+    margin-left: 1rem;
+  }
+}

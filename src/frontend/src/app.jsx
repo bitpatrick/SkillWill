@@ -10,7 +10,8 @@ import { connect } from 'react-redux'
 import { fetchCurrentUser,
     startLoading,
     stopLoading,
-    errorAlertManage } from './actions/index.js'
+    errorAlertManage,
+	isResultsLoaded } from './actions/index.js'
 import Spinner from './components/common/spinner.js'
 import ErrorAlert from './components/common/error-alert.js'
 import { apiServer } from "./env.js";
@@ -23,7 +24,11 @@ class App extends React.Component {
 		console.log(this.props)
 		this.checkUser = this.checkUser.bind(this);
 		this.logout = this.logout.bind(this);
+		this.refreshReloaded = this.refreshReloaded.bind(this);
+	}
 
+	refreshReloaded(){
+		// this.props.isResultsLoaded(false);
 	}
 
 	componentDidMount(){
@@ -83,7 +88,8 @@ class App extends React.Component {
                 : null }
 				<div className={isResultsLoaded ? 'results-loaded' : ''}>
 					<IconSymbols />
-					<Header location={this.props.location} logout={this.logout}/>
+					<Header location={this.props.location} logout={this.logout}
+					refreshReloaded={this.refreshReloaded}/>
 					<div className="search">
 						<Logo/>
 						<div className="container">

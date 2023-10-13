@@ -19,12 +19,13 @@ class Header extends React.Component {
 			<header className="header">
 				{!this.props.login && <Navigation>
 					<NavigationItem>
-						<NavigationLink target={'/'} location={this.props.location}>
+						{/* <NavigationLink target={'/'} location={this.props.location}>
 							<Icon name="s2-logo" width={131} height={30} />
-						</NavigationLink>
+						</NavigationLink> */}
 					</NavigationItem>
 					<NavigationItem>
-						<NavigationLink target={'/'} location={this.props.location}>
+						<NavigationLink target={'/'} location={this.props.location}
+						refreshReloaded={this.props.refreshReloaded}>
 							<Logo small />
 						</NavigationLink>
 					</NavigationItem>
@@ -38,8 +39,12 @@ class Header extends React.Component {
 									<Icon name="logout" width={20} height={25} />
 								</NavigationListItem>
 							}
-							<NavigationListItem target={config.slackChannelUrl} location={this.props.location}>
+							{/* <NavigationListItem target={config.slackChannelUrl} location={this.props.location}>
 								<Icon name="slack" width={20} height={20} />
+							</NavigationListItem> */}
+							<NavigationListItem
+								target={'/new-skill'} location={this.props.location}>
+								<Icon name="plus" width={20} height={20} />
 							</NavigationListItem>
 							<NavigationListItem
 								target={'/my-profile'} location={this.props.location}>
