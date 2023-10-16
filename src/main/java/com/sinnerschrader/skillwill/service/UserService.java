@@ -71,15 +71,14 @@ public class UserService {
 	@Autowired
 	private FitnessScoreProperties fitnessScoreProperties;
 
-	public List<User> getUsers(SkillSearchResult skillSearch, String company, String location)
-			throws IllegalArgumentException {
+	public List<User> getUsers(SkillSearchResult skillSearch, String company, String location) throws IllegalArgumentException {
 
 		List<User> candidates;
 
 		if (skillSearch.isInputEmpty()) {
 			candidates = userRepository.findAll();
 		} else {
-			var skillNames = skillSearch.mappedSkills().stream().map(Skill::getName).collect(Collectors.toList());
+			List<String> skillNames = skillSearch.mappedSkills().stream().map(Skill::getName).collect(Collectors.toList());
 			candidates = userRepository.findBySkills(skillNames).stream()
 					.peek(p -> p.setFitnessScore(skillSearch.mappedSkills(), fitnessScoreProperties))
 					.sorted(Comparator.comparingDouble(User::getFitnessScoreValue).reversed())
@@ -90,8 +89,6 @@ public class UserService {
 
 		/*
 		 * che fossero o luna o l'altra valorizzate dobbiamo evitare i nullPointer
-		 * 
-		 * 
 		 */
 		if (location != null && !location.isBlank() || company != null && !company.isBlank()) {
 			candidates = ldapService.syncUsers(candidates, false);

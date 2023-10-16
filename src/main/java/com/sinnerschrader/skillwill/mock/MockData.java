@@ -1,9 +1,11 @@
 package com.sinnerschrader.skillwill.mock;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.user.Role;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.domain.user.UserLdapDetails;
+import com.sinnerschrader.skillwill.repository.SkillRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,11 +17,11 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.job.LdapSyncJob;
-import com.sinnerschrader.skillwill.repository.SkillRepository;
-import com.sinnerschrader.skillwill.repository.UserRepository;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Reads Mock Data from files specified in application.properties and
@@ -31,6 +33,15 @@ import com.sinnerschrader.skillwill.repository.UserRepository;
 public class MockData {
 
   private static final Logger logger = LoggerFactory.getLogger(MockData.class);
+
+  private static final List<String> FIRST_NAMES = List.of("Giacomo", "Luca", "Marco", "Lucia", "Anna", "Mario");
+  private static final List<String> LAST_NAMES = List.of("Leopardi", "Rossi", "Totti", "Fonseca", "Rughetti");
+  private static final List<String> EMAIL_PROVIDERS = List.of("@gmail.com", "@yahoo.com", "@example.com");
+  private static final List<String> LOCATIONS = List.of("London", "Paris", "Rome");
+  private static final List<String> TITLES = List.of("Dr.", "Ing.", "Mr.", "Ms.", "Prof.");
+  private static final List<String> COMPANIES = List.of("Apple", "Google", "Microsoft");
+
+  private static final Random RANDOM = new Random();
 
   @Autowired
   private SkillRepository skillRepo;
@@ -73,6 +84,8 @@ public class MockData {
     for (int i = 0; i < usersJsonArray.length(); i++) {
       JSONObject userJson = usersJsonArray.getJSONObject(i);
       User user = new User(userJson.getString("id"), "password");
+      UserLdapDetails userLdapDetails = createRandomLdap();
+      user.setLdapDetails(userLdapDetails);
 
       JSONArray skillsJsonArray = userJson.getJSONArray("skills");
       for (int j = 0; j < skillsJsonArray.length(); j++) {
@@ -90,6 +103,19 @@ public class MockData {
     }
 
     logger.info("Added {} users", usersJsonArray.length());
+  }
+
+  public UserLdapDetails createRandomLdap() {
+    UserLdapDetails userLdapDetails = new UserLdapDetails();
+    userLdapDetails.setFirstName(FIRST_NAMES.get(RANDOM.nextInt(FIRST_NAMES.size())));
+    userLdapDetails.setLastName(LAST_NAMES.get(RANDOM.nextInt(LAST_NAMES.size())));
+    userLdapDetails.setMail(userLdapDetails.getFirstName().toLowerCase() + "." + userLdapDetails.getLastName().toLowerCase() + EMAIL_PROVIDERS.get(RANDOM.nextInt(EMAIL_PROVIDERS.size())));
+    userLdapDetails.setPhone("+39" + (RANDOM.nextInt(900000000) + 100000000)); // Genera un numero di telefono casuale
+    userLdapDetails.setLocation(LOCATIONS.get(RANDOM.nextInt(LOCATIONS.size())));
+    userLdapDetails.setTitle(TITLES.get(RANDOM.nextInt(TITLES.size())));
+    userLdapDetails.setCompany(COMPANIES.get(RANDOM.nextInt(COMPANIES.size())));
+    userLdapDetails.setRole(RANDOM.nextBoolean() ? Role.USER : Role.ADMIN); // Scegli un ruolo casuale tra USER e ADMIN
+    return userLdapDetails;
   }
 
   private void mockSkills() throws IOException {

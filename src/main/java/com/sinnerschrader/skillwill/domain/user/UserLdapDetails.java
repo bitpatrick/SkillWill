@@ -2,10 +2,7 @@ package com.sinnerschrader.skillwill.domain.user;
 
 import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
  * Data Structure for Details from LDAP.
@@ -16,18 +13,18 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 @Data
 @Builder
+@NoArgsConstructor
 public class UserLdapDetails {
 
-  private final String firstName;
-  private final String lastName;
-  private final String mail;
-  private final String phone;
-  private final String location;
-  private final String title;
-  private final String company;
-  private final Role role;
+  private String firstName;
+  private String lastName;
+  private String mail;
+  private String phone;
+  private String location;
+  private String title;
+  private String company;
+  private Role role;
   
-
   public static UserLdapDetails fromDto(UserLdapDetailsDto ldapDetailsDto) {
 	  
 	  if ( ldapDetailsDto == null ) {
