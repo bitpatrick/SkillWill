@@ -169,8 +169,7 @@ public class UserService {
 	}
 
 	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-	public void removeSkills(String username, String skillName)
-			throws UserNotFoundException, SkillNotFoundException, EmptyArgumentException {
+	public void removeSkills(String username, String skillName) throws UserNotFoundException, SkillNotFoundException, EmptyArgumentException {
 
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(skillName)) {
 			logger.debug("Failed to modify skills: username or skillName empty");
@@ -222,47 +221,39 @@ public class UserService {
 		return user.get().getLdapDetails().getRole();
 	}
 
-	public void updateUserDetails(UserDto userDto, String username)
-			throws UserNotFoundException, UserIdException {
+	public void updateUserDetails(UserDto userDto) throws UserNotFoundException, UserIdException {
 
-		// recupero l'user cn le informazioni vecchie dal db
+    Objects.requireNonNull(userDto);
+    String username = userDto.username();
+    Objects.requireNonNull(username);
+
+		// retrieve user from repository
 		User userFromRepo = this.userRepository.findById(username).orElseThrow(() -> {
 			throw new UserNotFoundException(username);
 		});
 
-		// se l'username [ diverso sollevo eccezione perche non si puo modificare
-		// essendo un id
-		if (userDto.username() != null && !userFromRepo.getUsername().equalsIgnoreCase(userDto.username())) {
-			throw new UserIdException(username + " to " + userDto.username());
-		}
+    userFromRepo.update(userDto);
 
-		userFromRepo.update(userDto);
-
-		// se almeno un'informazione e stata variata allora lo salvo
 		this.userRepository.save(userFromRepo);
 
 	}
 
 	public void create(UserDto userDto) {
 
+    Objects.requireNonNull(userDto);
+    Objects.requireNonNull(userDto.username());
+    Objects.requireNonNull(userDto.password());
+
 		String username = userDto.username();
 
 		Optional<User> userFromRepo = this.userRepository.findById(username);
 
-		/*
-		 * caso in cui è già presente un use con lo stesso username (chiave univoca)
-		 */
-		if (userFromRepo.isPresent()) {
-			throw new UserAlreadyExistException(username);
-		}
+    userFromRepo.ifPresent(user -> {
+      throw new UserAlreadyExistException(username);
+    });
 
-		/*
-		 * caso in cui username (chiave univoca) non è presente quindi non esite nessun
-		 * user con questo user e allora posso salvare il nuovo user
-		 */
-		User newUserDetailsImpl = User.createUser(userDto);
-		this.userRepository.save(newUserDetailsImpl);
-
+		User newUser = User.createUser(userDto);
+		this.userRepository.save(newUser);
 	}
 
 	public void updateUserLdapDetails(String username, UserLdapDetailsDto userLdap) {

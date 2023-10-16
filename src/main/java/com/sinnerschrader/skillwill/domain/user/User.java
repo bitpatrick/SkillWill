@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,6 +34,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import javax.swing.text.html.Option;
 
 /**
  * Class holding all information about a person
@@ -103,10 +106,39 @@ public class User implements UserDetails {
 		
 	}
 	
-	public void update(UserDto userDto) {
+	public void addSkill(String skillName, int skillLevel, int willLevel, boolean hidde, boolean mentor) {
 		
-		this.password = userDto.password();
-		this.ldapDN = userDto.ldapDN();
+		checkNullableUserSkills();
+		
+		UserSkill userSkill = new UserSkill(skillName, skillLevel, willLevel, hidde, mentor);
+		skills.add(userSkill);
+	}
+	
+	public void addSkills(String... skillNames) {
+		
+		checkNullableUserSkills();
+		
+		for (String skillName : skillNames) {
+			UserSkill userSkill = new UserSkill(skillName);
+			skills.add(userSkill);		
+		}
+	}
+	
+	private void checkNullableUserSkills() {
+		
+		if ( skills == null ) {
+			skills = new HashSet<UserSkill>();
+		}
+	}
+	
+	public void update(UserDto userDto) {
+
+		this.password = (userDto.password() != null) ? userDto.password() : this.password;
+    this.authorities = (userDto.authorities() != null) ?  userDto.authorities().stream().map(auth -> (GrantedAuthority) new SimpleGrantedAuthority(auth)).toList() : this.authorities;
+    this.ldapDN = (userDto.ldapDN() != null) ? userDto.ldapDN() : this.ldapDN;
+    this.version = (userDto.version() != null) ? userDto.version() : this.version;
+    this.skills = ( userDto.skills() != null ) ? userDto.skills().stream().map(UserSkill::createUserSkill).collect(Collectors.toSet()) : this.skills;
+    // TODO fitness score
 	}
 	
 	public User(String username, String password, List<GrantedAuthority> authorities) {
@@ -247,7 +279,6 @@ public class User implements UserDetails {
 				.ldapDN(ldapDN)
 				.fitnessScore(fitnessScoreDto)
 				.version(version)
-				.userLdapDto(userLdapDetailsDto)
 				.build();
 	}
 

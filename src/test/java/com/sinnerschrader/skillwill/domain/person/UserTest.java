@@ -86,7 +86,6 @@ public class UserTest {
 				.authorities(List.of("USER"))
 				.fitnessScore(null)
 				.version(1l)
-				.userLdapDto(null)
 				.build();
 				
 		// when

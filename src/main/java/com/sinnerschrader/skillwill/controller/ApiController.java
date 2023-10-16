@@ -5,17 +5,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.domain.user.User;
@@ -31,6 +32,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+
+  @Autowired
+  private UserService userService;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -66,5 +70,9 @@ public class ApiController {
 		
 		return ResponseEntity.ok(new LoginResponse(jwt, username, email, roles, expirationeTime));
 	}
+
+
+
+
 
 }

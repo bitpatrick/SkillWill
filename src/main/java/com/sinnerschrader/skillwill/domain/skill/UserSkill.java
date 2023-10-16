@@ -11,14 +11,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 /**
  * A skill owned by a person includes name, skill level and will level
  */
 @Data
 @EqualsAndHashCode(of = "name")
 @AllArgsConstructor
-@Builder
-@NoArgsConstructor
 public class UserSkill {
 
 	@Id
@@ -54,14 +54,13 @@ public class UserSkill {
 
 	public static UserSkill createUserSkill(UserSkillDto userSkillDto) {
 
-		String name = userSkillDto.name();
+    String name = userSkillDto.name();
 		int skillLevel = userSkillDto.skillLevel();
 		int willLevel = userSkillDto.willLevel();
 		boolean hidden = userSkillDto.hidden();
 		boolean mentor = userSkillDto.mentor();
 
-		return UserSkill.builder().name(name).skillLevel(skillLevel).willLevel(willLevel).hidden(hidden).mentor(mentor)
-				.build();
+		return new UserSkill(name, skillLevel, willLevel, hidden, mentor);
 	}
 
 }
