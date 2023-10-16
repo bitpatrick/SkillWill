@@ -32,7 +32,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		this.checkUser();
+		// this.checkUser();
 	}
 
 	async checkUser(){
