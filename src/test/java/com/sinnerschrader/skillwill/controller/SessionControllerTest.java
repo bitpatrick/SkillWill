@@ -59,7 +59,7 @@ class SessionControllerTest {
 	@DisplayName("Redirect to login page when user is not authenticated")
 	void redirectToLoginPageWhenUserIsNotAuthenticated() throws Exception {
 		
-		logger.info("\nStarting test: redirect_To_Login_Page_When_User_Is_Not_Authenticated");
+		logger.info("\n\nStarting test: redirect_To_Login_Page_When_User_Is_Not_Authenticated:");
 		
 		// given
 		
@@ -79,8 +79,8 @@ class SessionControllerTest {
 	@Test
 	@DisplayName("Get own info user when you are authenticated")
 	void getOwnInfoUserWhenYouAreAuthenticated() throws Exception {
-		logger.info("\nStarting test: getOwnInfoUserWhenYouAreAuthenticated");
-		
+		logger.info("\n\nStarting test: getOwnInfoUserWhenYouAreAuthenticated:");
+
 		// given
 		SimpleGrantedAuthority adminRole = new SimpleGrantedAuthority("ADMIN");
 		SimpleGrantedAuthority userRole = new SimpleGrantedAuthority("USER");

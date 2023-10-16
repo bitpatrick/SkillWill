@@ -16,9 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.beans.PropertyEditorSupport;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -140,11 +141,8 @@ public class UserController {
 			@Parameter(description = "Name of skill", required = true) @RequestParam("skill") String skill
 			) {
 
-		userService.removeSkills(user, skill);
+		userService.removeSkill(user, skill);
 		logger.info("Successfully deleted {}'s skill {}", user, skill);
 	}
-
-
-	
 
 }

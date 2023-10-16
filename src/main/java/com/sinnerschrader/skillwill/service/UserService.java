@@ -169,7 +169,7 @@ public class UserService {
 	}
 
 	@Retryable(include = OptimisticLockingFailureException.class, maxAttempts = 10)
-	public void removeSkills(String username, String skillName) throws UserNotFoundException, SkillNotFoundException, EmptyArgumentException {
+	public void removeSkill(String username, String skillName) throws UserNotFoundException, SkillNotFoundException, EmptyArgumentException {
 
 		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(skillName)) {
 			logger.debug("Failed to modify skills: username or skillName empty");
@@ -287,6 +287,9 @@ public class UserService {
 	}
 
 	public void deleteUser(String username) {
+
+    Objects.requireNonNull(username); // strettamente accoppiato ovvero fe ( react ) è strettamente legato al controller
+    // questa app non è una vera restful api
 
 		userRepository.deleteById(username);
 	}

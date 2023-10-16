@@ -49,6 +49,9 @@ public class AdminController {
     userService.create(userDto);
   }
 
+  /*
+   * Delete a user
+   */
   @Operation(summary = "Delete User", description = "Delete an existing user")
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Success"),

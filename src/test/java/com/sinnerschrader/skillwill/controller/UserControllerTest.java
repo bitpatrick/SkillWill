@@ -1,6 +1,5 @@
 package com.sinnerschrader.skillwill.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
@@ -187,7 +186,7 @@ public class UserControllerTest {
     // given
     String username = "isawer";
     String skill = "JPA";
-    doNothing().when(userService).removeSkills(username, skill);
+    doNothing().when(userService).removeSkill(username, skill);
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     queryParams.add("username", username);
     queryParams.add("skill", skill);
@@ -207,7 +206,7 @@ public class UserControllerTest {
     // given
     String username = "isawer";
     String skill = "JPA";
-    doNothing().when(userService).removeSkills(username, skill);
+    doNothing().when(userService).removeSkill(username, skill);
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     queryParams.add("username", username);
     queryParams.add("skill", skill);
@@ -253,7 +252,7 @@ public class UserControllerTest {
     // given
     String user = "isawer";
     String skill = "JPA";
-    doNothing().when(userService).removeSkills(user, skill);
+    doNothing().when(userService).removeSkill(user, skill);
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     queryParams.add("user", user);
     queryParams.add("skill", skill);

@@ -71,8 +71,4 @@ public class ApiController {
 		return ResponseEntity.ok(new LoginResponse(jwt, username, email, roles, expirationeTime));
 	}
 
-
-
-
-
 }

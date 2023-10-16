@@ -213,7 +213,7 @@ export function exitSkillsEditMode() {
 
 export const EDIT_SKILL = 'EDIT_SKILL'
 export async function editSkill(requestURL, options) {
-	const request = await fetch(requestURL, options).then(response => response.json())
+	const request = await fetch(requestURL, options)
 	return {
 		type: EDIT_SKILL,
 		payload: request,

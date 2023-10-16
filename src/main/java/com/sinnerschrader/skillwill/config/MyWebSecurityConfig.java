@@ -101,8 +101,8 @@ public class MyWebSecurityConfig  {
 					authorize -> {
 						
 						authorize
-							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll() // sto controllando solo le request che vengono da fuori
-							.requestMatchers("/session/**").authenticated() // dentro session c'è GET
+							.dispatcherTypeMatchers(DispatcherType.INCLUDE, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+							.requestMatchers("/session/**").authenticated()
 							.requestMatchers(HttpMethod.GET, "/**").permitAll()
 							.anyRequest().authenticated();
 					
@@ -111,9 +111,8 @@ public class MyWebSecurityConfig  {
 				
 				// invio lo status 200 dopo che ha effettuato il login con successo
 				.successHandler( (HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {
-					
-					response.setStatus(HttpStatus.OK.value());
-					
+
+          response.setStatus(HttpStatus.OK.value());
 				})
 				.loginProcessingUrl("/login"); // path gestita dal filter ( se arriva una request POST con path /login allora il filtro gestisce questa request )
 				
@@ -126,7 +125,10 @@ public class MyWebSecurityConfig  {
 //			})
 			.logout(logoutCustomizer -> { logoutCustomizer
 				
-				.logoutSuccessUrl("http://localhost:8888/");
+        .logoutSuccessHandler((HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {
+
+          response.setStatus(HttpStatus.OK.value());
+        });
 				
 			})
 			.requestCache(requestCacheCustomizer -> { requestCacheCustomizer

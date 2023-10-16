@@ -18,13 +18,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 @Tag(name = "Session", description = "Manage current session")
 @Controller
 public class SessionController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SessionController.class);
 
-	@Operation(summary = "Session User", description = "Create session user")
+	@Operation(summary = "Session User", description = "get current user")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Operazione riuscita"),
         @ApiResponse(responseCode = "401", description = "Non autorizzato"),
@@ -39,9 +42,8 @@ public class SessionController {
 		UserDto userDto = UserDto.builder()
 				.username(user.getUsername())
 				.password(user.getPassword())
-				.authorities(user.getAuthorities().stream().map(authority -> authority.getAuthority()).toList())
+				.authorities(Optional.ofNullable(user.getAuthorities()).orElse(new ArrayList<>()).stream().map(authority -> authority.getAuthority()).toList())
 				.build();
-		
 
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}

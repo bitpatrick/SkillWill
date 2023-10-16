@@ -45,7 +45,6 @@ import com.sinnerschrader.skillwill.repository.UserRepository;
  */
 @Service
 public class SkillService {
-
 	private static final Logger logger = LoggerFactory.getLogger(SkillService.class);
 	
 	@Autowired

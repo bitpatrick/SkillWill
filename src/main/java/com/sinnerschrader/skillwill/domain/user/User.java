@@ -180,12 +180,18 @@ public class User implements UserDetails {
 	}
 
 	public void updateSkill(String name, int skillLevel, int willLevel, boolean hidden, boolean mentor) {
-		
-		this.skills.add(new UserSkill(name, skillLevel, willLevel, hidden, mentor));
+
+    UserSkill newUserSkill = new UserSkill(name, skillLevel, willLevel, hidden, mentor);
+
+    this.skills.remove(newUserSkill); // Rimuovi l'elemento esistente basandoti sul nome
+    this.skills.add(newUserSkill);    // Aggiungi il nuovo elemento
 	}
 
 	public boolean removeSkill(Skill skill) throws SkillNotFoundException {
-		return this.skills.remove(skill);
+
+    UserSkill userSkillToDelete = new UserSkill(skill.getName());
+
+		return this.skills.remove(userSkillToDelete);
 	}
 
 	public void setFitnessScore(Collection<Skill> searchedSkills, FitnessScoreProperties props) {

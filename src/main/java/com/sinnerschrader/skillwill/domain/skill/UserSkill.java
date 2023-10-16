@@ -19,6 +19,7 @@ import java.util.Objects;
 @Data
 @EqualsAndHashCode(of = "name")
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserSkill {
 
 	@Id
