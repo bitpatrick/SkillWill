@@ -7,9 +7,14 @@ import Footer from './components/footer/footer.jsx'
 import UserSearch from './components/search/user-search.jsx'
 import Results from './components/results/results.jsx'
 import { connect } from 'react-redux'
-import { fetchCurrentUser } from './actions/index.js'
+import { fetchCurrentUser,
+    startLoading,
+    stopLoading,
+    errorAlertManage,
+	isResultsLoaded } from './actions/index.js'
 import Spinner from './components/common/spinner.js'
 import ErrorAlert from './components/common/error-alert.js'
+import { apiServer } from "./env.js";
 
 class App extends React.Component {
 
@@ -17,20 +22,59 @@ class App extends React.Component {
 		super(props)
 
 		console.log(this.props)
-		// this.checkUser = this.checkUser.bind(this);
-		// this.checkUser();
-
+		this.checkUser = this.checkUser.bind(this);
+		this.logout = this.logout.bind(this);
+		this.refreshReloaded = this.refreshReloaded.bind(this);
 	}
 
-	// async checkUser(){
-	// 	await this.props.fetchCurrentUser();
-	// 	if(!this.props.currentUser.loaded){
-	// 		this.props.history.push('/login')
-	// 	}
-	// }
+	refreshReloaded(){
+		// this.props.isResultsLoaded(false);
+	}
+
+	componentDidMount(){
+		this.checkUser();
+	}
+
+	async checkUser(){
+		await this.props.fetchCurrentUser();
+	}
+
+	async logout(e){
+        e.preventDefault();
+        var formBody = [];
+        let details={username: this.props.currentUser.username, password: this.props.currentUser.password};
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+		const options = { 
+            method: 'POST', 
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        };
+		const requestURL = `${apiServer}/logout`
+		// await this.props.fetchCurrentUser()
+		this.props.history.push('/login')
+		return
+		//add logout api
+        this.props.startLoading();
+		await fetch(requestURL, options)
+			.then( res => {})
+			.catch(err =>{
+                console.log(err.message)
+                this.props.errorAlertManage(err.message);
+            })
+        this.props.stopLoading();
+	}
 
 	render() {
-		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction } = this.props
+		const { isResultsLoaded, isSkillAnimated, isLoading, errorAlertAction,
+		currentUser } = this.props
 
 		return (
 			<div>
@@ -44,7 +88,8 @@ class App extends React.Component {
                 : null }
 				<div className={isResultsLoaded ? 'results-loaded' : ''}>
 					<IconSymbols />
-					<Header />
+					<Header location={this.props.location} logout={this.logout}
+					refreshReloaded={this.refreshReloaded}/>
 					<div className="search">
 						<Logo/>
 						<div className="container">
@@ -74,5 +119,8 @@ function mapStateToProps(state) {
 	}
 }
 export default connect(mapStateToProps,{
-	// fetchCurrentUser
+	fetchCurrentUser,
+    startLoading,
+    stopLoading,
+    errorAlertManage
 })(App)

@@ -39,7 +39,6 @@ class MyProfile extends React.Component {
 	async componentWillMount() {
 		document.body.classList.add('my-profile-open')
 		await this.props.fetchCurrentUser();
-		console.log(this.props)
 		if(this.props.redirLogin){
 			this.props.history.push('/login')
 		}

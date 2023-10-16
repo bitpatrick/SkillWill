@@ -153,6 +153,9 @@ export function getUserProfileData(profile) {
 		await fetch(requestURL, options)
 		.then(response => response.json())
 		.then(json => {
+			json['id']=json['username']
+			if(!json['skills']) json['skills']=[]
+			if(!json['mail']) json['mail']=''
 			dispatch(receiveProfileData(json))
 		})
 		.catch(err=>{
@@ -342,7 +345,7 @@ export function fetchCurrentUser() {
 				if(!json['skills']) json['skills']=[]
 				if(!json['mail']) json['mail']=''
 				dispatch(receiveCurrentUser(json))
-				dispatch(receiveProfileData(json))
+				dispatch(redirectLogin(false))
 				dispatch(stopLoading())
 			})
 		})
