@@ -98,12 +98,12 @@ class MyProfile extends React.Component {
 		const options = { method: 'DELETE', credentials: 'include' }
 		const requestURL = `${apiServer}/users/${this.getCurrentUserId()}/skills?skill=${encodeURIComponent(
 			skill
-		)}`
+		).toUpperCase()}`
 		this.props.startLoading();
 		await fetch(requestURL, options)
 			.then(async res => {
 				if (res.status === 403) {
-          alert('session invalid') // eslint-disable-line
+          			alert('session invalid') // eslint-disable-line
 					this.setState({
 						editLayerOpen: false,
 					})

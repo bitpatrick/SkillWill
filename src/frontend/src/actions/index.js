@@ -319,7 +319,7 @@ export function redirectLogin(check) {
 	}
 }
 
-export function fetchCurrentUser() {
+export function fetchCurrentUser(logout) {
 	return async function(dispatch){
 		dispatch(requestCurrentUser())
 		dispatch(startLoading())
@@ -328,7 +328,7 @@ export function fetchCurrentUser() {
 		.then(res => {
 			if(!res.ok && res.status==0){
 				dispatch(redirectLogin(true))
-				throw Error("Utente non autorizzato")
+				throw Error(logout ? "Logout effettuato" : "Utente non autorizzato")
 			}
 			return res.json();
 		})

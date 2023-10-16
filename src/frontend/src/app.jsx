@@ -58,13 +58,13 @@ class App extends React.Component {
             body: formBody
         };
 		const requestURL = `${apiServer}/logout`
-		// await this.props.fetchCurrentUser()
-		this.props.history.push('/login')
-		return
 		//add logout api
         this.props.startLoading();
 		await fetch(requestURL, options)
-			.then( res => {})
+			.then( async res => {
+				await this.props.fetchCurrentUser(true)
+				this.props.history.push('/')
+			})
 			.catch(err =>{
                 console.log(err.message)
                 this.props.errorAlertManage(err.message);

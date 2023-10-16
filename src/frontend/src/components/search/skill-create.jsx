@@ -135,7 +135,7 @@ class SkillCreate extends React.Component {
 		const options = { method: 'DELETE', credentials: 'include' }
 		const requestURL = `${apiServer}/users/${this.getCurrentUserId()}/skills?skill=${encodeURIComponent(
 			skill
-		)}`
+		).toUpperCase()}`
 		this.props.startLoading();
 		await fetch(requestURL, options)
 			.then(async res => {
