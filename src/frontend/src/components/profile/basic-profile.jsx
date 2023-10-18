@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import SkillItem from '../skill-item/skill-item.jsx'
-import TopWills from '../profile/top-wills'
+import TopSkills from '../profile/top-wills'
 import Icon from '../icon/icon.jsx'
 import { SkillLegend, SkillLegendItem } from '../skill-legend/skill-legend'
 import { connect } from 'react-redux'
@@ -150,7 +150,7 @@ class BasicProfile extends React.Component {
 					? 'animateable'
 					: ''}`}>
 				<li className="info">
-					<div className="avatar" style={{backgroundImage: `url('${this.state.avatarUrl}')`}}></div>
+					{/* <div className="avatar" style={{backgroundImage: `url('${this.state.avatarUrl}')`}}></div> */}
 					<p className="name">
 						{firstName} {lastName}
 					</p>
@@ -180,7 +180,7 @@ class BasicProfile extends React.Component {
 
 				{this.renderSearchedSkills()}
 
-				<TopWills wills={topWills} />
+				<TopSkills wills={sortedSkills} />
 
 				<li className="all-skills skill-listing">
 					<div className="listing-header">

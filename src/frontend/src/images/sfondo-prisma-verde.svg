@@ -1,0 +1,834 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.315" y1="-0.335" x2="0.687" y2="1.345" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#00c1ae"/>
+      <stop offset="0.33" stop-color="#02c0b1"/>
+      <stop offset="0.58" stop-color="#0abcba"/>
+      <stop offset="0.79" stop-color="#16b5ca"/>
+      <stop offset="0.99" stop-color="#28ace0"/>
+      <stop offset="1" stop-color="#29abe2"/>
+    </linearGradient>
+    <clipPath id="clip-Web_1920_1">
+      <rect width="1920" height="1080"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1920_1" data-name="Web 1920 – 1" clip-path="url(#clip-Web_1920_1)">
+    <rect width="1920" height="1080" fill="#fff"/>
+    <g id="sfondo-header-v" transform="translate(0 0.98)">
+      <rect id="Rettangolo_1" data-name="Rettangolo 1" width="1920" height="1085.95" transform="translate(0 -2.98)" fill="url(#linear-gradient)"/>
+      <g id="Raggruppa_196" data-name="Raggruppa 196" opacity="0.15">
+        <g id="Raggruppa_2" data-name="Raggruppa 2">
+          <path id="Tracciato_1" data-name="Tracciato 1" d="M37.34-2.98V26.25L0,47.81v2.32L39.35,27.41V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_1" data-name="Raggruppa 1">
+            <path id="Tracciato_2" data-name="Tracciato 2" d="M47.76,32.27c19.4,11.41,38.79,22.82,58.52,33.78Z" fill="#fff"/>
+            <path id="Tracciato_3" data-name="Tracciato 3" d="M0,4.69,47.76,32.27C31.92,23,16.05,13.65,0,4.59Z" fill="#fff"/>
+            <path id="Tracciato_4" data-name="Tracciato 4" d="M49.26,32C33.19,22.53,16.63,12.79,0,3.41V5.72c16.28,9.2,32.49,18.73,48.24,28,18.76,11,38.15,22.43,57.55,33.21l1-1.75C87.38,54.41,68,43,49.26,32Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_5" data-name="Tracciato 5" d="M105.28-2.98V65.47L0,126.26v2.32L106.78,66.92l.51-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_6" data-name="Raggruppa 6">
+          <path id="Tracciato_6" data-name="Tracciato 6" d="M263.86-2.98V26.25L219.54,51.84,175.22,26.25V-2.98h-2V27.41l46.32,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_3" data-name="Raggruppa 3">
+            <path id="Tracciato_7" data-name="Tracciato 7" d="M332.8,66.05l-6.11-3.53-16.63-9.6L285.48,38.73l-30-17.3L222.74,2.51,218.63.14" fill="#fff"/>
+            <rect id="Rettangolo_2" data-name="Rettangolo 2" width="2.01" height="131.84" transform="translate(218.132 1.003) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_4" data-name="Raggruppa 4">
+            <path id="Tracciato_8" data-name="Tracciato 8" d="M219.54.31c-.06,43.36-.06,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_9" data-name="Tracciato 9" d="M218.54,131.45c-.06-43.62-.06-87.74,0-131.14h2c-.06,43.4-.06,87.52,0,131.13Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_5" data-name="Raggruppa 5">
+            <path id="Tracciato_10" data-name="Tracciato 10" d="M220.46.14c-14,8.37-27.1,15.4-41.16,24.44-12.06,6-23.11,13.06-35.16,19.09-13.06,8-25.12,15.07-37.86,22.38" fill="#fff"/>
+            <path id="Tracciato_11" data-name="Tracciato 11" d="M106.78,66.93l-1-1.75c11.47-6.58,24-13.85,37.83-22.37,6.08-3,11.95-6.35,17.61-9.56s11.55-6.52,17.58-9.54c9.1-5.85,17.58-10.74,26.56-15.92,4.73-2.74,9.63-5.56,14.58-8.52L221,1c-5,3-9.87,5.79-14.61,8.53-9,5.17-17.44,10.06-26.52,15.9l-.09.05c-6,3-11.87,6.32-17.54,9.52s-11.57,6.54-17.62,9.57C130.8,53.06,118.26,60.33,106.78,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_12" data-name="Tracciato 12" d="M331.8-2.98V65.47L219.54,130.29,107.29,65.47V-2.98h-2.01V66.63l114.26,65.98L333.31,66.92l.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_10" data-name="Raggruppa 10">
+          <path id="Tracciato_13" data-name="Tracciato 13" d="M490.38-2.98V26.25L446.07,51.84,401.75,26.25V-2.98h-2.01V27.41l46.33,26.75,46.32-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_7" data-name="Raggruppa 7">
+            <path id="Tracciato_14" data-name="Tracciato 14" d="M559.33,66.05C520.85,44.67,483.68,21.57,445.15.14" fill="#fff"/>
+            <path id="Tracciato_15" data-name="Tracciato 15" d="M558.84,66.93c-19.33-10.74-38.65-22.1-57.33-33.09C483,23,463.84,11.68,444.66,1l1-1.75c19.2,10.68,38.36,22,56.89,32.85s38,22.34,57.28,33.07Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_8" data-name="Raggruppa 8">
+            <path id="Tracciato_16" data-name="Tracciato 16" d="M446.07.31c.44,43.36.44,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_17" data-name="Tracciato 17" d="M447.07,131.46h-2c.45-43.61.45-87.73,0-131.12h2C447.52,43.71,447.52,87.83,447.07,131.46Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_9" data-name="Raggruppa 9">
+            <path id="Tracciato_18" data-name="Tracciato 18" d="M447,.14c-38.66,22.43-75.83,44.53-114.2,65.91" fill="#fff"/>
+            <path id="Tracciato_19" data-name="Tracciato 19" d="M333.29,66.93l-1-1.75c28.08-15.65,54.95-31.35,83.38-48Q431,8.29,446.47-.73l1,1.73Q432,10,416.72,18.94C388.27,35.57,361.4,51.27,333.29,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_20" data-name="Tracciato 20" d="M558.32-2.98V65.47L446.07,130.29,333.81,65.47V-2.98H331.8V66.63l114.27,65.98L559.83,66.92l.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_14" data-name="Raggruppa 14">
+          <path id="Tracciato_21" data-name="Tracciato 21" d="M716.91-2.98V26.25L672.59,51.84,628.27,26.25V-2.98h-2.01V27.41l46.33,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_11" data-name="Raggruppa 11">
+            <path id="Tracciato_22" data-name="Tracciato 22" d="M785.85,66.05l-6.11-3.53-16.64-9.6L738.52,38.73l-30-17.3L675.79,2.51,671.68.14" fill="#fff"/>
+            <rect id="Rettangolo_3" data-name="Rettangolo 3" width="2.01" height="131.84" transform="translate(671.177 1.008) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_12" data-name="Raggruppa 12">
+            <path id="Tracciato_23" data-name="Tracciato 23" d="M672.59.31c-.05,43.36-.05,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_24" data-name="Tracciato 24" d="M671.58,131.45V.31h2V131.44Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_13" data-name="Raggruppa 13">
+            <path id="Tracciato_25" data-name="Tracciato 25" d="M673.5.14c-23.06,12.39-44.15,26.45-67.26,39.51a35.848,35.848,0,0,0-9,4c-13.06,9-25.11,15.07-37.87,22.38" fill="#fff"/>
+            <path id="Tracciato_26" data-name="Tracciato 26" d="M559.83,66.93l-1-1.75c3.42-2,6.83-3.85,10.13-5.68a312.4,312.4,0,0,0,27.67-16.66,36.431,36.431,0,0,1,9.2-4.11c10.06-5.69,19.88-11.65,29.38-17.42C647.41,13.9,660,6.24,673-.75L674,1c-13,7-25.55,14.61-37.73,22-9.53,5.79-19.4,11.78-29.51,17.5l-.18.07a34.751,34.751,0,0,0-8.8,3.91,311.311,311.311,0,0,1-27.82,16.74C566.64,63.08,563.23,65,559.83,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_27" data-name="Tracciato 27" d="M784.85-2.98V65.47L672.59,130.29,560.33,65.47V-2.98h-2.01V66.63l114.27,65.98L786.35,66.92l.51-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_18" data-name="Raggruppa 18">
+          <path id="Tracciato_28" data-name="Tracciato 28" d="M943.43-2.98V26.25L899.11,51.84,854.79,26.25V-2.98h-2V27.41l46.32,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_15" data-name="Raggruppa 15">
+            <path id="Tracciato_29" data-name="Tracciato 29" d="M1012.37,66.05C1001,60.75,992,53.72,981,48.69c-10.05-5-19.09-11-29.14-17.07-4-3-8-5-12-8-3-2-6-2-9-4-11.05-7-21.1-13.06-32.52-19.42" fill="#fff"/>
+            <path id="Tracciato_30" data-name="Tracciato 30" d="M1012,67a166.648,166.648,0,0,1-15.65-8.67,152,152,0,0,0-15.77-8.68c-7.34-3.67-14-7.8-21.11-12.17-2.66-1.64-5.35-3.3-8.12-5l-.09-.06c-2-1.48-4-2.75-6-4s-4-2.54-6.09-4.07a17,17,0,0,0-4.24-1.86,18.6,18.6,0,0,1-4.76-2.12C918.8,13.17,908.79,7.19,897.71,1l1-1.75c11.11,6.19,21.16,12.19,32.57,19.45a17.061,17.061,0,0,0,4.3,1.91,18.6,18.6,0,0,1,4.76,2.12,69.475,69.475,0,0,0,6,4c2,1.22,4,2.52,6.06,4,2.76,1.66,5.45,3.32,8.1,4.95,7,4.35,13.69,8.45,20.92,12.06a158.841,158.841,0,0,1,15.94,8.78,167.99,167.99,0,0,0,15.46,8.57Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_16" data-name="Raggruppa 16">
+            <path id="Tracciato_31" data-name="Tracciato 31" d="M899.11.31c.47,43.36.47,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_32" data-name="Tracciato 32" d="M900.12,131.46h-2c.46-43.61.46-87.73,0-131.12h2C900.58,43.71,900.58,87.83,900.12,131.46Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_17" data-name="Raggruppa 17">
+            <path id="Tracciato_33" data-name="Tracciato 33" d="M900,.14c-38.63,22.43-75.8,44.53-114.18,65.91" fill="#fff"/>
+            <path id="Tracciato_34" data-name="Tracciato 34" d="M786.34,66.93l-1-1.75c28.27-15.75,55.29-31.54,83.9-48.26q15-8.79,30.26-17.65l1,1.73q-15.25,8.87-30.26,17.65C841.66,35.38,814.62,51.18,786.34,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_35" data-name="Tracciato 35" d="M1011.37-2.98V65.47L899.11,130.29,786.86,65.47V-2.98h-2.01V66.63l114.26,65.98,113.77-65.69.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_22" data-name="Raggruppa 22">
+          <path id="Tracciato_36" data-name="Tracciato 36" d="M1169.95-2.98V26.25l-44.32,25.59-44.31-25.59V-2.98h-2.01V27.41l46.32,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_19" data-name="Raggruppa 19">
+            <path id="Tracciato_37" data-name="Tracciato 37" d="M1238.9,66.05l-6.12-3.53-16.63-9.6-24.58-14.19-30-17.3L1128.83,2.51,1124.72.14" fill="#fff"/>
+            <rect id="Rettangolo_4" data-name="Rettangolo 4" width="2.01" height="131.84" transform="translate(1124.222 0.993) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_20" data-name="Raggruppa 20">
+            <path id="Tracciato_38" data-name="Tracciato 38" d="M1125.64.31V131.45" fill="#fff"/>
+            <path id="Tracciato_39" data-name="Tracciato 39" d="M1124.63,131.45V.31h2V131.45Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_21" data-name="Raggruppa 21">
+            <path id="Tracciato_40" data-name="Tracciato 40" d="M1126.55.14c-7,3.35-14,8.37-21,12.39-16.07,9-30.13,17.08-46.21,27.12-3,2-6,2-9,4-13.06,9-25.11,15.07-37.89,22.38" fill="#fff"/>
+            <path id="Tracciato_41" data-name="Tracciato 41" d="M1012.87,66.93l-1-1.75c3.41-2,6.8-3.83,10.08-5.65a309.965,309.965,0,0,0,27.74-16.69,18.861,18.861,0,0,1,4.77-2.13,17.119,17.119,0,0,0,4.29-1.89C1075.49,28.35,1090.19,20,1105,11.65c2.66-1.51,5.37-3.21,8-4.85a141.171,141.171,0,0,1,13.1-7.57L1127,1a138.932,138.932,0,0,0-12.9,7.46c-2.64,1.65-5.37,3.36-8.07,4.9-14.82,8.34-29.49,16.68-46.17,27.1a18.482,18.482,0,0,1-4.74,2.11,17.09,17.09,0,0,0-4.28,1.9,313.8,313.8,0,0,1-27.89,16.78C1019.65,63.11,1016.26,65,1012.87,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_42" data-name="Tracciato 42" d="M1237.89-2.98V65.47l-112.26,64.82L1013.38,65.47V-2.98h-2.01V66.63l114.26,65.98L1239.4,66.92l.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_26" data-name="Raggruppa 26">
+          <path id="Tracciato_43" data-name="Tracciato 43" d="M1396.48-2.98V26.25l-44.32,25.59-44.32-25.59V-2.98h-2.01V27.41l46.33,26.75,46.32-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_23" data-name="Raggruppa 23">
+            <path id="Tracciato_44" data-name="Tracciato 44" d="M1465.42,66.05c-11.32-5.3-20.36-12.33-31.41-17.36-10-5-19.09-11-29.13-17.07-4-3-8-5-12.06-8-3-2-6-2-9-4-11-7-21.1-13.06-32.53-19.42" fill="#fff"/>
+            <path id="Tracciato_45" data-name="Tracciato 45" d="M1465,67a168.409,168.409,0,0,1-15.61-8.66,150.577,150.577,0,0,0-15.79-8.69c-7.34-3.67-14-7.8-21.11-12.17-2.66-1.64-5.35-3.3-8.12-5l-.09-.06c-2-1.48-4-2.75-6-4s-4.06-2.54-6.1-4.07a17,17,0,0,0-4.24-1.86,18.6,18.6,0,0,1-4.76-2.12c-11.39-7.25-21.41-13.23-32.46-19.39l1-1.75c11.1,6.17,21.15,12.17,32.59,19.45a17.057,17.057,0,0,0,4.3,1.91,18.6,18.6,0,0,1,4.76,2.12,69.481,69.481,0,0,0,6,4c2,1.22,4,2.52,6.06,4,2.76,1.66,5.45,3.32,8.1,4.95,7,4.35,13.69,8.45,20.92,12.06a156.188,156.188,0,0,1,16,8.79,167.366,167.366,0,0,0,15.43,8.56Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_24" data-name="Raggruppa 24">
+            <path id="Tracciato_46" data-name="Tracciato 46" d="M1352.16.31c.48,43.36.48,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_47" data-name="Tracciato 47" d="M1353.16,131.46h-2c.48-43.6.48-87.72,0-131.11h2C1353.64,43.71,1353.64,87.83,1353.16,131.46Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_25" data-name="Raggruppa 25">
+            <path id="Tracciato_48" data-name="Tracciato 48" d="M1353.07.14c-38.61,22.43-75.77,44.53-114.17,65.91" fill="#fff"/>
+            <path id="Tracciato_49" data-name="Tracciato 49" d="M1239.39,66.93l-1-1.75c28.46-15.85,55.65-31.74,84.44-48.57Q1337.61,8,1352.57-.73l1,1.73q-15,8.72-29.72,17.34C1295.06,35.17,1267.86,51.08,1239.39,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_50" data-name="Tracciato 50" d="M1464.41-2.98V65.47l-112.25,64.82L1239.9,65.47V-2.98h-2.01V66.63l114.27,65.98,113.76-65.69.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_30" data-name="Raggruppa 30">
+          <path id="Tracciato_51" data-name="Tracciato 51" d="M1623-2.98V26.25l-44.32,25.59-44.32-25.59V-2.98h-2.01V27.41l46.33,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_27" data-name="Raggruppa 27">
+            <path id="Tracciato_52" data-name="Tracciato 52" d="M1691.94,66.05l-6.11-3.53-16.63-9.6-24.58-14.19-30-17.3L1581.88,2.51,1577.77.14" fill="#fff"/>
+            <rect id="Rettangolo_5" data-name="Rettangolo 5" width="2.01" height="131.84" transform="translate(1577.272 0.997) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_28" data-name="Raggruppa 28">
+            <path id="Tracciato_53" data-name="Tracciato 53" d="M1578.68.31V131.45" fill="#fff"/>
+            <path id="Tracciato_54" data-name="Tracciato 54" d="M1577.68,131.45V.31h2V131.45Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_29" data-name="Raggruppa 29">
+            <path id="Tracciato_55" data-name="Tracciato 55" d="M1579.6.14c-7,3.35-14,8.37-21,12.39-16.07,9-30.13,17.08-46.21,27.12-3,2-6,2-9,4-13.06,9-25.11,15.07-37.9,22.38" fill="#fff"/>
+            <path id="Tracciato_56" data-name="Tracciato 56" d="M1465.92,66.93l-1-1.75c3.38-1.93,6.76-3.8,10-5.61a309.118,309.118,0,0,0,27.81-16.73,18.907,18.907,0,0,1,4.78-2.13,17.222,17.222,0,0,0,4.28-1.89c16.74-10.47,31.44-18.82,46.27-27.17,2.67-1.52,5.39-3.22,8-4.87a140.331,140.331,0,0,1,13.06-7.55L1580,1a139.081,139.081,0,0,0-12.86,7.44c-2.65,1.66-5.39,3.37-8.1,4.92-14.81,8.34-29.49,16.68-46.17,27.1a18.328,18.328,0,0,1-4.74,2.11,17.253,17.253,0,0,0-4.28,1.9,313.074,313.074,0,0,1-28,16.82C1472.66,63.13,1469.29,65,1465.92,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_57" data-name="Tracciato 57" d="M1690.94-2.98V65.47l-112.26,64.82L1466.42,65.47V-2.98h-2.01V66.63l114.27,65.98,113.76-65.69.51-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_34" data-name="Raggruppa 34">
+          <path id="Tracciato_58" data-name="Tracciato 58" d="M1849.52-2.98V26.25L1805.2,51.84l-44.31-25.59V-2.98h-2.01V27.41l46.32,26.75,46.33-26.75V-2.98Z" fill="#fff"/>
+          <g id="Raggruppa_31" data-name="Raggruppa 31">
+            <path id="Tracciato_59" data-name="Tracciato 59" d="M1918.47,66.05c-11.31-5.3-20.35-12.33-31.4-17.36-10-5-19.09-11-29.13-17.07-4-3-8-5-12.06-8-3-2-6-2-9-4-11-7-21.09-13.06-32.55-19.42" fill="#fff"/>
+            <path id="Tracciato_60" data-name="Tracciato 60" d="M1918,67a169.882,169.882,0,0,1-15.57-8.64,151.171,151.171,0,0,0-15.82-8.71c-7.34-3.67-14-7.8-21.1-12.17-2.66-1.64-5.36-3.3-8.13-5l-.09-.06c-2-1.48-4-2.75-5.95-4s-4.06-2.54-6.1-4.07a17,17,0,0,0-4.24-1.86,18.6,18.6,0,0,1-4.76-2.12c-11.37-7.24-21.4-13.22-32.44-19.37l1-1.75c11.08,6.15,21.13,12.15,32.6,19.45a17.221,17.221,0,0,0,4.3,1.91,18.6,18.6,0,0,1,4.76,2.12,69.453,69.453,0,0,0,6,4c2,1.22,4,2.52,6.06,4,2.76,1.66,5.45,3.32,8.1,4.95,7,4.35,13.69,8.45,20.92,12.06a155.567,155.567,0,0,1,16,8.81,167.784,167.784,0,0,0,15.39,8.54Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_32" data-name="Raggruppa 32">
+            <path id="Tracciato_61" data-name="Tracciato 61" d="M1805.2.31c.5,43.36.5,87.56,0,131.14" fill="#fff"/>
+            <path id="Tracciato_62" data-name="Tracciato 62" d="M1806.21,131.46h-2c.5-43.6.5-87.72,0-131.11h2C1806.7,43.71,1806.7,87.83,1806.21,131.46Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_33" data-name="Raggruppa 33">
+            <path id="Tracciato_63" data-name="Tracciato 63" d="M1806.12.14c-38.59,22.43-75.76,44.53-114.18,65.91" fill="#fff"/>
+            <path id="Tracciato_64" data-name="Tracciato 64" d="M1692.43,66.93l-1-1.75c28.63-15.94,56-31.94,85-48.87q14.5-8.47,29.2-17l1,1.73q-14.71,8.57-29.2,17.05C1748.45,35,1721.09,51,1692.43,66.93Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_65" data-name="Tracciato 65" d="M1917.46-2.98V65.47L1805.2,130.29,1692.95,65.47V-2.98h-2.01V66.63l114.26,65.98,113.77-65.69.5-.29V-2.98Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_37" data-name="Raggruppa 37">
+          <path id="Tracciato_66" data-name="Tracciato 66" d="M106.28,250.33,60,223.58V170.09l46.33-26.75,46.33,26.75v53.49ZM62,222.42,106.28,248l44.32-25.59V171.25l-44.32-25.59L62,171.25Z" fill="#fff"/>
+          <g id="Raggruppa_35" data-name="Raggruppa 35">
+            <path id="Tracciato_67" data-name="Tracciato 67" d="M219.54,262.23l-17.06-9.85L160.19,228l-55.12-31.82L50.5,164.63,8.75,140.53l-3.56-2.06" fill="#fff"/>
+            <path id="Tracciato_68" data-name="Tracciato 68" d="M0,134.32v2.32L219.04,263.1l1-1.74Z" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_6" data-name="Rettangolo 6" width="2.01" height="261.57" transform="translate(105.28 66.05)" fill="#fff"/>
+          <g id="Raggruppa_36" data-name="Raggruppa 36">
+            <path id="Tracciato_69" data-name="Tracciato 69" d="M219.54,131.45l-17.06,9.85-42.29,24.42-55.12,31.82L50.5,229,8.75,253.15l-3.56,2" fill="#fff"/>
+            <path id="Tracciato_70" data-name="Tracciato 70" d="M0,259.36,220.04,132.32l-1-1.74L0,257.04Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_71" data-name="Tracciato 71" d="M106.28,64.89,0,126.26v2.32L106.28,67.21l112.26,64.82V261.65L106.28,326.46,0,265.1v2.32l106.28,61.36L220.04,263.1l.51-.29V130.87Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_40" data-name="Raggruppa 40">
+          <path id="Tracciato_72" data-name="Tracciato 72" d="M332.8,250.33l-46.32-26.75V170.09l46.32-26.75,46.33,26.75v53.49Zm-44.31-27.91L332.8,248l44.32-25.59V171.25L332.8,145.66l-44.31,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_38" data-name="Raggruppa 38">
+            <line id="Linea_1" data-name="Linea 1" x1="226.53" y1="130.78" transform="translate(219.54 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_7" data-name="Rettangolo 7" width="2.01" height="261.57" transform="translate(219.041 132.316) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_8" data-name="Rettangolo 8" width="2.01" height="261.57" transform="translate(331.8 66.05)" fill="#fff"/>
+          <g id="Raggruppa_39" data-name="Raggruppa 39">
+            <line id="Linea_2" data-name="Linea 2" x1="226.53" y2="130.78" transform="translate(219.54 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_9" data-name="Rettangolo 9" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 219.027, 261.371)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_73" data-name="Tracciato 73" d="M332.8,328.78l-114.26-66V130.87l.5-.29L332.8,64.89l114.27,66V262.81l-.5.29ZM220.55,261.65,332.8,326.46l112.26-64.81V132L332.8,67.21,220.55,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_43" data-name="Raggruppa 43">
+          <path id="Tracciato_74" data-name="Tracciato 74" d="M559.33,250.33,513,223.58V170.09l46.33-26.75,46.32,26.75v53.49ZM515,222.42,559.33,248l44.32-25.59V171.25l-44.32-25.59L515,171.25Z" fill="#fff"/>
+          <g id="Raggruppa_41" data-name="Raggruppa 41">
+            <line id="Linea_3" data-name="Linea 3" x1="226.52" y1="130.78" transform="translate(446.07 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_10" data-name="Rettangolo 10" width="2.01" height="261.57" transform="translate(445.561 132.313) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_11" data-name="Rettangolo 11" width="2.01" height="261.57" transform="translate(558.32 66.05)" fill="#fff"/>
+          <g id="Raggruppa_42" data-name="Raggruppa 42">
+            <line id="Linea_4" data-name="Linea 4" x1="226.52" y2="130.78" transform="translate(446.07 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_12" data-name="Rettangolo 12" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 445.558, 261.385)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_75" data-name="Tracciato 75" d="M559.33,328.78l-114.27-66V130.87l.5-.29L559.33,64.89l114.26,66V262.81l-.5.29ZM447.07,261.65l112.26,64.81,112.25-64.81V132L559.33,67.21,447.07,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_46" data-name="Raggruppa 46">
+          <path id="Tracciato_76" data-name="Tracciato 76" d="M785.85,250.33l-46.33-26.75V170.09l46.33-26.75,46.33,26.75v53.49Zm-44.32-27.91L785.85,248l44.32-25.59V171.25l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_44" data-name="Raggruppa 44">
+            <line id="Linea_5" data-name="Linea 5" x1="226.52" y1="130.78" transform="translate(672.59 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_13" data-name="Rettangolo 13" width="2.017" height="262.471" transform="translate(672.349 129.196) rotate(-60.113)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_14" data-name="Rettangolo 14" width="2.01" height="261.57" transform="translate(784.85 66.05)" fill="#fff"/>
+          <g id="Raggruppa_45" data-name="Raggruppa 45">
+            <line id="Linea_6" data-name="Linea 6" x1="226.52" y2="130.78" transform="translate(672.59 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_15" data-name="Rettangolo 15" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 672.088, 261.394)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_77" data-name="Tracciato 77" d="M785.85,328.78l-114.27-66V130.87l.51-.29L785.85,64.89l114.27,66V262.81l-.51.29ZM673.59,261.65l112.26,64.81,112.26-64.81V132L785.85,67.21,673.59,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_49" data-name="Raggruppa 49">
+          <path id="Tracciato_78" data-name="Tracciato 78" d="M1012.37,250.33l-46.32-26.75V170.09l46.32-26.75,46.33,26.75v53.49Zm-44.31-27.91L1012.37,248l44.32-25.59V171.25l-44.32-25.59-44.31,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_47" data-name="Raggruppa 47">
+            <line id="Linea_7" data-name="Linea 7" x1="226.53" y1="130.78" transform="translate(899.11 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_16" data-name="Rettangolo 16" width="2.01" height="261.57" transform="translate(898.606 132.308) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_17" data-name="Rettangolo 17" width="2.01" height="261.57" transform="translate(1011.37 66.05)" fill="#fff"/>
+          <g id="Raggruppa_48" data-name="Raggruppa 48">
+            <line id="Linea_8" data-name="Linea 8" x1="226.53" y2="130.78" transform="translate(899.11 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_18" data-name="Rettangolo 18" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 898.62, 261.418)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_79" data-name="Tracciato 79" d="M1012.37,328.78l-114.26-66V130.87l.5-.29,113.76-65.69,114.27,66V262.81l-.5.29ZM900.12,261.65l112.25,64.81,112.26-64.81V132L1012.37,67.21,900.12,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_52" data-name="Raggruppa 52">
+          <path id="Tracciato_80" data-name="Tracciato 80" d="M1238.9,250.33l-46.33-26.75V170.09l46.33-26.75,46.32,26.75v53.49Zm-44.32-27.91L1238.9,248l44.31-25.59V171.25l-44.31-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_50" data-name="Raggruppa 50">
+            <line id="Linea_9" data-name="Linea 9" x1="226.52" y1="130.78" transform="translate(1125.64 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_19" data-name="Rettangolo 19" width="2.01" height="261.57" transform="translate(1125.126 132.305) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_20" data-name="Rettangolo 20" width="2.01" height="261.57" transform="translate(1237.89 66.05)" fill="#fff"/>
+          <g id="Raggruppa_51" data-name="Raggruppa 51">
+            <line id="Linea_10" data-name="Linea 10" x1="226.52" y2="130.78" transform="translate(1125.64 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_21" data-name="Rettangolo 21" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1125.151, 261.432)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_81" data-name="Tracciato 81" d="M1238.9,328.78l-114.27-66V130.87l.5-.29L1238.9,64.89l114.26,66V262.81l-.5.29Zm-112.26-67.13,112.26,64.81,112.25-64.81V132L1238.9,67.21,1126.64,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_55" data-name="Raggruppa 55">
+          <path id="Tracciato_82" data-name="Tracciato 82" d="M1465.42,250.33l-46.33-26.75V170.09l46.33-26.75,46.33,26.75v53.49Zm-44.32-27.91L1465.42,248l44.32-25.59V171.25l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_53" data-name="Raggruppa 53">
+            <line id="Linea_11" data-name="Linea 11" x1="226.52" y1="130.78" transform="translate(1352.16 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_22" data-name="Rettangolo 22" width="2.01" height="261.57" transform="translate(1351.651 132.303) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_23" data-name="Rettangolo 23" width="2.01" height="261.57" transform="translate(1464.42 66.05)" fill="#fff"/>
+          <g id="Raggruppa_54" data-name="Raggruppa 54">
+            <line id="Linea_12" data-name="Linea 12" x1="226.52" y2="130.78" transform="translate(1352.16 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_24" data-name="Rettangolo 24" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1351.691, 261.441)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_83" data-name="Tracciato 83" d="M1465.42,328.78l-114.27-66V130.87l.51-.29,113.76-65.69,114.27,66V262.81l-.51.29Zm-112.26-67.13,112.26,64.81,112.26-64.81V132L1465.42,67.21,1353.16,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_58" data-name="Raggruppa 58">
+          <path id="Tracciato_84" data-name="Tracciato 84" d="M1691.94,250.33l-46.32-26.75V170.09l46.32-26.75,46.33,26.75v53.49Zm-44.32-27.91L1691.94,248l44.32-25.59V171.25l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_56" data-name="Raggruppa 56">
+            <line id="Linea_13" data-name="Linea 13" x1="226.52" y1="130.78" transform="translate(1578.68 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_25" data-name="Rettangolo 25" width="2.01" height="261.57" transform="translate(1578.181 132.31) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_26" data-name="Rettangolo 26" width="2.01" height="261.57" transform="translate(1690.94 66.05)" fill="#fff"/>
+          <g id="Raggruppa_57" data-name="Raggruppa 57">
+            <line id="Linea_14" data-name="Linea 14" x1="226.52" y2="130.78" transform="translate(1578.68 131.45)" fill="#fff"/>
+            <rect id="Rettangolo_27" data-name="Rettangolo 27" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1578.222, 261.464)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_85" data-name="Tracciato 85" d="M1691.94,328.78l-114.26-66V130.87l.5-.29,113.76-65.69,114.27,66V262.81l-.5.29Zm-112.25-67.13,112.25,64.81,112.26-64.81V132L1691.94,67.21,1579.69,132Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_61" data-name="Raggruppa 61">
+          <path id="Tracciato_86" data-name="Tracciato 86" d="M1920,247.13l-1.53.88-44.32-25.59V171.25l44.32-25.59,1.53.89v-2.32l-1.53-.89-46.33,26.75v53.49l46.33,26.75,1.53-.88Z" fill="#fff"/>
+          <g id="Raggruppa_59" data-name="Raggruppa 59">
+            <path id="Tracciato_87" data-name="Tracciato 87" d="M1917.25,196.13c-36.21-22.87-75.39-42-112-64.68" fill="#fff"/>
+            <path id="Tracciato_88" data-name="Tracciato 88" d="M1916.71,197c-18.77-11.85-38.69-22.89-58-33.56-17.91-9.92-36.42-20.18-54.07-31.12l1-1.71c17.62,10.92,36.11,21.16,54,31.07,19.3,10.69,39.25,21.74,58.06,33.63Z" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_28" data-name="Rettangolo 28" width="2.01" height="261.57" transform="translate(1917.46 66.05)" fill="#fff"/>
+          <g id="Raggruppa_60" data-name="Raggruppa 60">
+            <path id="Tracciato_89" data-name="Tracciato 89" d="M1917.25,197.54c-36.21,20.93-71.37,42-108.54,62.11a9.841,9.841,0,0,1-3.51,2.58" fill="#fff"/>
+            <path id="Tracciato_90" data-name="Tracciato 90" d="M1805.56,263.17l-.71-1.88a8.9,8.9,0,0,0,3.15-2.35l.24-.17c27.33-14.78,54.09-30.4,80-45.5,9.33-5.44,19-11.07,28.54-16.6l1,1.74c-9.56,5.53-19.2,11.15-28.52,16.59-25.86,15.09-52.59,30.7-79.91,45.47a10.391,10.391,0,0,1-3.79,2.7Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_91" data-name="Tracciato 91" d="M1920,325.57l-1.53.89-112.26-64.81V132.03l112.26-64.82,1.53.89V65.78l-1.53-.89L1804.7,130.58l-.5.29V262.81l114.27,65.97,1.53-.89Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_64" data-name="Raggruppa 64">
+          <path id="Tracciato_92" data-name="Tracciato 92" d="M0,343.49v2.32l37.34,21.56v51.17L0,440.1v2.32L39.35,419.7V366.21Z" fill="#fff"/>
+          <g id="Raggruppa_62" data-name="Raggruppa 62">
+            <path id="Tracciato_93" data-name="Tracciato 93" d="M106.28,458.35c-18.4-11.85-38.49-21.89-57.58-34-7-3.88-14-7.61-20.88-11.35Z" fill="#fff"/>
+            <path id="Tracciato_94" data-name="Tracciato 94" d="M0,397.19c9,5.57,18.34,10.73,27.82,15.86L0,397Z" fill="#fff"/>
+            <path id="Tracciato_95" data-name="Tracciato 95" d="M77.26,440c-9.25-5.24-18.82-10.66-28.07-16.5-5.28-2.93-10.63-5.82-15.8-8.61C21.75,408.64,10.7,402.67,0,396v2.37c10.42,6.42,21.16,12.21,32.43,18.29,5.17,2.79,10.52,5.67,15.74,8.57,9.24,5.84,18.83,11.27,28.1,16.52,9.83,5.56,20,11.32,29.47,17.42l1.09-1.69C97.29,451.37,87.11,445.6,77.26,440Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_63" data-name="Raggruppa 63">
+            <path id="Tracciato_96" data-name="Tracciato 96" d="M0,389c35.48-20.33,71.2-39.75,106.28-61.39L0,388.93Z" fill="#fff"/>
+            <path id="Tracciato_97" data-name="Tracciato 97" d="M105.75,326.71c-24.91,15.37-50.59,29.86-75.42,43.87C20.38,376.2,10.14,382,0,387.79v2.31c10.46-6,21-12,31.32-17.77,24.85-14,50.54-28.52,75.49-43.91Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_98" data-name="Tracciato 98" d="M0,265.04v2.32l105.28,60.78V457.77L0,518.55v2.32l106.78-61.65.51-.29V326.99Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_67" data-name="Raggruppa 67">
+          <path id="Tracciato_99" data-name="Tracciato 99" d="M219.54,446.45,173.22,419.7V366.21l46.32-26.75,46.33,26.75V419.7Zm-44.31-27.91,44.31,25.59,44.32-25.59V367.37l-44.32-25.59-44.31,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_65" data-name="Raggruppa 65">
+            <line id="Linea_15" data-name="Linea 15" x1="226.52" y1="130.79" transform="translate(106.28 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_29" data-name="Rettangolo 29" width="2.01" height="261.57" transform="translate(105.777 328.433) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_30" data-name="Rettangolo 30" width="2.01" height="261.57" transform="translate(218.54 262.17)" fill="#fff"/>
+          <g id="Raggruppa_66" data-name="Raggruppa 66">
+            <line id="Linea_16" data-name="Linea 16" x1="226.52" y2="130.79" transform="translate(106.28 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_31" data-name="Rettangolo 31" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 105.752, 457.485)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_100" data-name="Tracciato 100" d="M219.54,524.9l-114.26-66V327l.5-.3L219.54,261l114.27,66V458.93l-.5.29ZM107.29,457.77l112.25,64.81L331.8,457.77V328.14L219.54,263.33,107.29,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_70" data-name="Raggruppa 70">
+          <path id="Tracciato_101" data-name="Tracciato 101" d="M446.07,446.45,399.74,419.7V366.21l46.33-26.75,46.32,26.75V419.7Zm-44.32-27.91,44.32,25.59,44.31-25.59V367.37l-44.31-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_68" data-name="Raggruppa 68">
+            <line id="Linea_17" data-name="Linea 17" x1="226.53" y1="130.79" transform="translate(332.8 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_32" data-name="Rettangolo 32" width="2.01" height="261.57" transform="translate(332.297 328.43) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_33" data-name="Rettangolo 33" width="2.01" height="261.57" transform="translate(445.06 262.17)" fill="#fff"/>
+          <g id="Raggruppa_69" data-name="Raggruppa 69">
+            <line id="Linea_18" data-name="Linea 18" x1="226.53" y2="130.79" transform="translate(332.8 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_34" data-name="Rettangolo 34" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 332.273, 457.509)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_102" data-name="Tracciato 102" d="M446.07,524.9l-114.27-66V327l.5-.3L446.07,261l114.26,66V458.93l-.5.29ZM333.81,457.77l112.26,64.81,112.25-64.81V328.14L446.07,263.33,333.81,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_73" data-name="Raggruppa 73">
+          <path id="Tracciato_103" data-name="Tracciato 103" d="M672.59,446.45,626.26,419.7V366.21l46.33-26.75,46.33,26.75V419.7Zm-44.32-27.91,44.32,25.59,44.32-25.59V367.37l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_71" data-name="Raggruppa 71">
+            <line id="Linea_19" data-name="Linea 19" x1="226.52" y1="130.79" transform="translate(559.33 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_35" data-name="Rettangolo 35" width="2.01" height="261.57" transform="translate(558.827 328.437) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_36" data-name="Rettangolo 36" width="2.01" height="261.57" transform="translate(671.58 262.17)" fill="#fff"/>
+          <g id="Raggruppa_72" data-name="Raggruppa 72">
+            <line id="Linea_20" data-name="Linea 20" x1="226.52" y2="130.79" transform="translate(559.33 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_37" data-name="Rettangolo 37" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 558.813, 457.518)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_104" data-name="Tracciato 104" d="M672.59,524.9l-114.27-66V327l.5-.3L672.59,261l114.27,66V458.93l-.51.29ZM560.33,457.77l112.26,64.81,112.26-64.81V328.14L672.59,263.33,560.33,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_76" data-name="Raggruppa 76">
+          <path id="Tracciato_105" data-name="Tracciato 105" d="M899.11,446.45,852.79,419.7V366.21l46.32-26.75,46.33,26.75V419.7Zm-44.32-27.91,44.32,25.59,44.32-25.59V367.37l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_74" data-name="Raggruppa 74">
+            <line id="Linea_21" data-name="Linea 21" x1="226.52" y1="130.79" transform="translate(785.85 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_38" data-name="Rettangolo 38" width="2.01" height="261.57" transform="translate(785.352 328.425) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_39" data-name="Rettangolo 39" width="2.01" height="261.57" transform="translate(898.11 262.17)" fill="#fff"/>
+          <g id="Raggruppa_75" data-name="Raggruppa 75">
+            <line id="Linea_22" data-name="Linea 22" x1="226.52" y2="130.79" transform="translate(785.85 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_40" data-name="Rettangolo 40" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 785.345, 457.532)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_106" data-name="Tracciato 106" d="M899.11,524.9l-114.26-66V327l.5-.3L899.11,261l114.27,66V458.93l-.5.29ZM786.86,457.77l112.25,64.81,112.26-64.81V328.14L899.11,263.33,786.86,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_79" data-name="Raggruppa 79">
+          <path id="Tracciato_107" data-name="Tracciato 107" d="M1125.64,446.45l-46.33-26.75V366.21l46.33-26.75L1172,366.21V419.7Zm-44.32-27.91,44.32,25.59L1170,418.54V367.37l-44.31-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_77" data-name="Raggruppa 77">
+            <line id="Linea_23" data-name="Linea 23" x1="226.53" y1="130.79" transform="translate(1012.37 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_41" data-name="Rettangolo 41" width="2.01" height="261.57" transform="translate(1011.872 328.432) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_42" data-name="Rettangolo 42" width="2.01" height="261.57" transform="translate(1124.63 262.17)" fill="#fff"/>
+          <g id="Raggruppa_78" data-name="Raggruppa 78">
+            <line id="Linea_24" data-name="Linea 24" x1="226.53" y2="130.79" transform="translate(1012.37 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_43" data-name="Rettangolo 43" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1011.876, 457.556)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_108" data-name="Tracciato 108" d="M1125.64,524.9l-114.27-66V327l.5-.3L1125.64,261l114.26,66V458.93l-.5.29Zm-112.26-67.13,112.26,64.81,112.25-64.81V328.14l-112.25-64.81-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_82" data-name="Raggruppa 82">
+          <path id="Tracciato_109" data-name="Tracciato 109" d="M1352.16,446.45l-46.33-26.75V366.21l46.33-26.75,46.33,26.75V419.7Zm-44.32-27.91,44.32,25.59,44.32-25.59V367.37l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_80" data-name="Raggruppa 80">
+            <line id="Linea_25" data-name="Linea 25" x1="226.52" y1="130.79" transform="translate(1238.9 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_44" data-name="Rettangolo 44" width="2.01" height="261.57" transform="translate(1238.392 328.429) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_45" data-name="Rettangolo 45" width="2.01" height="261.57" transform="translate(1351.15 262.17)" fill="#fff"/>
+          <g id="Raggruppa_81" data-name="Raggruppa 81">
+            <line id="Linea_26" data-name="Linea 26" x1="226.52" y2="130.79" transform="translate(1238.9 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_46" data-name="Rettangolo 46" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1238.416, 457.565)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_110" data-name="Tracciato 110" d="M1352.16,524.9l-114.27-66V327l.5-.3L1352.16,261l114.26,66V458.93l-.5.29ZM1239.9,457.77l112.26,64.81,112.26-64.81V328.14l-112.26-64.81L1239.9,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_85" data-name="Raggruppa 85">
+          <path id="Tracciato_111" data-name="Tracciato 111" d="M1578.68,446.45l-46.33-26.75V366.21l46.33-26.75L1625,366.21V419.7Zm-44.32-27.91,44.32,25.59L1623,418.54V367.37l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_83" data-name="Raggruppa 83">
+            <line id="Linea_27" data-name="Linea 27" x1="226.52" y1="130.79" transform="translate(1465.42 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_47" data-name="Rettangolo 47" width="2.01" height="261.57" transform="translate(1464.917 328.427) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_48" data-name="Rettangolo 48" width="2.01" height="261.57" transform="translate(1577.68 262.17)" fill="#fff"/>
+          <g id="Raggruppa_84" data-name="Raggruppa 84">
+            <line id="Linea_28" data-name="Linea 28" x1="226.52" y2="130.79" transform="translate(1465.42 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_49" data-name="Rettangolo 49" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1464.937, 457.579)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_112" data-name="Tracciato 112" d="M1578.68,524.9l-114.26-66V327l.5-.3L1578.68,261,1693,327V458.93l-.5.29Zm-112.26-67.13,112.26,64.81,112.26-64.81V328.14l-112.26-64.81-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_88" data-name="Raggruppa 88">
+          <path id="Tracciato_113" data-name="Tracciato 113" d="M1805.21,446.45l-46.33-26.75V366.21l46.33-26.75,46.32,26.75V419.7Zm-44.32-27.91,44.32,25.59,44.31-25.59V367.37l-44.31-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_86" data-name="Raggruppa 86">
+            <line id="Linea_29" data-name="Linea 29" x1="226.53" y1="130.79" transform="translate(1691.94 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_50" data-name="Rettangolo 50" width="2.01" height="261.57" transform="translate(1691.437 328.424) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_51" data-name="Rettangolo 51" width="2.01" height="261.57" transform="translate(1804.2 262.17)" fill="#fff"/>
+          <g id="Raggruppa_87" data-name="Raggruppa 87">
+            <line id="Linea_30" data-name="Linea 30" x1="226.53" y2="130.79" transform="translate(1691.94 327.56)" fill="#fff"/>
+            <rect id="Rettangolo_52" data-name="Rettangolo 52" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1691.468, 457.603)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_114" data-name="Tracciato 114" d="M1805.21,524.9l-114.27-66V327l.5-.3L1805.21,261l114.26,66V458.93l-.5.29ZM1693,457.77l112.26,64.81,112.25-64.81V328.14l-112.25-64.81L1693,328.14Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_91" data-name="Raggruppa 91">
+          <path id="Tracciato_115" data-name="Tracciato 115" d="M106.28,642.62,60,615.88v-53.5l46.33-26.74,46.33,26.74v53.5ZM62,614.72l44.32,25.59,44.32-25.59V563.54L106.28,538,62,563.54Z" fill="#fff"/>
+          <g id="Raggruppa_89" data-name="Raggruppa 89">
+            <path id="Tracciato_116" data-name="Tracciato 116" d="M219.54,654.52c-71.4-40.18-142.26-83.1-214.35-123.75" fill="#fff"/>
+            <path id="Tracciato_117" data-name="Tracciato 117" d="M0,526.61v2.32L219.04,655.39l1-1.74Z" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_53" data-name="Rettangolo 53" width="2.01" height="261.57" transform="translate(105.28 458.35)" fill="#fff"/>
+          <g id="Raggruppa_90" data-name="Raggruppa 90">
+            <path id="Tracciato_118" data-name="Tracciato 118" d="M219.54,523.74C148.14,565.43,77.28,606.35,5.19,647.5" fill="#fff"/>
+            <path id="Tracciato_119" data-name="Tracciato 119" d="M0,651.65,220.04,524.61l-1-1.74L0,649.33Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_120" data-name="Tracciato 120" d="M106.28,457.19,0,518.55v2.32l106.28-61.36,112.26,64.81V653.94L106.28,718.75,0,657.39v2.32l105.78,61.07.5.29,113.76-65.68.51-.29V523.16Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_94" data-name="Raggruppa 94">
+          <path id="Tracciato_121" data-name="Tracciato 121" d="M332.8,642.62l-46.32-26.74v-53.5l46.32-26.74,46.33,26.74v53.5Zm-44.31-27.9,44.31,25.59,44.32-25.59V563.54L332.8,538l-44.31,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_92" data-name="Raggruppa 92">
+            <line id="Linea_31" data-name="Linea 31" x1="226.53" y1="130.78" transform="translate(219.54 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_54" data-name="Rettangolo 54" width="2.01" height="261.57" transform="translate(219.045 524.606) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_55" data-name="Rettangolo 55" width="2.01" height="261.57" transform="translate(331.8 458.35)" fill="#fff"/>
+          <g id="Raggruppa_93" data-name="Raggruppa 93">
+            <line id="Linea_32" data-name="Linea 32" x1="226.53" y2="130.78" transform="translate(219.54 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_56" data-name="Rettangolo 56" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 218.998, 653.686)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_122" data-name="Tracciato 122" d="M332.8,721.07l-.5-.29L218.54,655.1V523.16l.5-.29L332.8,457.19l114.27,66V655.1l-.5.29ZM220.55,653.94,332.8,718.75l112.26-64.81V524.32L332.8,459.51,220.55,524.32Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_97" data-name="Raggruppa 97">
+          <path id="Tracciato_123" data-name="Tracciato 123" d="M559.33,642.62,513,615.88v-53.5l46.33-26.74,46.32,26.74v53.5ZM515,614.72l44.32,25.59,44.32-25.59V563.54L559.33,538,515,563.54Z" fill="#fff"/>
+          <g id="Raggruppa_95" data-name="Raggruppa 95">
+            <line id="Linea_33" data-name="Linea 33" x1="226.52" y1="130.78" transform="translate(446.07 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_57" data-name="Rettangolo 57" width="2.01" height="261.57" transform="translate(445.565 524.613) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_58" data-name="Rettangolo 58" width="2.01" height="261.57" transform="translate(558.32 458.35)" fill="#fff"/>
+          <g id="Raggruppa_96" data-name="Raggruppa 96">
+            <line id="Linea_34" data-name="Linea 34" x1="226.52" y2="130.78" transform="translate(446.07 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_59" data-name="Rettangolo 59" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 445.53, 653.7)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_124" data-name="Tracciato 124" d="M559.33,721.07l-.51-.29L445.06,655.1V523.16l.5-.29,113.77-65.68,114.26,66V655.1l-.5.29ZM447.07,653.94l112.26,64.81,112.25-64.81V524.32L559.33,459.51,447.07,524.32Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_100" data-name="Raggruppa 100">
+          <path id="Tracciato_125" data-name="Tracciato 125" d="M785.85,642.62l-46.33-26.74v-53.5l46.33-26.74,46.33,26.74v53.5Zm-44.32-27.9,44.32,25.59,44.32-25.59V563.54L785.85,538l-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_98" data-name="Raggruppa 98">
+            <line id="Linea_35" data-name="Linea 35" x1="226.52" y1="130.78" transform="translate(672.59 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_60" data-name="Rettangolo 60" width="2.01" height="261.57" transform="translate(672.09 524.601) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_61" data-name="Rettangolo 61" width="2.01" height="261.57" transform="translate(784.85 458.35)" fill="#fff"/>
+          <g id="Raggruppa_99" data-name="Raggruppa 99">
+            <line id="Linea_36" data-name="Linea 36" x1="226.52" y2="130.78" transform="translate(672.59 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_62" data-name="Rettangolo 62" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 672.069, 653.709)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_126" data-name="Tracciato 126" d="M785.85,721.07l-.5-.29L671.58,655.1V523.16l.51-.29,113.76-65.68,114.27,66V655.1l-.51.29ZM673.59,653.94l112.26,64.81,112.26-64.81V524.32L785.85,459.51,673.59,524.32Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_103" data-name="Raggruppa 103">
+          <path id="Tracciato_127" data-name="Tracciato 127" d="M1012.37,642.62l-46.32-26.74v-53.5l46.32-26.74,46.33,26.74v53.5Zm-44.31-27.9,44.31,25.59,44.32-25.59V563.54L1012.37,538l-44.31,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_101" data-name="Raggruppa 101">
+            <line id="Linea_37" data-name="Linea 37" x1="226.53" y1="130.78" transform="translate(899.11 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_63" data-name="Rettangolo 63" width="2.01" height="261.57" transform="translate(898.61 524.608) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_64" data-name="Rettangolo 64" width="2.01" height="261.57" transform="translate(1011.37 458.35)" fill="#fff"/>
+          <g id="Raggruppa_102" data-name="Raggruppa 102">
+            <line id="Linea_38" data-name="Linea 38" x1="226.53" y2="130.78" transform="translate(899.11 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_65" data-name="Rettangolo 65" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 898.601, 653.733)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_128" data-name="Tracciato 128" d="M1012.37,721.07l-.5-.29L898.11,655.1V523.16l.5-.29,113.76-65.68,114.27,66V655.1l-.5.29ZM900.12,653.94l112.25,64.81,112.26-64.81V524.32l-112.26-64.81L900.12,524.32Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_106" data-name="Raggruppa 106">
+          <path id="Tracciato_129" data-name="Tracciato 129" d="M1238.9,642.62l-46.33-26.74v-53.5l46.33-26.74,46.32,26.74v53.5Zm-44.32-27.9,44.32,25.59,44.31-25.59V563.54L1238.9,538l-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_104" data-name="Raggruppa 104">
+            <line id="Linea_39" data-name="Linea 39" x1="226.52" y1="130.78" transform="translate(1125.64 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_66" data-name="Rettangolo 66" width="2.01" height="261.57" transform="translate(1125.13 524.605) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_67" data-name="Rettangolo 67" width="2.01" height="261.57" transform="translate(1237.89 458.35)" fill="#fff"/>
+          <g id="Raggruppa_105" data-name="Raggruppa 105">
+            <line id="Linea_40" data-name="Linea 40" x1="226.52" y2="130.78" transform="translate(1125.64 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_68" data-name="Rettangolo 68" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1125.132, 653.747)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_130" data-name="Tracciato 130" d="M1238.9,721.07l-.51-.29L1124.63,655.1V523.16l.5-.29,113.77-65.68,114.26,66V655.1l-.5.29Zm-112.26-67.13,112.26,64.81,112.25-64.81V524.32L1238.9,459.51l-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_109" data-name="Raggruppa 109">
+          <path id="Tracciato_131" data-name="Tracciato 131" d="M1465.42,642.62l-46.33-26.74v-53.5l46.33-26.74,46.33,26.74v53.5Zm-44.32-27.9,44.32,25.59,44.32-25.59V563.54L1465.42,538l-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_107" data-name="Raggruppa 107">
+            <line id="Linea_41" data-name="Linea 41" x1="226.52" y1="130.78" transform="translate(1352.16 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_69" data-name="Rettangolo 69" width="2.01" height="261.57" transform="translate(1351.665 524.593) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_70" data-name="Rettangolo 70" width="2.01" height="261.57" transform="translate(1464.42 458.35)" fill="#fff"/>
+          <g id="Raggruppa_108" data-name="Raggruppa 108">
+            <line id="Linea_42" data-name="Linea 42" x1="226.52" y2="130.78" transform="translate(1352.16 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_71" data-name="Rettangolo 71" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1351.662, 653.755)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_132" data-name="Tracciato 132" d="M1465.42,721.07l-.5-.29L1351.15,655.1V523.16l.51-.29,113.76-65.68,114.27,66V655.1l-.51.29Zm-112.26-67.13,112.26,64.81,112.26-64.81V524.32l-112.26-64.81-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_112" data-name="Raggruppa 112">
+          <path id="Tracciato_133" data-name="Tracciato 133" d="M1691.94,642.62l-46.32-26.74v-53.5l46.32-26.74,46.33,26.74v53.5Zm-44.32-27.9,44.32,25.59,44.32-25.59V563.54L1691.94,538l-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_110" data-name="Raggruppa 110">
+            <line id="Linea_43" data-name="Linea 43" x1="226.52" y1="130.78" transform="translate(1578.68 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_72" data-name="Rettangolo 72" width="2.01" height="261.57" transform="translate(1578.185 524.6) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_73" data-name="Rettangolo 73" width="2.01" height="261.57" transform="translate(1690.94 458.35)" fill="#fff"/>
+          <g id="Raggruppa_111" data-name="Raggruppa 111">
+            <line id="Linea_44" data-name="Linea 44" x1="226.52" y2="130.78" transform="translate(1578.68 523.74)" fill="#fff"/>
+            <rect id="Rettangolo_74" data-name="Rettangolo 74" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1578.193, 653.779)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_134" data-name="Tracciato 134" d="M1691.94,721.07l-.5-.29L1577.68,655.1V523.16l.5-.29,113.76-65.68,114.27,66V655.1l-.5.29Zm-112.25-67.13,112.25,64.81,112.26-64.81V524.32l-112.26-64.81-112.25,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_115" data-name="Raggruppa 115">
+          <path id="Tracciato_135" data-name="Tracciato 135" d="M1920,639.42l-1.53.89-44.32-25.59V563.54l44.32-25.58,1.53.88v-2.32l-1.53-.88-46.33,26.74v53.5l46.33,26.75,1.53-.89Z" fill="#fff"/>
+          <g id="Raggruppa_113" data-name="Raggruppa 113">
+            <path id="Tracciato_136" data-name="Tracciato 136" d="M1917.25,588.43c-18.13-10.33-35.2-20.37-53.29-31.42-20.09-11-39.17-22.1-58.76-33.27" fill="#fff"/>
+            <path id="Tracciato_137" data-name="Tracciato 137" d="M1916.75,589.3c-18.82-10.72-35.76-20.71-53.31-31.44-15.53-8.54-30.8-17.27-45.56-25.72l-13.17-7.53,1-1.74,13.18,7.53c14.75,8.44,30,17.17,45.57,25.73,17.57,10.73,34.49,20.71,53.3,31.43Z" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_75" data-name="Rettangolo 75" width="2.01" height="261.57" transform="translate(1917.46 458.35)" fill="#fff"/>
+          <g id="Raggruppa_114" data-name="Raggruppa 114">
+            <path id="Tracciato_138" data-name="Tracciato 138" d="M1917.25,589.83c-18.13,10.37-35.2,20.42-53.29,31.47-3,2-6,2-9,4-4,3-8,5-12.05,8-13.06,7-25.12,14.07-37.67,21.17" fill="#fff"/>
+            <path id="Tracciato_139" data-name="Tracciato 139" d="M1805.7,655.4l-1-1.75,10-5.67c8.9-5.08,18.09-10.32,27.66-15.48,2-1.51,4.06-2.78,6-4s4-2.49,6-4a19,19,0,0,1,4.81-2.16,16.86,16.86,0,0,0,4.28-1.89C1880.6,610,1897.54,600,1916.75,589l1,1.75c-19.19,11-36.12,21-53.26,31.45a18.767,18.767,0,0,1-4.73,2.1,17.224,17.224,0,0,0-4.28,1.89c-2,1.5-4.06,2.79-6,4s-4,2.49-6,4l-.13.08c-9.56,5.15-18.77,10.4-27.67,15.48Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_140" data-name="Tracciato 140" d="M1920,717.87l-1.53.88-112.26-64.81V524.32l112.26-64.81,1.53.88v-2.32l-1.53-.88L1804.7,522.87l-.5.29V655.1l113.76,65.68.51.29,1.53-.88Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_118" data-name="Raggruppa 118">
+          <path id="Tracciato_141" data-name="Tracciato 141" d="M0,735.79v2.32l37.34,21.55v51.18L0,832.39v2.32L39.35,812V758.5Z" fill="#fff"/>
+          <g id="Raggruppa_116" data-name="Raggruppa 116">
+            <path id="Tracciato_142" data-name="Tracciato 142" d="M0,789.28H0c14.41,8.41,29.05,16.72,43.68,25.87,21.1,11.05,41.19,24.11,62.6,35.46Z" fill="#fff"/>
+            <path id="Tracciato_143" data-name="Tracciato 143" d="M76.08,832.35c-10.38-6.1-21.12-12.4-31.87-18-11.56-7.23-23.26-14-34.57-20.58L0,788.14v2.32l8.63,5c11.3,6.55,23,13.33,34.59,20.58C54,821.71,64.7,828,75.06,834.08c10,5.85,20.27,11.89,30.75,17.45l.94-1.78C96.31,844.22,86,838.18,76.08,832.35Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_117" data-name="Raggruppa 117">
+            <path id="Tracciato_144" data-name="Tracciato 144" d="M101.37,722.69a15.68,15.68,0,0,0,4.91-2.83Z" fill="#fff"/>
+            <path id="Tracciato_145" data-name="Tracciato 145" d="M85,732.15,7.19,777.07C33.1,762.22,58.31,748.42,85,732.15Z" fill="#fff"/>
+            <path id="Tracciato_146" data-name="Tracciato 146" d="M85,732.15l16.38-9.46a22.587,22.587,0,0,0-4.45,2.08Q90.91,728.55,85,732.15Z" fill="#fff"/>
+            <path id="Tracciato_147" data-name="Tracciato 147" d="M0,781.22l7.19-4.15L0,781.21Z" fill="#fff"/>
+            <path id="Tracciato_148" data-name="Tracciato 148" d="M105.62,719.1a15.74,15.74,0,0,1-5.24,2.9,19.629,19.629,0,0,0-4,1.92C73,738.59,50.62,751.28,28.93,763.55,19.49,768.9,9.77,774.41,0,780.05v2.33c10.1-5.85,20.16-11.55,29.92-17.08,21.71-12.28,44.15-25,67.56-39.69a16.9,16.9,0,0,1,3.62-1.73,17.69,17.69,0,0,0,5.84-3.26Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_149" data-name="Tracciato 149" d="M0,657.34v2.32l105.28,60.78V850.06L0,910.84v2.32l106.78-61.65.51-.29V719.28Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_121" data-name="Raggruppa 121">
+          <path id="Tracciato_150" data-name="Tracciato 150" d="M219.54,838.74,173.22,812V758.5l46.32-26.74,46.33,26.74V812Zm-44.31-27.9,44.31,25.58,44.32-25.58V759.66l-44.32-25.58-44.31,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_119" data-name="Raggruppa 119">
+            <line id="Linea_45" data-name="Linea 45" x1="226.52" y1="130.78" transform="translate(106.28 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_76" data-name="Rettangolo 76" width="2.01" height="261.57" transform="translate(105.791 720.723) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_77" data-name="Rettangolo 77" width="2.01" height="261.57" transform="translate(218.54 654.47)" fill="#fff"/>
+          <g id="Raggruppa_120" data-name="Raggruppa 120">
+            <line id="Linea_46" data-name="Linea 46" x1="226.52" y2="130.78" transform="translate(106.28 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_78" data-name="Rettangolo 78" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 105.723, 849.8)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_151" data-name="Tracciato 151" d="M219.54,917.19l-.5-.29L105.28,851.22V719.28l.5-.29,113.76-65.68.51.29,113.76,65.68V851.22l-.5.29ZM107.29,850.06l112.25,64.81L331.8,850.06V720.44L219.54,655.63,107.29,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_124" data-name="Raggruppa 124">
+          <path id="Tracciato_152" data-name="Tracciato 152" d="M446.07,838.74,399.74,812V758.5l46.33-26.74,46.32,26.74V812Zm-44.32-27.9,44.32,25.58,44.31-25.58V759.66l-44.31-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_122" data-name="Raggruppa 122">
+            <line id="Linea_47" data-name="Linea 47" x1="226.53" y1="130.78" transform="translate(332.8 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_79" data-name="Rettangolo 79" width="2.01" height="261.57" transform="translate(332.311 720.73) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_80" data-name="Rettangolo 80" width="2.01" height="261.57" transform="translate(445.06 654.47)" fill="#fff"/>
+          <g id="Raggruppa_123" data-name="Raggruppa 123">
+            <line id="Linea_48" data-name="Linea 48" x1="226.53" y2="130.78" transform="translate(332.8 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_81" data-name="Rettangolo 81" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 332.255, 849.814)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_153" data-name="Tracciato 153" d="M446.07,917.19l-.51-.29L331.8,851.22V719.28l.5-.29,113.77-65.68.5.29,113.76,65.68V851.22l-.5.29ZM333.81,850.06l112.26,64.81,112.25-64.81V720.44L446.07,655.63,333.81,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_127" data-name="Raggruppa 127">
+          <path id="Tracciato_154" data-name="Tracciato 154" d="M672.59,838.74,626.26,812V758.5l46.33-26.74,46.33,26.74V812Zm-44.32-27.9,44.32,25.58,44.32-25.58V759.66l-44.32-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_125" data-name="Raggruppa 125">
+            <line id="Linea_49" data-name="Linea 49" x1="226.52" y1="130.78" transform="translate(559.33 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_82" data-name="Rettangolo 82" width="2.01" height="261.57" transform="translate(558.831 720.727) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_83" data-name="Rettangolo 83" width="2.01" height="261.57" transform="translate(671.58 654.47)" fill="#fff"/>
+          <g id="Raggruppa_126" data-name="Raggruppa 126">
+            <line id="Linea_50" data-name="Linea 50" x1="226.52" y2="130.78" transform="translate(559.33 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_84" data-name="Rettangolo 84" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 558.794, 849.833)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_155" data-name="Tracciato 155" d="M672.59,917.19l-.5-.29L558.32,851.22V719.28l.5-.29,113.77-65.68.5.29,113.77,65.68V851.22l-.51.29ZM560.33,850.06l112.26,64.81,112.26-64.81V720.44L672.59,655.63,560.33,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_130" data-name="Raggruppa 130">
+          <path id="Tracciato_156" data-name="Tracciato 156" d="M899.11,838.74,852.79,812V758.5l46.32-26.74,46.33,26.74V812Zm-44.32-27.9,44.32,25.58,44.32-25.58V759.66l-44.32-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_128" data-name="Raggruppa 128">
+            <line id="Linea_51" data-name="Linea 51" x1="226.52" y1="130.78" transform="translate(785.85 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_85" data-name="Rettangolo 85" width="2.01" height="261.57" transform="translate(785.356 720.725) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_86" data-name="Rettangolo 86" width="2.01" height="261.57" transform="translate(898.11 654.47)" fill="#fff"/>
+          <g id="Raggruppa_129" data-name="Raggruppa 129">
+            <line id="Linea_52" data-name="Linea 52" x1="226.52" y2="130.78" transform="translate(785.85 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_87" data-name="Rettangolo 87" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 785.316, 849.847)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_157" data-name="Tracciato 157" d="M899.11,917.19l-.5-.29L784.85,851.22V719.28l.5-.29,113.76-65.68.5.29,113.77,65.68V851.22l-.5.29ZM786.86,850.06l112.25,64.81,112.26-64.81V720.44L899.11,655.63,786.86,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_133" data-name="Raggruppa 133">
+          <path id="Tracciato_158" data-name="Tracciato 158" d="M1125.64,838.74,1079.31,812V758.5l46.33-26.74L1172,758.5V812Zm-44.32-27.9,44.32,25.58L1170,810.84V759.66l-44.31-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_131" data-name="Raggruppa 131">
+            <line id="Linea_53" data-name="Linea 53" x1="226.53" y1="130.78" transform="translate(1012.37 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_88" data-name="Rettangolo 88" width="2.01" height="261.57" transform="translate(1011.876 720.722) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_89" data-name="Rettangolo 89" width="2.01" height="261.57" transform="translate(1124.63 654.47)" fill="#fff"/>
+          <g id="Raggruppa_132" data-name="Raggruppa 132">
+            <line id="Linea_54" data-name="Linea 54" x1="226.53" y2="130.78" transform="translate(1012.37 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_90" data-name="Rettangolo 90" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1011.847, 849.861)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_159" data-name="Tracciato 159" d="M1125.64,917.19l-.51-.29-113.76-65.68V719.28l.5-.29,113.77-65.68.5.29,113.76,65.68V851.22l-.5.29Zm-112.26-67.13,112.26,64.81,112.25-64.81V720.44l-112.25-64.81-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_136" data-name="Raggruppa 136">
+          <path id="Tracciato_160" data-name="Tracciato 160" d="M1352.16,838.74,1305.83,812V758.5l46.33-26.74,46.33,26.74V812Zm-44.32-27.9,44.32,25.58,44.32-25.58V759.66l-44.32-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_134" data-name="Raggruppa 134">
+            <line id="Linea_55" data-name="Linea 55" x1="226.52" y1="130.78" transform="translate(1238.9 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_91" data-name="Rettangolo 91" width="2.01" height="261.57" transform="translate(1238.396 720.729) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_92" data-name="Rettangolo 92" width="2.01" height="261.57" transform="translate(1351.15 654.47)" fill="#fff"/>
+          <g id="Raggruppa_135" data-name="Raggruppa 135">
+            <line id="Linea_56" data-name="Linea 56" x1="226.52" y2="130.78" transform="translate(1238.9 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_93" data-name="Rettangolo 93" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1238.387, 849.88)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_161" data-name="Tracciato 161" d="M1352.16,917.19l-.5-.29-113.77-65.68V719.28l.5-.29,113.77-65.68.5.29,113.76,65.68V851.22l-.5.29ZM1239.9,850.06l112.26,64.81,112.26-64.81V720.44l-112.26-64.81L1239.9,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_139" data-name="Raggruppa 139">
+          <path id="Tracciato_162" data-name="Tracciato 162" d="M1578.68,838.74,1532.35,812V758.5l46.33-26.74L1625,758.5V812Zm-44.32-27.9,44.32,25.58L1623,810.84V759.66l-44.32-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_137" data-name="Raggruppa 137">
+            <line id="Linea_57" data-name="Linea 57" x1="226.52" y1="130.78" transform="translate(1465.42 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_94" data-name="Rettangolo 94" width="2.01" height="261.57" transform="translate(1464.921 720.717) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_95" data-name="Rettangolo 95" width="2.01" height="261.57" transform="translate(1577.68 654.47)" fill="#fff"/>
+          <g id="Raggruppa_138" data-name="Raggruppa 138">
+            <line id="Linea_58" data-name="Linea 58" x1="226.52" y2="130.78" transform="translate(1465.42 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_96" data-name="Rettangolo 96" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1464.918, 849.894)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_163" data-name="Tracciato 163" d="M1578.68,917.19l-.5-.29-113.76-65.68V719.28l.5-.29,113.76-65.68.5.29L1693,719.28V851.22l-.5.29Zm-112.26-67.13,112.26,64.81,112.26-64.81V720.44l-112.26-64.81-112.26,64.81Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_142" data-name="Raggruppa 142">
+          <path id="Tracciato_164" data-name="Tracciato 164" d="M1805.21,838.74,1758.88,812V758.5l46.33-26.74,46.32,26.74V812Zm-44.32-27.9,44.32,25.58,44.31-25.58V759.66l-44.31-25.58-44.32,25.58Z" fill="#fff"/>
+          <g id="Raggruppa_140" data-name="Raggruppa 140">
+            <line id="Linea_59" data-name="Linea 59" x1="226.53" y1="130.78" transform="translate(1691.94 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_97" data-name="Rettangolo 97" width="2.01" height="261.57" transform="translate(1691.441 720.724) rotate(-60)" fill="#fff"/>
+          </g>
+          <rect id="Rettangolo_98" data-name="Rettangolo 98" width="2.01" height="261.57" transform="translate(1804.2 654.47)" fill="#fff"/>
+          <g id="Raggruppa_141" data-name="Raggruppa 141">
+            <line id="Linea_60" data-name="Linea 60" x1="226.53" y2="130.78" transform="translate(1691.94 719.86)" fill="#fff"/>
+            <rect id="Rettangolo_99" data-name="Rettangolo 99" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1691.449, 849.908)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_165" data-name="Tracciato 165" d="M1805.21,917.19l-.51-.29-113.76-65.68V719.28l.5-.29,113.77-65.68.5.29,113.76,65.68V851.22l-.5.29ZM1693,850.06l112.26,64.81,112.25-64.81V720.44l-112.25-64.81L1693,720.44Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_147" data-name="Raggruppa 147">
+          <path id="Tracciato_166" data-name="Tracciato 166" d="M106.28,1034.92,60,1008.17V954.68l46.33-26.75,46.33,26.75v53.49ZM62,1007l44.32,25.59L150.6,1007V955.84l-44.32-25.59L62,955.84Z" fill="#fff"/>
+          <g id="Raggruppa_143" data-name="Raggruppa 143">
+            <path id="Tracciato_167" data-name="Tracciato 167" d="M219.54,1046.82,202.48,1037l-42.29-24.42-55.12-31.82L50.5,949.22,8.75,925.11l-3.56-2.05" fill="#fff"/>
+            <path id="Tracciato_168" data-name="Tracciato 168" d="M0,918.9v2.32l219.04,126.47,1-1.74Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_144" data-name="Raggruppa 144">
+            <path id="Tracciato_169" data-name="Tracciato 169" d="M106.28,850.64c-.31,76.05-.31,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_170" data-name="Tracciato 170" d="M105.28,1080.65c-.32-76.59-.32-154,0-230h2c-.32,76-.32,153.4,0,230Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_145" data-name="Raggruppa 145">
+            <path id="Tracciato_171" data-name="Tracciato 171" d="M219.54,916l-17.06,9.85L160.19,950.3l-55.12,31.82L50.5,1013.63l-41.75,24.1-3.56,2.06" fill="#fff"/>
+            <path id="Tracciato_172" data-name="Tracciato 172" d="M0,1043.95,220.04,916.9l-1-1.74L0,1041.63Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_146" data-name="Raggruppa 146">
+            <path id="Tracciato_173" data-name="Tracciato 173" d="M106.78,849.77l-.5-.29L0,910.84v2.32L106.28,851.8l112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45Z" fill="#fff"/>
+            <path id="Tracciato_174" data-name="Tracciato 174" d="M0,1052.01l53.64,30.97h4.02L0,1049.69Z" fill="#fff"/>
+          </g>
+        </g>
+        <g id="Raggruppa_151" data-name="Raggruppa 151">
+          <path id="Tracciato_175" data-name="Tracciato 175" d="M332.8,1034.92l-46.32-26.75V954.68l46.32-26.75,46.33,26.75v53.49ZM288.49,1007l44.31,25.59L377.12,1007V955.84L332.8,930.25l-44.31,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_148" data-name="Raggruppa 148">
+            <line id="Linea_61" data-name="Linea 61" x1="226.53" y1="130.79" transform="translate(219.54 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_100" data-name="Rettangolo 100" width="2.01" height="261.57" transform="translate(219.04 916.901) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_149" data-name="Raggruppa 149">
+            <path id="Tracciato_176" data-name="Tracciato 176" d="M332.8,850.64c.2,76.05.2,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_177" data-name="Tracciato 177" d="M333.81,1080.65h-2c.19-76.59.19-154,0-230h2C334,926.67,334,1004.06,333.81,1080.65Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_150" data-name="Raggruppa 150">
+            <line id="Linea_62" data-name="Linea 62" x1="226.53" y2="130.79" transform="translate(219.54 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_101" data-name="Rettangolo 101" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 218.974, 1045.992)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_178" data-name="Tracciato 178" d="M284.18,1082.98l-63.63-36.74V916.61L332.8,851.8l112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45L333.31,849.77l-.51-.29L219.04,915.16l-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_155" data-name="Raggruppa 155">
+          <path id="Tracciato_179" data-name="Tracciato 179" d="M559.33,1034.92,513,1008.17V954.68l46.33-26.75,46.32,26.75v53.49ZM515,1007l44.32,25.59L603.65,1007V955.84l-44.32-25.59L515,955.84Z" fill="#fff"/>
+          <g id="Raggruppa_152" data-name="Raggruppa 152">
+            <line id="Linea_63" data-name="Linea 63" x1="226.52" y1="130.79" transform="translate(446.07 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_102" data-name="Rettangolo 102" width="2.01" height="261.57" transform="translate(445.56 916.898) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_153" data-name="Raggruppa 153">
+            <path id="Tracciato_180" data-name="Tracciato 180" d="M559.33,850.64c-.3,76.05-.3,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_181" data-name="Tracciato 181" d="M558.32,1080.65c-.3-76.59-.3-154,0-230h2c-.3,76-.3,153.4,0,230Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_154" data-name="Raggruppa 154">
+            <line id="Linea_64" data-name="Linea 64" x1="226.52" y2="130.79" transform="translate(446.07 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_103" data-name="Rettangolo 103" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 445.506, 1046.006)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_182" data-name="Tracciato 182" d="M510.71,1082.98l-63.64-36.74V916.61L559.33,851.8l112.25,64.81v129.63l-63.63,36.74h4.02l61.62-35.58V915.45L559.83,849.77l-.5-.29L445.56,915.16l-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_159" data-name="Raggruppa 159">
+          <path id="Tracciato_183" data-name="Tracciato 183" d="M785.85,1034.92l-46.33-26.75V954.68l46.33-26.75,46.33,26.75v53.49ZM741.53,1007l44.32,25.59L830.17,1007V955.84l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_156" data-name="Raggruppa 156">
+            <line id="Linea_65" data-name="Linea 65" x1="226.52" y1="130.79" transform="translate(672.59 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_104" data-name="Rettangolo 104" width="2.01" height="261.57" transform="translate(672.095 916.896) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_157" data-name="Raggruppa 157">
+            <path id="Tracciato_184" data-name="Tracciato 184" d="M785.85,850.64c.21,76.05.21,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_185" data-name="Tracciato 185" d="M786.86,1080.65h-2c.21-76.59.21-154,0-230h2C787.06,926.67,787.06,1004.06,786.86,1080.65Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_158" data-name="Raggruppa 158">
+            <line id="Linea_66" data-name="Linea 66" x1="226.52" y2="130.79" transform="translate(672.59 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_105" data-name="Rettangolo 105" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 672.036, 1046.015)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_186" data-name="Tracciato 186" d="M737.23,1082.98l-63.64-36.74V916.61L785.85,851.8l112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45L786.35,849.77l-.5-.29L672.09,915.16l-.51.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_163" data-name="Raggruppa 163">
+          <path id="Tracciato_187" data-name="Tracciato 187" d="M1012.37,1034.92l-46.32-26.75V954.68l46.32-26.75,46.33,26.75v53.49ZM968.06,1007l44.31,25.59,44.32-25.59V955.84l-44.32-25.59-44.31,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_160" data-name="Raggruppa 160">
+            <line id="Linea_67" data-name="Linea 67" x1="226.53" y1="130.79" transform="translate(899.11 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_106" data-name="Rettangolo 106" width="2.01" height="261.57" transform="translate(898.615 916.893) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_161" data-name="Raggruppa 161">
+            <path id="Tracciato_188" data-name="Tracciato 188" d="M1012.37,850.64c-.28,76.05-.28,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_189" data-name="Tracciato 189" d="M1011.37,1080.65c-.29-76.59-.29-154,0-230h2c-.29,76-.29,153.4,0,230Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_162" data-name="Raggruppa 162">
+            <line id="Linea_68" data-name="Linea 68" x1="226.53" y2="130.79" transform="translate(899.11 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_107" data-name="Rettangolo 107" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 898.567, 1046.039)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_190" data-name="Tracciato 190" d="M963.75,1082.98l-63.63-36.74V916.61l112.25-64.81,112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45l-113.76-65.68-.51-.29L898.61,915.16l-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_167" data-name="Raggruppa 167">
+          <path id="Tracciato_191" data-name="Tracciato 191" d="M1238.9,1034.92l-46.33-26.75V954.68l46.33-26.75,46.32,26.75v53.49ZM1194.58,1007l44.32,25.59,44.31-25.59V955.84l-44.31-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_164" data-name="Raggruppa 164">
+            <line id="Linea_69" data-name="Linea 69" x1="226.52" y1="130.79" transform="translate(1125.64 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_108" data-name="Rettangolo 108" width="2.01" height="261.57" transform="translate(1125.135 916.9) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_165" data-name="Raggruppa 165">
+            <path id="Tracciato_192" data-name="Tracciato 192" d="M1238.9,850.64c.22,76.05.22,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_193" data-name="Tracciato 193" d="M1239.9,1080.65h-2c.23-76.59.23-154,0-230h2C1240.13,926.67,1240.13,1004.06,1239.9,1080.65Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_166" data-name="Raggruppa 166">
+            <line id="Linea_70" data-name="Linea 70" x1="226.52" y2="130.79" transform="translate(1125.64 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_109" data-name="Rettangolo 109" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1125.098, 1046.053)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_194" data-name="Tracciato 194" d="M1190.28,1082.98l-63.64-36.74V916.61L1238.9,851.8l112.25,64.81v129.63l-63.63,36.74h4.02l61.62-35.58V915.45L1239.4,849.77l-.5-.29-113.77,65.68-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_171" data-name="Raggruppa 171">
+          <path id="Tracciato_195" data-name="Tracciato 195" d="M1465.42,1034.92l-46.33-26.75V954.68l46.33-26.75,46.33,26.75v53.49ZM1421.1,1007l44.32,25.59,44.32-25.59V955.84l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_168" data-name="Raggruppa 168">
+            <line id="Linea_71" data-name="Linea 71" x1="226.52" y1="130.79" transform="translate(1352.16 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_110" data-name="Rettangolo 110" width="2.01" height="261.57" transform="translate(1351.66 916.888) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_169" data-name="Raggruppa 169">
+            <path id="Tracciato_196" data-name="Tracciato 196" d="M1465.42,850.64c-.27,76.05-.27,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_197" data-name="Tracciato 197" d="M1464.42,1080.65c-.27-76.59-.27-154,0-230h2c-.27,76-.27,153.4,0,230Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_170" data-name="Raggruppa 170">
+            <line id="Linea_72" data-name="Linea 72" x1="226.52" y2="130.79" transform="translate(1352.16 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_111" data-name="Rettangolo 111" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1351.638, 1046.062)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_198" data-name="Tracciato 198" d="M1416.8,1082.98l-63.64-36.74V916.61l112.26-64.81,112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45l-113.77-65.68-.5-.29-113.76,65.68-.51.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_175" data-name="Raggruppa 175">
+          <path id="Tracciato_199" data-name="Tracciato 199" d="M1691.94,1034.92l-46.32-26.75V954.68l46.32-26.75,46.33,26.75v53.49ZM1647.62,1007l44.32,25.59,44.32-25.59V955.84l-44.32-25.59-44.32,25.59Z" fill="#fff"/>
+          <g id="Raggruppa_172" data-name="Raggruppa 172">
+            <line id="Linea_73" data-name="Linea 73" x1="226.52" y1="130.79" transform="translate(1578.68 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_112" data-name="Rettangolo 112" width="2.01" height="261.57" transform="translate(1578.18 916.895) rotate(-60)" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_173" data-name="Raggruppa 173">
+            <path id="Tracciato_200" data-name="Tracciato 200" d="M1691.94,850.64c.24,76.05.24,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_201" data-name="Tracciato 201" d="M1693,1080.65h-2c.24-76.59.24-154,0-230h2C1693.19,926.67,1693.19,1004.06,1693,1080.65Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_174" data-name="Raggruppa 174">
+            <line id="Linea_74" data-name="Linea 74" x1="226.52" y2="130.79" transform="translate(1578.68 916.03)" fill="#fff"/>
+            <rect id="Rettangolo_113" data-name="Rettangolo 113" width="261.57" height="2.01" transform="matrix(0.866, -0.5, 0.5, 0.866, 1578.169, 1046.086)" fill="#fff"/>
+          </g>
+          <path id="Tracciato_202" data-name="Tracciato 202" d="M1643.32,1082.98l-63.63-36.74V916.61l112.25-64.81,112.26,64.81v129.63l-63.64,36.74h4.02l61.63-35.58V915.45l-113.77-65.68-.5-.29-113.76,65.68-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_179" data-name="Raggruppa 179">
+          <path id="Tracciato_203" data-name="Tracciato 203" d="M1920,1031.71l-1.53.89-44.32-25.59V955.84l44.32-25.59,1.53.89v-2.32l-1.53-.89-46.33,26.75v53.49l46.33,26.75,1.53-.89Z" fill="#fff"/>
+          <g id="Raggruppa_176" data-name="Raggruppa 176">
+            <path id="Tracciato_204" data-name="Tracciato 204" d="M1917.25,980.72c-36.21-22.89-75.39-42-112-64.69" fill="#fff"/>
+            <path id="Tracciato_205" data-name="Tracciato 205" d="M1916.71,981.57c-18.83-11.9-38.82-23-58.15-33.68-17.84-9.89-36.29-20.11-53.88-31l1-1.71c17.55,10.87,36,21.08,53.81,31,19.35,10.72,39.37,21.81,58.24,33.74Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_177" data-name="Raggruppa 177">
+            <path id="Tracciato_206" data-name="Tracciato 206" d="M1918.47,850.64c-.26,76.05-.26,153.4,0,230" fill="#fff"/>
+            <path id="Tracciato_207" data-name="Tracciato 207" d="M1917.46,1080.65c-.25-76.59-.25-154,0-230h2c-.25,76-.25,153.41,0,230Z" fill="#fff"/>
+          </g>
+          <g id="Raggruppa_178" data-name="Raggruppa 178">
+            <path id="Tracciato_208" data-name="Tracciato 208" d="M1917.25,982.13c-36.21,20.91-71.37,42-108.54,62.09a10.129,10.129,0,0,1-3.51,2.6" fill="#fff"/>
+            <path id="Tracciato_209" data-name="Tracciato 209" d="M1805.57,1047.75l-.73-1.87a9.231,9.231,0,0,0,3.16-2.37l.24-.17c27.17-14.69,53.79-30.22,79.52-45.23,9.47-5.53,19.27-11.24,29-16.85l1,1.74c-9.71,5.61-19.51,11.32-29,16.85-25.71,15-52.29,30.5-79.45,45.19A10.7,10.7,0,0,1,1805.57,1047.75Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_210" data-name="Tracciato 210" d="M1869.85,1082.98l-63.64-36.74V916.61l112.26-64.81,1.53.89v-2.32l-1.53-.89L1804.7,915.16l-.5.29V1047.4l61.63,35.58Z" fill="#fff"/>
+        </g>
+        <path id="Tracciato_211" data-name="Tracciato 211" d="M0,1049.63v2.32l53.74,31.03h4.02Z" fill="#fff"/>
+        <g id="Raggruppa_181" data-name="Raggruppa 181">
+          <g id="Raggruppa_180" data-name="Raggruppa 180">
+            <path id="Tracciato_212" data-name="Tracciato 212" d="M219.54,1046.76c-.06,11.53-.06,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_213" data-name="Tracciato 213" d="M218.54,1080.75c-.06-11.38-.06-22.5,0-34h2c-.06,11.48-.06,22.6,0,34Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_214" data-name="Tracciato 214" d="M158.82,1082.98l60.72-35.06,60.72,35.06h4.02l-64.24-37.09-.5-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_183" data-name="Raggruppa 183">
+          <g id="Raggruppa_182" data-name="Raggruppa 182">
+            <path id="Tracciato_215" data-name="Tracciato 215" d="M446.07,1046.76c.44,11.53.44,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_216" data-name="Tracciato 216" d="M447.07,1080.79l-2-.08c.45-11.35.45-22.44,0-33.91l2-.08C447.52,1058.24,447.52,1069.38,447.07,1080.79Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_217" data-name="Tracciato 217" d="M385.35,1082.98l60.72-35.06,60.72,35.06h4.02l-64.24-37.09-.5-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_185" data-name="Raggruppa 185">
+          <g id="Raggruppa_184" data-name="Raggruppa 184">
+            <path id="Tracciato_218" data-name="Tracciato 218" d="M672.59,1046.76c-.05,11.53-.05,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_219" data-name="Tracciato 219" d="M671.58,1080.75v-34h2v34Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_220" data-name="Tracciato 220" d="M611.87,1082.98l60.72-35.06,60.72,35.06h4.02l-64.24-37.09-.5-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_187" data-name="Raggruppa 187">
+          <g id="Raggruppa_186" data-name="Raggruppa 186">
+            <path id="Tracciato_221" data-name="Tracciato 221" d="M899.11,1046.76c.47,11.53.47,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_222" data-name="Tracciato 222" d="M900.12,1080.79l-2-.08c.46-11.35.46-22.44,0-33.91l2-.08C900.58,1058.24,900.58,1069.38,900.12,1080.79Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_223" data-name="Tracciato 223" d="M838.39,1082.98l60.72-35.06,60.72,35.06h4.02l-64.23-37.09-.51-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_189" data-name="Raggruppa 189">
+          <g id="Raggruppa_188" data-name="Raggruppa 188">
+            <path id="Tracciato_224" data-name="Tracciato 224" d="M1125.64,1046.76v34" fill="#fff"/>
+            <path id="Tracciato_225" data-name="Tracciato 225" d="M1124.63,1080.75v-34h2v34Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_226" data-name="Tracciato 226" d="M1064.91,1082.98l60.72-35.06,60.73,35.06h4.01l-64.23-37.09-.51-.29-64.73,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_191" data-name="Raggruppa 191">
+          <g id="Raggruppa_190" data-name="Raggruppa 190">
+            <path id="Tracciato_227" data-name="Tracciato 227" d="M1352.16,1046.76c.48,11.53.48,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_228" data-name="Tracciato 228" d="M1353.16,1080.79l-2-.08c.48-11.35.48-22.44,0-33.91l2-.08C1353.64,1058.24,1353.64,1069.38,1353.16,1080.79Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_229" data-name="Tracciato 229" d="M1291.44,1082.98l60.72-35.06,60.72,35.06h4.02l-64.24-37.09-.5-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_193" data-name="Raggruppa 193">
+          <g id="Raggruppa_192" data-name="Raggruppa 192">
+            <path id="Tracciato_230" data-name="Tracciato 230" d="M1578.68,1046.76v34" fill="#fff"/>
+            <path id="Tracciato_231" data-name="Tracciato 231" d="M1577.68,1080.75v-34h2v34Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_232" data-name="Tracciato 232" d="M1517.96,1082.98l60.72-35.06,60.72,35.06h4.02l-64.24-37.09-.5-.29-64.74,37.38Z" fill="#fff"/>
+        </g>
+        <g id="Raggruppa_195" data-name="Raggruppa 195">
+          <g id="Raggruppa_194" data-name="Raggruppa 194">
+            <path id="Tracciato_233" data-name="Tracciato 233" d="M1805.2,1046.76c.5,11.53.5,22.58,0,34" fill="#fff"/>
+            <path id="Tracciato_234" data-name="Tracciato 234" d="M1806.21,1080.79l-2-.08c.49-11.35.49-22.44,0-33.91l2-.08C1806.7,1058.24,1806.7,1069.39,1806.21,1080.79Z" fill="#fff"/>
+          </g>
+          <path id="Tracciato_235" data-name="Tracciato 235" d="M1744.48,1082.98l60.72-35.06,60.72,35.06h4.02l-64.23-37.09-.51-.29-64.73,37.38Z" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

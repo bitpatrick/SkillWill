@@ -10,7 +10,7 @@
     &--border {
       display: block;
       height: 5px;
-      background: @s2-red;
+      background: @s2-green-prisma;
       margin-top: -5px;
     }
   }
@@ -27,7 +27,7 @@
     font-size: .75rem;
 
     &:hover {
-      color: @s2-red;
+      color: @s2-green-prisma;
     }
 
     @media (min-width: @tablet-portrait-up) {
@@ -37,6 +37,7 @@
   }
 }
 .results-container {
+  background-color: @s2-green-prisma2;
   display: inline-block;
   width: 100%;
   margin-top: -5px;
@@ -48,7 +49,7 @@
     transform: translateY(-100%);
     text-align: center;
     opacity: 1;
-    color: @s2-red;
+    color: @s2-green-prisma;
     font-size: @xs-title-font-size;
     line-height: @xs-title-font-size;
     padding: @xl-stack @tower @xxl-stack @tower;
@@ -79,13 +80,13 @@
 }
 
 .sort-buttons-wrapper {
-  background-color: @s2-red;
+  background-color: @s2-green-prisma;
   padding: @xl-stack 0;
   text-transform: uppercase;
 }
 
 .results-legend-wrapper {
-  background-color: @s2-red;
+  background: data-uri('@{image-path}/sfondo-prisma-verde.svg');
   color: @s2-white;
   padding: @xl-stack 0;
   @media (max-width: @tablet-portrait-up) {
@@ -212,13 +213,17 @@
 
   }
 
+  &:hover {
+    background-color: @s2-green-prisma4;
+    a, p{
+      color: @s2-white;
+    }
+  }
+
   @media (min-width: @tablet-portrait-up) {
 
     margin: 0 -@m-stack;
     padding: 0 @m-stack;
 
-    &:hover {
-      background-color: @s2-lightgrey;
-    }
   }
 }

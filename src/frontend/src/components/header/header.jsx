@@ -42,10 +42,14 @@ class Header extends React.Component {
 							{/* <NavigationListItem target={config.slackChannelUrl} location={this.props.location}>
 								<Icon name="slack" width={20} height={20} />
 							</NavigationListItem> */}
-							<NavigationListItem
-								target={'/new-skill'} location={this.props.location}>
-								<Icon name="plus" width={20} height={20} />
-							</NavigationListItem>
+							{
+								this.props.currentUser &&
+								this.props.currentUser.loaded &&
+								<NavigationListItem
+									target={'/new-skill'} location={this.props.location}>
+									<Icon name="plus" width={20} height={20} />
+								</NavigationListItem>
+							}
 							<NavigationListItem
 								target={'/my-profile'} location={this.props.location}>
 								<Icon name="user" width={20} height={20} />

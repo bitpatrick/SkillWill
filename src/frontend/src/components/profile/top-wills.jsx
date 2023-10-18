@@ -1,13 +1,13 @@
 import React from 'react'
 import SkillItem from '../skill-item/skill-item'
 
-const TopWills = props => {
+const TopSkills = props => {
 	return (
 		<li className="top-wills skill-listing">
-			<div className="listing-header">Top wills</div>
+			<div className="listing-header">Top skills</div>
 			<ul className="skills-list">
 				{props.wills.map((skill, i) => {
-					if (i < 5 && skill['willLevel'] > 1) {
+					if (i < 5 && skill['skillLevel'] > 1) {
 						return <SkillItem skill={skill} key={skill.name} />
 					}
 				})}
@@ -16,4 +16,4 @@ const TopWills = props => {
 	)
 }
 
-export default TopWills
+export default TopSkills

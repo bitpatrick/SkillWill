@@ -1,9 +1,10 @@
 .search {
-  background-color: @s2-verydarkblue;
+  background: data-uri('@{image-path}/sfondo-prisma-nero.svg');
+  background-size: cover;
   height: auto;
   min-height: ~"calc(100vh - 54px)"; // 54px -> 30px Logo + 24px padding (12 top, 12 bottom)
   transition: all 0.4s ease-in;
-  border-bottom: 5px solid @s2-red;
+  border-bottom: 5px solid @s2-green-prisma;
   box-sizing: border-box;
 
   &:after {
@@ -153,7 +154,7 @@
       opacity: 1;
 
       &.submit-search-button {
-        color: @s2-red;
+        color: @s2-green-prisma;
         &--faded {
           color: @s2-white;
         }
@@ -168,7 +169,7 @@
       }
 
       .profile & {
-        color: @s2-red;
+        color: @s2-green-prisma;
       }
     }
   }

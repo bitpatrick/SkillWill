@@ -1,8 +1,11 @@
 @import "../vars.less";
 
 .logo {
-  color: @s2-red;
-  display: inline-block;
+  display: flex;
+  // align-items: start;
+  // justify-content: center;
+  color: @s2-green-prisma;
+  // display: inline-block;
   left: 50%;
   position: absolute;
   top: 0;
@@ -20,21 +23,25 @@
   }
 
   &:before {
+    margin-top: 1%;
     content: 'skill';
   }
 
   &:after {
+    margin-top: 1%;
     content: 'will';
   }
 
   &__icon {
-    transform: scale(7);
+    margin-left: -20%;
+    padding-top: 20%;
+    transform: scale(3);
     transition: transform 0.4s ease-in 0.2s;
     will-change: transform;
   }
 
   &__title {
-    color: @s2-red;
+    color: @s2-green-prisma;
     font-size: @m-title-font-size;
     left: 50%;
     position: absolute;
@@ -57,6 +64,8 @@
       padding-right: @xs-stack;
       padding-left: @xs-stack;
       transform: scale(1);
+      margin-left: -10%;
+      padding-top: 0;
     }
 
     .logo__title {

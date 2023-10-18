@@ -33,11 +33,11 @@
     top: @navigation-height/2;
     right: @navigation-height/2;
     z-index: 1000;
-    color: @s2-red;
+    color: @s2-white;
     cursor: pointer;
 
     &:hover {
-      filter: grayscale(1);
+      filter: grayscale(1) brightness(0.3);
     }
 
     &.small {
@@ -86,6 +86,8 @@
   overflow: auto;
   position: relative;
   z-index: 999;
+  background: data-uri('@{image-path}/sfondo-prisma-verde.svg');
+  background-size: cover;
 
   @media (min-width: @tablet-portrait-up) {
     max-width: @layer-width;

@@ -68,9 +68,9 @@
     .slack {
       display: inline-block;
       margin: @l-inline @s-inline 0;
-      color: @s2-red;
+      color: @s2-white;
       &:hover {
-        color: @s2-black;
+        filter: grayscale(1) brightness(0.3);
       }
     }
   }
@@ -92,7 +92,7 @@
     padding: @s-stack 0 @l-stack;
   }
   .show-more-link {
-    color: @s2-red;
+    color: @s2-white;
     margin: @xl-stack auto;
     text-transform: capitalize;
     position: relative;
@@ -108,7 +108,7 @@
       display: none;
     }
     &:hover {
-      filter: grayscale(1);
+      filter: grayscale(1) brightness(0.3);
     }
   }
   .info-layer {
@@ -122,7 +122,7 @@
     z-index: 4;
     cursor: auto;
     .skill-title {
-      color: @s2-red;
+      color: @s2-white;
       font-size: @xs-title-font-size;
       line-height: @xs-title-font-size;
       padding: @xs-stack 0;
@@ -150,7 +150,7 @@
   .add,
   .delete {
     &:hover {
-      filter: grayscale(1);
+      filter: grayscale(1) brightness(0.3);
     }
   }
 
@@ -158,7 +158,7 @@
   .edit,
   .delete {
     display: inline-block;
-    color: @s2-red;
+    color: @s2-white;
     cursor: pointer;
   }
   @media (min-width: @tablet-portrait-up) {
@@ -199,7 +199,7 @@
 
 .profile-actions {
   position: fixed;
-  bottom: 0;
+  bottom: 50px;
   right: 0;
   box-sizing: border-box;
   width: 100%;
@@ -218,7 +218,7 @@
     display: inline-block;
     width: auto;
     border-top: 0;
-    bottom: @l-stack;
+    bottom: 50px;
     right: 0;
     background-color: transparent;
   }
@@ -228,14 +228,14 @@
 .edit-skill-btn {
   display: inline-block;
   padding: @xs-stack @l-stack @xs-stack @l-stack;
-  color: @s2-red;
+  color: @s2-white;
   cursor: pointer;
   position: relative;
   border: 0;
   background-color: transparent;
 
   &:hover {
-    filter: grayscale(1);
+    filter: grayscale(1) brightness(0.3);
   }
 
   &:focus {
@@ -258,7 +258,7 @@
   }
 
   .profile-actions[data-skilledit='true'] & {
-    filter: grayscale(1);
+    filter: grayscale(1) brightness(0.3);
     opacity: 0.5;
     cursor: default;
   }
@@ -273,7 +273,7 @@
   }
 
   .profile-actions[data-skillsearch='true'] & {
-    filter: grayscale(1);
+    filter: grayscale(1) brightness(0.3);
     opacity: 0.5;
     cursor: default;
   }
@@ -306,7 +306,7 @@
   cursor: pointer;
 
   &:hover {
-    filter: grayscale(100%) brightness(3);
+    filter: grayscale(1) brightness(0.9);
   }
 
   @media (max-width: 800px) {
@@ -325,7 +325,7 @@
   cursor: pointer;
 
   &:hover {
-    filter: grayscale(100%) brightness(3);
+    filter: grayscale(1) brightness(0.9);
   }
 
   @media (max-width: 800px) {
@@ -360,7 +360,7 @@
   cursor: pointer;
 
   &:hover {
-    filter: grayscale(100%) brightness(3);
+    filter: grayscale(1) brightness(0.9);
   }
 
   @media (max-width: 800px) {
@@ -379,7 +379,7 @@
   cursor: pointer;
 
   &:hover {
-    filter: grayscale(100%) brightness(3);
+    filter: grayscale(1) brightness(0.9);
   }
 
   @media (max-width: 800px) {
