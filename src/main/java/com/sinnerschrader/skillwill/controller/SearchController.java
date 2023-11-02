@@ -2,7 +2,6 @@ package com.sinnerschrader.skillwill.controller;
 
 import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.exception.UserNotFoundException;
 import com.sinnerschrader.skillwill.service.SessionService;
 import com.sinnerschrader.skillwill.service.SkillService;
@@ -107,6 +106,44 @@ public class SearchController {
     JSONArray arr = new JSONArray(similar.stream().map(User::toJSON).collect(Collectors.toList()));
     logger.debug("Successfully found {} users similar to {}", arr.length(), user);
     return new ResponseEntity<>(arr.toString(), HttpStatus.OK);
+  }
+
+  /**
+   * Get locations
+   */
+  @Operation(summary = "Get locations", description = "Get locations from users")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Success"),
+    @ApiResponse(responseCode = "400", description = "Bad Request"),
+    @ApiResponse(responseCode = "404", description = "Not Found"),
+    @ApiResponse(responseCode = "500", description = "Failure"),
+  })
+  @GetMapping(path = "/locations")
+  public ResponseEntity<List<String>> getLocations(
+  ) {
+
+    List<String> locations = userService.getLocations();
+
+    return new ResponseEntity<>(locations, HttpStatus.OK);
+  }
+
+  /**
+   * Get companies
+   */
+  @Operation(summary = "Get companies", description = "Get companies from users")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Success"),
+    @ApiResponse(responseCode = "400", description = "Bad Request"),
+    @ApiResponse(responseCode = "404", description = "Not Found"),
+    @ApiResponse(responseCode = "500", description = "Failure"),
+  })
+  @GetMapping(path = "/companies")
+  public ResponseEntity<List<String>> getCompanies(
+  ) {
+
+    List<String> companies = userService.getCompanies();
+
+    return new ResponseEntity<>(companies, HttpStatus.OK);
   }
 
 }

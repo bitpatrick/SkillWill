@@ -1,11 +1,14 @@
 package com.sinnerschrader.skillwill.service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
+import com.sinnerschrader.skillwill.domain.user.*;
+import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
+import com.sinnerschrader.skillwill.exception.*;
+import com.sinnerschrader.skillwill.repository.SkillRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +19,11 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.user.FitnessScore;
-import com.sinnerschrader.skillwill.domain.user.FitnessScoreProperties;
-import com.sinnerschrader.skillwill.domain.user.Role;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.domain.user.UserLdapDetails;
-import com.sinnerschrader.skillwill.domain.user.UserSimilarityUtils;
-import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
-import com.sinnerschrader.skillwill.exception.EmptyArgumentException;
-import com.sinnerschrader.skillwill.exception.IllegalLevelConfigurationException;
-import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
-import com.sinnerschrader.skillwill.exception.UserAlreadyExistException;
-import com.sinnerschrader.skillwill.exception.UserIdException;
-import com.sinnerschrader.skillwill.exception.UserNotFoundException;
-import com.sinnerschrader.skillwill.repository.SkillRepository;
-import com.sinnerschrader.skillwill.repository.UserRepository;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service handling user management
@@ -306,6 +295,14 @@ public class UserService {
 		return userDto;
 	}
 
-	
+  public List<String> getLocations() {
+
+    return this.userRepository.getLocations();
+  }
+
+  public List<String> getCompanies() {
+
+    return this.userRepository.getCompanies();
+  }
 
 }

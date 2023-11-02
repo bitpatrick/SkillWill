@@ -1,5 +1,6 @@
 package com.sinnerschrader.skillwill.controller;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class SearchControllerTest {
 
   @ParameterizedTest
   @CsvSource({
-    "java, London, Apple",
-    "jpa, Paris, Google",
+    "'java, python,php', London, Apple",
+    "'jpa,c++', Paris, Google",
     "hibernate, Rome, Microsoft"
   })
   void getUsersTest(String skills, String location, String company) throws Exception {
@@ -45,8 +46,26 @@ public class SearchControllerTest {
 
   }
 
+  @Test
+  void getLocations() throws Exception {
 
+    // when
+    MockHttpServletResponse response = mvc.perform(get("/locations")).andDo(print()).andReturn().getResponse();
 
+    // then
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    assertThat(response.getContentAsString()).contains("London", "Rome", "Paris");
+  }
 
+  @Test
+  void getCompanies() throws Exception {
+
+    // when
+    MockHttpServletResponse response = mvc.perform(get("/companies")).andDo(print()).andReturn().getResponse();
+
+    // then
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    assertThat(response.getContentAsString()).contains("Google", "Apple", "Microsoft");
+  }
 
 }
