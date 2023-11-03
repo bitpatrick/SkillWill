@@ -3,7 +3,6 @@ package com.sinnerschrader.skillwill.controller;
 import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.exception.UserNotFoundException;
-import com.sinnerschrader.skillwill.service.SessionService;
 import com.sinnerschrader.skillwill.service.SkillService;
 import com.sinnerschrader.skillwill.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,9 +40,6 @@ public class SearchController {
 
   @Autowired
   private SkillService skillService;
-
-  @Autowired
-  private SessionService sessionService;
 
   /**
    * Search for users with specific skills / list all users if no search query is

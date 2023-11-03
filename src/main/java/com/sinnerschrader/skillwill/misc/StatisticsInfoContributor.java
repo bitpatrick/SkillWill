@@ -1,18 +1,17 @@
 package com.sinnerschrader.skillwill.misc;
 
-import java.util.HashMap;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.info.Info;
-import org.springframework.boot.actuate.info.InfoContributor;
-import org.springframework.stereotype.Component;
-
 import com.sinnerschrader.skillwill.domain.skill.Skill;
 import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.repository.SkillRepository;
 import com.sinnerschrader.skillwill.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.info.Info;
+import org.springframework.boot.actuate.info.InfoContributor;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class StatisticsInfoContributor implements InfoContributor {

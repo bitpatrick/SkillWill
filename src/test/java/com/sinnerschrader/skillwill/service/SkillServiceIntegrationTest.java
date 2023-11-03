@@ -1,12 +1,12 @@
 package com.sinnerschrader.skillwill.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
+import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
+import com.sinnerschrader.skillwill.mock.MockData;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,12 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.domain.skill.UserSkill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
-import com.sinnerschrader.skillwill.mock.MockData;
-import com.sinnerschrader.skillwill.repository.UserRepository;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 @ContextConfiguration
 @DataMongoTest

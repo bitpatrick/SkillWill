@@ -1,7 +1,6 @@
 package com.sinnerschrader.skillwill.domain.user;
 
 import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
-
 import lombok.*;
 
 /**

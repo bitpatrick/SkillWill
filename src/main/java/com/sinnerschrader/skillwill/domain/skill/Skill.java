@@ -1,24 +1,22 @@
 package com.sinnerschrader.skillwill.domain.skill;
 
-import static com.sinnerschrader.skillwill.domain.skill.SkillUtils.generateStemName;
+import com.sinnerschrader.skillwill.dto.SkillDto;
+import com.sinnerschrader.skillwill.dto.SuggestionSkillDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
-
-import com.sinnerschrader.skillwill.dto.SkillDto;
-import com.sinnerschrader.skillwill.dto.SuggestionSkillDto;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import static com.sinnerschrader.skillwill.domain.skill.SkillUtils.generateStemName;
 
 /**
  * A skill known to the system including a list of suggestable skills

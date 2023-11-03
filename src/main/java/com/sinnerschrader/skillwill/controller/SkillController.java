@@ -1,10 +1,15 @@
 package com.sinnerschrader.skillwill.controller;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-import java.util.List;
-import java.util.Set;
-
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.editor.SanitizeEditor;
+import com.sinnerschrader.skillwill.editor.SearchEditor;
+import com.sinnerschrader.skillwill.editor.SubSkillsEditor;
+import com.sinnerschrader.skillwill.service.SkillService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.editor.SanitizeEditor;
-import com.sinnerschrader.skillwill.editor.SearchEditor;
-import com.sinnerschrader.skillwill.editor.SubSkillsEditor;
-import com.sinnerschrader.skillwill.service.SkillService;
+import java.util.List;
+import java.util.Set;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Controller handling /skills/{foo}
@@ -54,7 +44,7 @@ public class SkillController {
 		
 		// name
 		webDataBinder.registerCustomEditor(String.class, new SanitizeEditor());
-		
+
 		// subSkills
 		webDataBinder.registerCustomEditor(Set.class, new SubSkillsEditor());
 	}
@@ -69,7 +59,7 @@ public class SkillController {
 		@ApiResponse(responseCode = "500", description = "Failure") 
 		})
 	@ResponseStatus(HttpStatus.CREATED)
-	@PutMapping(path = "/skills")
+	@PostMapping(path = "/skills")
 	@PreAuthorize("hasRole('ADMIN')")
 	public void createSkill(
 			@Parameter(description = "new skill's name", required = true) @RequestParam String name,
@@ -150,11 +140,12 @@ public class SkillController {
 	 * edit skill
 	 */
 	@Operation(summary = "edit skill", description = "Update skill details")
-	@ApiResponses({ @ApiResponse(responseCode = "200", description = "Success"),
+	@ApiResponses({
+    @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "400", description = "Bad Request"),
 			@ApiResponse(responseCode = "404", description = "Not Found"),
 			@ApiResponse(responseCode = "500", description = "Failure") })
-	@PostMapping(path = "/skills/{skill}")
+	@PutMapping(path = "/skills/{skill}")
 	@ResponseStatus(HttpStatus.OK)
 	public void updateSkill(
 			@Parameter(description = "ID of the skill to be edited", required = true) @PathVariable String skill,

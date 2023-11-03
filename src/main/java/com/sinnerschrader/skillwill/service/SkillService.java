@@ -1,18 +1,12 @@
 package com.sinnerschrader.skillwill.service;
 
-import static com.sinnerschrader.skillwill.domain.skill.SkillUtils.generateStemName;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.mongodb.BasicDBObject;
+import com.sinnerschrader.skillwill.domain.skill.*;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
+import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
+import com.sinnerschrader.skillwill.repository.SkillRepository;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.mongodb.BasicDBObject;
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.domain.skill.SkillAutocompleteComparator;
-import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
-import com.sinnerschrader.skillwill.domain.skill.SkillUtils;
-import com.sinnerschrader.skillwill.domain.skill.SuggestionSkill;
-import com.sinnerschrader.skillwill.domain.skill.UserSkill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
-import com.sinnerschrader.skillwill.repository.SkillRepository;
-import com.sinnerschrader.skillwill.repository.UserRepository;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.sinnerschrader.skillwill.domain.skill.SkillUtils.generateStemName;
 
 /**
  * Services handling skills management (create, rename, suggest, delete, ...)

@@ -1,12 +1,11 @@
 package com.sinnerschrader.skillwill.controller;
 
+import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
+import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.sinnerschrader.skillwill.exception.DuplicateSkillException;
-import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
 
 @ControllerAdvice
 public class MyControllerAdvice {

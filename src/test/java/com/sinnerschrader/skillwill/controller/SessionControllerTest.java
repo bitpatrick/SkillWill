@@ -1,11 +1,9 @@
 package com.sinnerschrader.skillwill.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
-import java.util.List;
-
+import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -25,28 +23,22 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.sinnerschrader.skillwill.config.JwtUtils;
-import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
-import com.sinnerschrader.skillwill.controller.SessionController;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.repository.UserRepository;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @Import(MyWebSecurityConfig.class)
 @WebMvcTest(SessionController.class)
 @AutoConfigureJsonTesters
 class SessionControllerTest {
 	
-	private static final Logger logger = LoggerFactory.getLogger(SessionControllerTest.class);
-	
 	@MockBean
 	private UserRepository userRepository;
 	
 	@MockBean
 	private UserDetailsService userDetailsService;
-	
-	@MockBean
-	private JwtUtils jwtUtils;
 	
 	@Autowired
 	private MockMvc mvc;
@@ -58,10 +50,6 @@ class SessionControllerTest {
 	@Test
 	@DisplayName("Redirect to login page when user is not authenticated")
 	void redirectToLoginPageWhenUserIsNotAuthenticated() throws Exception {
-		
-		logger.info("\n\nStarting test: redirect_To_Login_Page_When_User_Is_Not_Authenticated:");
-		
-		// given
 		
 		// when
 		MockHttpServletResponse response = mvc
@@ -79,7 +67,6 @@ class SessionControllerTest {
 	@Test
 	@DisplayName("Get own info user when you are authenticated")
 	void getOwnInfoUserWhenYouAreAuthenticated() throws Exception {
-		logger.info("\n\nStarting test: getOwnInfoUserWhenYouAreAuthenticated:");
 
 		// given
 		SimpleGrantedAuthority adminRole = new SimpleGrantedAuthority("ADMIN");
@@ -97,8 +84,9 @@ class SessionControllerTest {
 		
 		// then
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-		assertThat(response.getContentAsString())
-		.isEqualTo(jsonUserDto.write(userDto).getJson());
+		assertThat(response.getContentAsString()).isEqualTo(jsonUserDto.write(userDto).getJson());
 	}
+
+
 
 }

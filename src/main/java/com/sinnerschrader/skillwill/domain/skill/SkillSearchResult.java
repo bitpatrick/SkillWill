@@ -1,11 +1,11 @@
 package com.sinnerschrader.skillwill.domain.skill;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.util.CollectionUtils;
+
+import java.util.Map;
+import java.util.Set;
 
 public class SkillSearchResult {
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 @Builder
 public record UserDto(
+
   String username,
   String password,
   List<String> authorities,

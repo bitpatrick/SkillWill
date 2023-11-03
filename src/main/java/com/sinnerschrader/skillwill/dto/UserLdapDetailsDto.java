@@ -11,6 +11,7 @@ public record UserLdapDetailsDto(
 		String location,
 		String title, 
 		String company, 
-		String role) {
+		String role
+) {
 
 }

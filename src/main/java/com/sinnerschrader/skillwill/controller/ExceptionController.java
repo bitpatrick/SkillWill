@@ -1,12 +1,11 @@
 package com.sinnerschrader.skillwill.controller;
 
+import com.sinnerschrader.skillwill.exception.UserIdException;
+import com.sinnerschrader.skillwill.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.sinnerschrader.skillwill.exception.UserIdException;
-import com.sinnerschrader.skillwill.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class ExceptionController {

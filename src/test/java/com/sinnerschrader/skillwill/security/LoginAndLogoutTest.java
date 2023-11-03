@@ -1,6 +1,5 @@
 package com.sinnerschrader.skillwill.security;
 
-import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
 import com.sinnerschrader.skillwill.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -68,9 +67,6 @@ public class LoginAndLogoutTest {
 
   @MockBean
   private UserRepository userRepository;
-
-  @MockBean
-  private JwtUtils jwtUtils;
 
   @Test
   public void getHttpStatus200LoginWithRightCredentials() throws Exception {

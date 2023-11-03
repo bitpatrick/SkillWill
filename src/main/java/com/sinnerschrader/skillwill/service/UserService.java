@@ -45,12 +45,6 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	/**
-	 * service parlante con LDap server che contiene i dati sensibili egli users
-	 */
-	@Autowired
-	private LdapService ldapService;
-
 	@Autowired
 	private SkillService skillService;
 
@@ -80,7 +74,7 @@ public class UserService {
 		 * che fossero o luna o l'altra valorizzate dobbiamo evitare i nullPointer
 		 */
 		if (location != null && !location.isBlank() || company != null && !company.isBlank()) {
-			candidates = ldapService.syncUsers(candidates, false);
+//			candidates = ldapService.syncUsers(candidates, false);
 			candidates = filterByCompany(candidates, company);
 			candidates = filterByLocation(candidates, location);
 		}
@@ -195,7 +189,8 @@ public class UserService {
 			throw new UserNotFoundException("user not found");
 		}
 
-		return ldapService.syncUsers(UserSimilarityUtils.findSimilar(user.get(), toSearch, count), false);
+//		return ldapService.syncUsers(UserSimilarityUtils.findSimilar(user.get(), toSearch, count), false);
+    return UserSimilarityUtils.findSimilar(user.get(), toSearch, count);
 	}
 
 	public Role getRole(String username) {

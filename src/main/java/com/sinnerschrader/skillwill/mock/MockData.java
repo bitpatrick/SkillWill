@@ -15,11 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -40,6 +43,8 @@ public class MockData {
   private static final List<String> LOCATIONS = List.of("London", "Paris", "Rome");
   private static final List<String> TITLES = List.of("Dr.", "Ing.", "Mr.", "Ms.", "Prof.");
   private static final List<String> COMPANIES = List.of("Apple", "Google", "Microsoft");
+
+  private static final List<String> AUTHORITIES = List.of("USER", "ADMIN");
 
   private static final Random RANDOM = new Random();
 
@@ -86,6 +91,8 @@ public class MockData {
       User user = new User(userJson.getString("id"), "password");
       UserLdapDetails userLdapDetails = createRandomLdap();
       user.setLdapDetails(userLdapDetails);
+      List<GrantedAuthority> authorities = createRandomAuthorities();
+      user.setAuthorities(authorities);
 
       JSONArray skillsJsonArray = userJson.getJSONArray("skills");
       for (int j = 0; j < skillsJsonArray.length(); j++) {
@@ -118,6 +125,23 @@ public class MockData {
     return userLdapDetails;
   }
 
+  private List<GrantedAuthority> createRandomAuthorities() {
+    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+    for (String authority : AUTHORITIES) {
+      // 50% di probabilità per ogni autorità
+      if (RANDOM.nextBoolean()) {
+        grantedAuthorities.add(new SimpleGrantedAuthority(authority));
+      }
+    }
+
+    // Se nessuna autorità è stata selezionata casualmente, aggiungi di default "USER"
+    if (grantedAuthorities.isEmpty()) {
+      grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+    }
+
+    return grantedAuthorities;
+  }
   private void mockSkills() throws IOException {
     logger.warn("Deleting all skills in DB!");
     skillRepo.deleteAll();

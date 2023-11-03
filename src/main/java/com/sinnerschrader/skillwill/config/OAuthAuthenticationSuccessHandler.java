@@ -1,8 +1,11 @@
 package com.sinnerschrader.skillwill.config;
 
-import java.io.IOException;
-import java.util.Optional;
-
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.repository.UserRepository;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,13 +16,8 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.context.SecurityContextRepository;
 
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.repository.UserRepository;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import java.io.IOException;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class OAuthAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

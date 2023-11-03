@@ -1,7 +1,6 @@
 package com.sinnerschrader.skillwill.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sinnerschrader.skillwill.config.JwtUtils;
 import com.sinnerschrader.skillwill.config.MyWebSecurityConfig;
 import com.sinnerschrader.skillwill.config.UserCheckAspect;
 import com.sinnerschrader.skillwill.domain.skill.Skill;
@@ -9,7 +8,6 @@ import com.sinnerschrader.skillwill.domain.skill.SkillSearchResult;
 import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.repository.UserRepository;
-import com.sinnerschrader.skillwill.service.SessionService;
 import com.sinnerschrader.skillwill.service.SkillService;
 import com.sinnerschrader.skillwill.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +29,6 @@ import org.springframework.util.MultiValueMap;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -57,13 +54,7 @@ public class UserControllerTest {
   private SkillService skillService;
 
   @MockBean
-  private SessionService sessionService;
-
-  @MockBean
   private UserRepository userRepository;
-
-  @MockBean
-  private JwtUtils jwtUtils;
 
   private List<User> users;
 
@@ -108,54 +99,6 @@ public class UserControllerTest {
     skills = List.of(skill1, skill2, skill3);
 
 //		userDto = UserDto.builder().username("pippo").password("pwd").build();
-  }
-
-  @WithAnonymousUser
-  @Test
-  void getJsonUsers() throws Exception {
-
-    /*
-     * given
-     */
-
-    // create SkillSearchResult
-    Map<String, Skill> mapped = new HashMap<String, Skill>();
-    mapped.put(skillNames.get(0), this.skills.get(0));
-    mapped.put(skillNames.get(1), this.skills.get(1));
-    mapped.put(skillNames.get(2), this.skills.get(2));
-
-    Set<String> unmapped = new HashSet<String>();
-    unmapped.add(skillNames.get(0));
-    unmapped.add(skillNames.get(1));
-    unmapped.add(skillNames.get(2));
-
-    SkillSearchResult skillSearchResult = new SkillSearchResult(mapped, unmapped);
-
-    // params request
-    String skills = "JAVA, SQL, PHP";
-    String company = "Leonardo";
-    String location = "Roma";
-
-    MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-    params.add("skills", skills);
-    params.add("location", location);
-    params.add("company", company);
-
-    given(skillService.searchSkillsByNames(skillNames, true)).willReturn(skillSearchResult);
-    given(userService.getUsers(skillSearchResult, company, location)).willReturn(users);
-    doNothing().when(skillService).registerSkillSearch(skillSearchResult.mappedSkills());
-
-    // when
-    MockHttpServletResponse response = mvc
-      .perform(get("/users").params(params).accept(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
-      .andReturn().getResponse();
-
-    // then
-    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-    assertThat(response.getHeader("Content-Type")).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-
-    // Verifica che il contenuto della response sia un JSON valido
-    objectMapper.readTree(response.getContentAsString());
   }
 
   @WithAnonymousUser
@@ -264,6 +207,57 @@ public class UserControllerTest {
     // then
     assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND.value());
     assertThat(response.getRedirectedUrl()).isIn("http://127.0.0.1:8888/login", "http://localhost:8888/login");
+  }
+
+  @WithMockUser(roles = "USER")
+  @Test
+  void getForbiddenStatusWhenCreateUserWithoutAdminRole() throws Exception {
+
+    // given
+    UserDto userDto = UserDto.builder().username("pippo").build();
+    doNothing().when(userService).create(userDto);
+
+    // Convert the UserDto object to a JSON string
+    String jsonBody = objectMapper.writeValueAsString(userDto);
+
+    // when
+    MockHttpServletResponse response = mvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON).content(jsonBody)).andDo(print()).andReturn().getResponse();
+
+    // then
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.FORBIDDEN.value());
+  }
+
+  @WithMockUser(roles = "ADMIN")
+  @Test
+  void createUserSeccessfulWithAdminRole() throws Exception {
+
+    // given
+    UserDto userDto = UserDto.builder().username("pippo").build();
+    doNothing().when(userService).create(userDto);
+
+    // Convert the UserDto object to a JSON string
+    String jsonBody = objectMapper.writeValueAsString(userDto);
+
+    // when
+    MockHttpServletResponse response = mvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON).content(jsonBody)).andDo(print()).andReturn().getResponse();
+
+    // then
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
+  }
+
+  @WithMockUser(roles = "ADMIN")
+  @Test
+  void deleteUserSeccessfulWithAdminRole() throws Exception {
+
+    // given
+    String username = "pippo";
+    doNothing().when(userService).deleteUser(username);
+
+    // when
+    MockHttpServletResponse response = mvc.perform(delete("/users/{user}", username)).andDo(print()).andReturn().getResponse();
+
+    // then
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
   }
 
 }

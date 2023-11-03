@@ -1,11 +1,11 @@
 package com.sinnerschrader.skillwill.domain.user;
 
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 
 /**
  * Get n Persons that are similar to the reference user
@@ -16,6 +16,8 @@ import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 public class UserSimilarityUtils {
 
   public static List<User> findSimilar(User userDetailsImpl, Collection<User> candidates, Integer count) {
+
+    // check
     if (count != null && count <= 0) {
       throw new IllegalArgumentException("count must be positive or null");
     }

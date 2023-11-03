@@ -6,9 +6,10 @@ import lombok.Builder;
 
 @Builder
 public record FitnessScoreDto(
-		FitnessScorePropertiesDto props, 
+		FitnessScorePropertiesDto props,
 		UserDto user,
 		Collection<SkillDto> searchedSkills, 
-		double value) {
+		double value
+) {
 
 }

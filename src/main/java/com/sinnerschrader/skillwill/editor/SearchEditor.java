@@ -1,13 +1,12 @@
 package com.sinnerschrader.skillwill.editor;
 
+import com.sinnerschrader.skillwill.domain.skill.SkillUtils;
+import org.springframework.util.StringUtils;
+
 import java.beans.PropertyEditorSupport;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.util.StringUtils;
-
-import com.sinnerschrader.skillwill.domain.skill.SkillUtils;
 
 public class SearchEditor extends PropertyEditorSupport {
 

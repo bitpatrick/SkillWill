@@ -1,17 +1,13 @@
 package com.sinnerschrader.skillwill.domain.user;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.sinnerschrader.skillwill.domain.skill.Skill;
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
+import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
+import com.sinnerschrader.skillwill.dto.UserSkillDto;
+import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
+import lombok.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.data.annotation.Id;
@@ -21,21 +17,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.sinnerschrader.skillwill.domain.skill.Skill;
-import com.sinnerschrader.skillwill.domain.skill.UserSkill;
-import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
-import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.dto.UserLdapDetailsDto;
-import com.sinnerschrader.skillwill.dto.UserSkillDto;
-import com.sinnerschrader.skillwill.exception.SkillNotFoundException;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
-import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class holding all information about a person

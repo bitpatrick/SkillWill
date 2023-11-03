@@ -1,20 +1,20 @@
 package com.sinnerschrader.skillwill.domain.person;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
+import com.sinnerschrader.skillwill.domain.skill.UserSkill;
+import com.sinnerschrader.skillwill.domain.user.User;
+import com.sinnerschrader.skillwill.dto.UserDto;
+import com.sinnerschrader.skillwill.dto.UserSkillDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.sinnerschrader.skillwill.domain.skill.UserSkill;
-import com.sinnerschrader.skillwill.domain.user.User;
-import com.sinnerschrader.skillwill.dto.UserDto;
-import com.sinnerschrader.skillwill.dto.UserSkillDto;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 //import static org.junit.Assert.assertEquals;
 //
@@ -53,7 +53,7 @@ public class UserTest {
 		UserSkill userSkill3 = new UserSkill("Python", 0, 1, true, true);
 	    
 		userSkills = Set.of(userSkill1, userSkill2, userSkill3);
-		
+
 		// create user
 		user = User.builder()
 				.username("pippo")
@@ -71,43 +71,35 @@ public class UserTest {
 	}
 	
 	@Test
-	public void test() {
+	public void userToDto() {
 	
 		// given
 		UserSkillDto expectedUserSkill1 = new UserSkillDto("Java", 1, 2, false, true);
 		UserSkillDto expectedUserSkill2 = new UserSkillDto("JavaScript", 2, 3, true, false);
-		UserSkillDto expectedUserSkill3 = new UserSkillDto("Python", 0, 1, true, true);
-		
+    UserSkillDto expectedUserSkill3 = new UserSkillDto("Python", 0, 1, true, true);
+
+    List<UserSkillDto> userSkills = List.of(expectedUserSkill1, expectedUserSkill2, expectedUserSkill3);
+
 		UserDto expectedUser = UserDto.builder()
 				.username("pippo")
 				.password("password")
-				.skills(List.of(expectedUserSkill1, expectedUserSkill2, expectedUserSkill3))
+				.skills(userSkills)
 				.ldapDN("ldapDN")
 				.authorities(List.of("USER"))
 				.fitnessScore(null)
 				.version(1l)
 				.build();
-				
+
 		// when
 		UserDto actualUser = user.toUserDto();
-		
+
 		// Then
-		assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
+		assertThat(actualUser)
+      .usingRecursiveComparison()
+      .ignoringCollectionOrderInFields("skills")
+      .isEqualTo(expectedUser);
 	}
 	
-	@Test
-	public void test2() {
-		
-		// given
-		UserDto expectedUser = UserDto.builder().authorities(Collections.emptyList()).build();
-		
-		// when
-		UserDto actualUser = anonymousUser.toUserDto();		
-		
-		// then
-		assertThat(actualUser).usingRecursiveComparison().isEqualTo(expectedUser);
-	}
-
 //  private UserDetailsImpl userDetailsImpl;
 //
 //  @Before

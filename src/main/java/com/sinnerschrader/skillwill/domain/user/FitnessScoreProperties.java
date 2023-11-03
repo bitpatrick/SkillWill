@@ -1,9 +1,8 @@
 package com.sinnerschrader.skillwill.domain.user;
 
+import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
 
 /**
  * Wrapper to load weights for fitness Scores

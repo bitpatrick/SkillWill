@@ -1,17 +1,12 @@
 package com.sinnerschrader.skillwill.domain.skill;
 
-import org.json.JSONObject;
-import org.springframework.data.annotation.Id;
-
 import com.sinnerschrader.skillwill.dto.UserSkillDto;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
+import org.json.JSONObject;
+import org.springframework.data.annotation.Id;
 
 /**
  * A skill owned by a person includes name, skill level and will level

@@ -1,17 +1,17 @@
 package com.sinnerschrader.skillwill.domain.user;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.sinnerschrader.skillwill.domain.skill.Skill;
 import com.sinnerschrader.skillwill.domain.skill.UserSkill;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
 import com.sinnerschrader.skillwill.dto.FitnessScorePropertiesDto;
 import com.sinnerschrader.skillwill.dto.SkillDto;
 import com.sinnerschrader.skillwill.dto.UserDto;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Calculate how well a user fits into a searched skill set.

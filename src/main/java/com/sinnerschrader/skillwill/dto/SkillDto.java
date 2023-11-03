@@ -6,6 +6,11 @@ import java.util.Set;
 import lombok.Builder;
 
 @Builder
-public record SkillDto(String name, List<SuggestionSkillDto> suggestions, Set<String> subSkillNames, boolean hidden, String description) {
+public record SkillDto(
+  String name,
+  List<SuggestionSkillDto> suggestions,
+  Set<String> subSkillNames,
+  boolean hidden,
+  String description) {
 
 }

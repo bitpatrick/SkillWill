@@ -2,6 +2,7 @@ package com.sinnerschrader.skillwill.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import com.sinnerschrader.skillwill.domain.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,15 +38,9 @@ public class SessionController {
     public ResponseEntity<UserDto> getCurrentUser() {
 
 		// recupera l'utente dal contesto di sicurezza
-		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			
-		UserDto userDto = UserDto.builder()
-				.username(user.getUsername())
-				.password(user.getPassword())
-				.authorities(Optional.ofNullable(user.getAuthorities()).orElse(new ArrayList<>()).stream().map(authority -> authority.getAuthority()).toList())
-				.build();
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+		return new ResponseEntity<UserDto>(user.toUserDto(), HttpStatus.OK);
 	}
 
 }

@@ -1,10 +1,10 @@
 package com.sinnerschrader.skillwill.config;
 
-import java.util.Map;
-
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Map;
 
 public class MyCustomPasswordEncoder extends DelegatingPasswordEncoder {
 
