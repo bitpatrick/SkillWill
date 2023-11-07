@@ -91,7 +91,22 @@ public class MockData {
       User user = new User(userJson.getString("id"), "password");
       UserLdapDetails userLdapDetails = createRandomLdap();
       user.setLdapDetails(userLdapDetails);
-      List<GrantedAuthority> authorities = createRandomAuthorities();
+      List<GrantedAuthority> authorities = null;
+      if (user.getUsername().equalsIgnoreCase("fabbra")){
+
+        SimpleGrantedAuthority adminAuth = new SimpleGrantedAuthority("ROLE_ADMIN");
+        authorities = List.of(adminAuth);
+
+      } else if (user.getUsername().equalsIgnoreCase("isawer")) {
+
+        SimpleGrantedAuthority userAuth = new SimpleGrantedAuthority("ROLE_USER");
+        authorities = List.of(userAuth);
+
+      } else {
+
+        authorities = createRandomAuthorities();
+      }
+
       user.setAuthorities(authorities);
 
       JSONArray skillsJsonArray = userJson.getJSONArray("skills");
@@ -121,7 +136,7 @@ public class MockData {
     userLdapDetails.setLocation(LOCATIONS.get(RANDOM.nextInt(LOCATIONS.size())));
     userLdapDetails.setTitle(TITLES.get(RANDOM.nextInt(TITLES.size())));
     userLdapDetails.setCompany(COMPANIES.get(RANDOM.nextInt(COMPANIES.size())));
-    userLdapDetails.setRole(RANDOM.nextBoolean() ? Role.USER : Role.ADMIN); // Scegli un ruolo casuale tra USER e ADMIN
+    userLdapDetails.setRole(RANDOM.nextBoolean() ? Role.DEVELOPER : Role.PROJECT_MANAGER); // Scegli un ruolo casuale tra USER e ADMIN
     return userLdapDetails;
   }
 

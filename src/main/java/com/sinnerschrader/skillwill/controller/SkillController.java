@@ -43,7 +43,7 @@ public class SkillController {
 		webDataBinder.registerCustomEditor(List.class, new SearchEditor());
 		
 		// name
-		webDataBinder.registerCustomEditor(String.class, new SanitizeEditor());
+//		webDataBinder.registerCustomEditor(String.class, new SanitizeEditor());
 
 		// subSkills
 		webDataBinder.registerCustomEditor(Set.class, new SubSkillsEditor());
@@ -147,6 +147,7 @@ public class SkillController {
 			@ApiResponse(responseCode = "500", description = "Failure") })
 	@PutMapping(path = "/skills/{skill}")
 	@ResponseStatus(HttpStatus.OK)
+  @PreAuthorize("hasRole('ADMIN')")
 	public void updateSkill(
 			@Parameter(description = "ID of the skill to be edited", required = true) @PathVariable String skill,
 			@Parameter(description = "skill's new name") @RequestParam(required = false) String name,

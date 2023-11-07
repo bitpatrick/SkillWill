@@ -77,7 +77,11 @@ public class User implements UserDetails {
 		String ldapDN = userDto.ldapDN();
 		Long version = userDto.version();
 		List<GrantedAuthority> authorities = userDto.authorities().stream()
-													.map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role))
+													.map(role -> {
+
+                            return role.startsWith ("ROLE_") ? (GrantedAuthority) new SimpleGrantedAuthority(role) : (GrantedAuthority) new SimpleGrantedAuthority("ROLE_" + role);
+
+                          })
 													.toList();
 		
 		return User.builder()
@@ -264,7 +268,12 @@ public class User implements UserDetails {
 		return UserDto.builder()
 				.username(username)
 				.password(password)
-				.authorities(Optional.ofNullable(authorities).orElse(Collections.emptyList()).stream().map(Object::toString).toList())
+				.authorities(Optional.ofNullable(authorities).orElse(Collections.emptyList()).stream().map(auth -> {
+
+          String role = auth.getAuthority();
+          return role.startsWith("ROLE_") ? role.substring(5) : role;
+
+        }).toList())
 				.skills(skills)
 				.ldapDN(ldapDN)
 				.fitnessScore(fitnessScoreDto)
@@ -272,7 +281,6 @@ public class User implements UserDetails {
 				.build();
 	}
 
-	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;

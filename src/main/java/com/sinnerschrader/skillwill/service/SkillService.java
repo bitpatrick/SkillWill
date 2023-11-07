@@ -193,15 +193,6 @@ public class SkillService {
 
 	public void createSkill(String name, String description, boolean isHidden, Set<String> subSkills) throws DuplicateSkillException, SkillNotFoundException {
 
-		/* 
-		 * Validations
-		 */
-		Objects.requireNonNull(name, "name must not be null");
-		Objects.requireNonNull(subSkills, "sub skills must not be null");
-		
-		/*
-		 * Bussiness Logic
-		 */
 		// check if subSkills are known
 		if (this.skillRepository.existsByNameIgnoreCase(name)) {
 			logger.debug("Failed to create skill {}: the name already exists", name);

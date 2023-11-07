@@ -1,5 +1,6 @@
 package com.sinnerschrader.skillwill.controller;
 
+import com.sinnerschrader.skillwill.domain.user.User;
 import com.sinnerschrader.skillwill.dto.FitnessScoreDto;
 import com.sinnerschrader.skillwill.dto.UserDto;
 import com.sinnerschrader.skillwill.service.SkillService;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -33,6 +36,23 @@ public class UserController {
 
 	@Autowired
 	private SkillService skillService;
+
+  @Operation(summary = "Session User", description = "get current user")
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Success"),
+    @ApiResponse(responseCode = "403", description = "Forbidden"),
+    @ApiResponse(responseCode = "500", description = "Failure")
+  })
+  @GetMapping(value = "/session/user", produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDto> getCurrentUser() {
+
+    // recupera l'utente dal contesto di sicurezza
+    UserDetails userDetail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    UserDto user = userService.getUser(userDetail.getUsername());
+
+    return new ResponseEntity<UserDto>(user, HttpStatus.OK);
+  }
 
   /**
    * Create a user

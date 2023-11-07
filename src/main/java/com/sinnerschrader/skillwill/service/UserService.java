@@ -221,10 +221,6 @@ public class UserService {
 
 	public void create(UserDto userDto) {
 
-    Objects.requireNonNull(userDto);
-    Objects.requireNonNull(userDto.username());
-    Objects.requireNonNull(userDto.password());
-
 		String username = userDto.username();
 
 		Optional<User> userFromRepo = this.userRepository.findById(username);
