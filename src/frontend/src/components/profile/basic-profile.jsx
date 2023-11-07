@@ -130,7 +130,7 @@ class BasicProfile extends React.Component {
 
 	render() {
 		const {
-			user: { id, firstName, lastName, title, location, mail, phone, company },
+			user: { id, firstName, lastName, title, location, mail, phone, company, authorities },
 		} = this.props
 
 		const {
@@ -156,6 +156,14 @@ class BasicProfile extends React.Component {
 					</p>
 					<p className="id">{id}</p>
 					<p className="department">{title}</p>
+					<p className="roles">
+						{
+							authorities.length>0 ? 
+							'Ruol'+(authorities.length>1 ? 'i' : 'o')+': ' :
+							'Nessun ruolo'
+						} 
+						{authorities.join(", ")}
+					</p>
 					<p className="location phone">
 						{company} - {location} / TEL. {phone}
 					</p>
@@ -184,10 +192,10 @@ class BasicProfile extends React.Component {
 
 				<li className="all-skills skill-listing">
 					<div className="listing-header">
-						All skills
+						Tutte le skill
 						<SkillLegend>
 							<SkillLegendItem
-								title="Name"
+								title="Nome"
 								wide
 								handleClickEvent={() =>
 									this.setState({
@@ -196,7 +204,7 @@ class BasicProfile extends React.Component {
 							/>
 							<div className="skill-legend__item--skills">
 								<SkillLegendItem
-									title="Skill level"
+									title="Livello Skill"
 									withTooltip="skill"
 									handleClickEvent={() =>
 										this.setState({
@@ -204,7 +212,7 @@ class BasicProfile extends React.Component {
 										})}
 								/>
 								<SkillLegendItem
-									title="Will level"
+									title="Livello Will"
 									withTooltip="will"
 									handleClickEvent={() =>
 										this.setState({
@@ -232,7 +240,7 @@ class BasicProfile extends React.Component {
 
 					{!shouldShowAllSkills && (
 						<a className="show-more-link" onClick={this.showAllSkills}>
-							More
+							Altre Skill
 							<Icon className="show-more-link-icon" name="chevron" size={20} />
 						</a>
 					)}

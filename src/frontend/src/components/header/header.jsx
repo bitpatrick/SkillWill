@@ -45,9 +45,10 @@ class Header extends React.Component {
 							{
 								this.props.currentUser &&
 								this.props.currentUser.loaded &&
+								this.props.currentUser.authorities.some(x=>x=='ADMIN') &&
 								<NavigationListItem
 									target={'/new-skill'} location={this.props.location}>
-									<Icon name="plus" width={20} height={20} />
+									<Icon name="admin" width={20} height={20} />
 								</NavigationListItem>
 							}
 							<NavigationListItem

@@ -32,11 +32,11 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		// this.checkUser();
+		this.checkUser();
 	}
 
 	async checkUser(){
-		await this.props.fetchCurrentUser();
+		await this.props.fetchCurrentUser(false,true);
 	}
 
 	async logout(e){

@@ -14,7 +14,10 @@ import {
 	startLoading,
 	stopLoading,
 	errorAlertManage,
-	redirectLogin
+	redirectLogin,
+	updateSkill,
+	createSkill,
+	deleteSkill
 } from '../../actions'
 import { connect } from 'react-redux'
 import { SkillLegendItem, SkillLegend } from '../skill-legend/skill-legend'
@@ -35,6 +38,9 @@ class SkillCreate extends React.Component {
 			skillName: '',
 			skillDescription: '',
 			skillHidden: false,
+			editMode: false,
+			selectedSkill: null,
+			deleteConfirm: false,
 		}
 		this.toggleSkillsSearch = this.toggleSkillsSearch.bind(this)
 		this.toggleSkillsEdit = this.toggleSkillsEdit.bind(this)
@@ -43,12 +49,19 @@ class SkillCreate extends React.Component {
 		this.handleSkillName = this.handleSkillName.bind(this)
 		this.handleSkillDescription = this.handleSkillDescription.bind(this)
 		this.saveSkill = this.saveSkill.bind(this)
+		this.resetSkill = this.resetSkill.bind(this)
+		this.handleDeleteSkill = this.handleDeleteSkill.bind(this)
 	}
 
 	async componentWillMount() {
 		document.body.classList.add('my-profile-open')
 		await this.props.fetchCurrentUser();
-		this.getSkills();
+		if(!this.props.currentUser ||
+		!this.props.currentUser.loaded ||
+		!this.props.currentUser.authorities.some(x=>x=='ADMIN')){
+			this.props.history.push('/')
+		}
+		else this.getSkills();
 	}
 
 	async getSkills(){
@@ -107,57 +120,46 @@ class SkillCreate extends React.Component {
 		return currentUser.id
 	}
 
-	editSkill(skill, skillLevel, willLevel, isMentor = false) {
-		if (skillLevel === '0' && willLevel === '0') {
-      alert('Please select a value greater than 0') // eslint-disable-line
-			return
-		}
-        var formBody = [];
-        let details={skill: skill, skill_level: skillLevel, will_level: willLevel, mentor: isMentor};
-        for (var property in details) {
-          var encodedKey = encodeURIComponent(property);
-          var encodedValue = encodeURIComponent(details[property]);
-          formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
+	editSkill(skill) {
+		console.log(skill)
+		this.setState({
+			editMode: true,
+			skillName: skill.name,
+			skillDescription: skill.description,
+			skillHidden: skill.hidden,
+			selectedSkill: skill,
+		});
+	}
+
+	handleDeleteSkill(skill){
+		this.setState({
+			deleteConfirm: true,
+			selectedSkill: skill,
+			skillName: skill.name,
+		});
+	}
+
+	async deleteSkill() {
 		const options = {
-			method: 'PATCH',
-			body: formBody,
+			method: 'DELETE',
 			credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },
-		}
-		this.props.updateUserSkills(options, this.getCurrentUserId())
+		};
+		await this.props.deleteSkill(options, this.state.selectedSkill.nameStem);
+		this.resetSkill();
 	}
 
-	async deleteSkill(skill) {
-		const options = { method: 'DELETE', credentials: 'include' }
-		const requestURL = `${apiServer}/users/${this.getCurrentUserId()}/skills?skill=${encodeURIComponent(
-			skill
-		).toUpperCase()}`
-		this.props.startLoading();
-		await fetch(requestURL, options)
-			.then(async res => {
-				if (res.status === 403) {
-          alert('session invalid') // eslint-disable-line
-					this.setState({
-						editLayerOpen: false,
-					})
-					await this.props.fetchCurrentUser()
-				}
-
-				if (res.status !== 200) {
-					throw Error('error while deleting skills')
-				} else {
-					await this.props.fetchCurrentUser()
-				}
-			})
-			.catch(err => {
-				console.log(err)
-                this.props.errorAlertManage(err.message);
-			})
-		this.props.stopLoading();
+	resetSkill(){
+		this.setState({
+			editMode: false,
+			skillName: '',
+			skillDescription: '',
+			skillHidden: false,
+			selectedSkill: null,
+			deleteConfirm: false,
+		},()=>this.getSkills());
 	}
 
     handleSkillName(e){
@@ -172,8 +174,30 @@ class SkillCreate extends React.Component {
         this.setState({skillDescription: e.target.value});
 	}
 
-	saveSkill(){
-		console.log(this.state)
+	async saveSkill(){
+		let skill=this.state.editMode ? this.state.selectedSkill : {subSkillNames: []};
+        var formBody = [];
+        let details={name: this.state.skillName, description: this.state.skillDescription, 
+			hidden: this.state.skillHidden, subSkills: skill.subSkillNames};
+        for (var property in details) {
+          var encodedKey = encodeURIComponent(property);
+          var encodedValue = encodeURIComponent(details[property]);
+          formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+		console.log(details,formBody)
+		const options = {
+			method: this.state.editMode ? 'PUT' : 'POST',
+			body: formBody,
+			credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+		}
+		this.state.editMode ?
+			await this.props.updateSkill(options,skill.nameStem) :
+			await this.props.createSkill(options,skill.nameStem) 
+		this.resetSkill();
 	}
 
 	render() {
@@ -183,8 +207,11 @@ class SkillCreate extends React.Component {
 			shouldShowAllSkills,
 			skillEditOpen,
 			userId,
+			skillName,
 			skillsList,
-			skillHidden
+			skillHidden,
+			editMode,
+			deleteConfirm
 		} = this.state
 		const {
 			currentUser: {
@@ -195,80 +222,111 @@ class SkillCreate extends React.Component {
 			<Layer>
 				<div className="profile">
 
-					<div className="input-container">
-						<input type="text" onChange={this.handleSkillName} 
-						value={this.state.skillName} id="skillname"
-						className="" placeholder="Skill Name"/>
-					</div>
-                            
 					{
-					skillsList.length>0 ? 
-					<div className="skill-editor">
-						<div className="skill-listing">
-							{skillsList.length > 0 && (
-								<div className="listing-header">
-									<SkillLegend>
-										<SkillLegendItem title="Name" wide />
-										<div className="skill-legend__item--skills">
-											<SkillLegendItem title="Skill level" withTooltip="skill" />
-											<SkillLegendItem title="Will level" withTooltip="will" />
+						!deleteConfirm ?
+						<div>
+							{
+								editMode ? 
+								'Modifica la skill selezionata:' : 
+								'Cerca una skill esistente oppure creane una nuova...'
+							}
+							<br/>
+							<br/>
+							<div className="input-container">
+								<input type="text" onChange={this.handleSkillName} 
+								value={this.state.skillName} id="skillname"
+								className="skill-input" placeholder="Nome Skill"/>
+							</div>
+									
+							{
+							skillsList.length>0 && !editMode ? 
+							<div className="skill-editor">
+								<div className="skill-listing">
+									{skillsList.length > 0 && (
+										<div className="listing-header">
+											<SkillLegend>
+												<SkillLegendItem title="Nome" wide />
+												<div className="skill-legend__item--skills">
+													<SkillLegendItem title="Livello Skill" withTooltip="skill" />
+													<SkillLegendItem title="Livello Will" withTooltip="will" />
+												</div>
+											</SkillLegend>
 										</div>
-									</SkillLegend>
+									)}
+									<ul className="skills-list">
+										{skillsList.map((skill, i) => {
+											return (
+												<SkillItem
+													skill={skill}
+													handleEdit={this.editSkill}
+													handleDelete={this.handleDeleteSkill}
+													key={i}
+													isCreateSkillPage={true}
+												/>
+											)
+										})}
+									</ul>
 								</div>
-							)}
-							<ul className="skills-list">
-								{skillsList.map((skill, i) => {
-									return (
-										<SkillItem
-											skill={skill}
-											handleEdit={this.editSkill}
-											handleDelete={this.deleteSkill}
-											key={i}
-											hasZeroLevel={true}
+							</div> :
+							<div className="center">
+								<br/>
+								<div className="input-container">
+									<input type="text" onChange={this.handleSkillDescription} 
+									value={this.state.skillDescription} id="skilldescription"
+									className="skill-input" placeholder="Descrizione Skill"/>
+								</div>
+								<br/><br/>
+								Scegliere se la skill sarà visibile nella lista della ricerca:
+								<br/><br/>
+								<div className='radio-container'>
+									<div>
+										<input
+											type="radio"
+											name="hidden"
+											value={true}
+											checked={skillHidden}
+											onClick={e => this.setState({
+												skillHidden: true
+											})}
 										/>
-									)
-								})}
-							</ul>
-						</div>
-					</div> :
-					<div className="center">
-						<br/>
-						<div className="input-container">
-							<input type="text" onChange={this.handleSkillDescription} 
-							value={this.state.skillDescription} id="skilldescription"
-							className="" placeholder="Skill Description"/>
-						</div>
-						<br/><br/>
-						<div className='radio-container'>
-							<div>
-								<input
-									type="radio"
-									name="hidden"
-									value={true}
-									checked={skillHidden}
-									onClick={e => this.setState({
-										skillHidden: true
-									})}
-								/>
-								<span>Hidden</span>
+										<span>Nascosta</span>
+									</div>
+									<div>
+										<input
+											type="radio"
+											name="hidden"
+											value={false}
+											checked={!skillHidden}
+											onClick={e => this.setState({
+												skillHidden: false
+											})}
+										/>
+										<span>Visibile</span>
+									</div>
+								</div>
+								<br/>
+								<button className="btn" onClick={this.saveSkill}>
+									{editMode ? 'Modifica' : 'Crea'} Skill
+								</button>
+								<button className="btn btn-annulla" onClick={this.resetSkill}>
+									Annulla
+								</button>
 							</div>
-							<div>
-								<input
-									type="radio"
-									name="hidden"
-									value={false}
-									checked={!skillHidden}
-									onClick={e => this.setState({
-										skillHidden: false
-									})}
-								/>
-								<span>Not hidden</span>
-							</div>
+							}
+						</div> :
+							
+						<div className='center confirm-container'>
+							Confermi di voler eliminare la skill {skillName}?
+							<br/>
+							<br/>
+							<button className="btn" onClick={this.deleteSkill}>
+								Conferma
+							</button>
+							<button className="btn btn-annulla" onClick={this.resetSkill}>
+								Annulla
+							</button>
 						</div>
-						<br/>
-						<button className="btn" onClick={this.saveSkill}>Save Skill</button>
-					</div>
-					}
+					}		
 				</div>
 			</Layer>)
 	}
@@ -290,5 +348,8 @@ export default connect(mapStateToProps, {
 	startLoading,
 	stopLoading,
 	errorAlertManage,
-	redirectLogin
+	redirectLogin,
+	updateSkill,
+	createSkill,
+	deleteSkill,
 })(SkillCreate)

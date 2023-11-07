@@ -1,29 +1,29 @@
 {
-  "skillLegend": ["n/a", "Basic", "Intermediate", "Expert"],
-  "willLegend": ["None whatsoever", "ok", "High", "Super high"],
+  "skillLegend": ["N/A", "Basico", "Intermedio", "Esperto"],
+  "willLegend": ["Nessuna", "Ok", "Alta", "Super Alta"],
   "slackChannelUrl": "slack://channel?team=T02T629VC&id=C75606LMR",
   "avatarUrl": "https://wiki.sinnerschrader.com/rest/cas/1.0/avatar/server/",
   "avatarSize": 100,
   "directionFilterOptions": [{
       "value": "ascending",
-      "display": "ascending"
+      "display": "ascendente"
     },
     {
       "value": "descending",
-      "display": "descending"
+      "display": "discendente"
     }
   ],
   "sortFilterOptions": [{
       "value": "fitness",
-      "display": "match"
+      "display": "abbinamento"
     },
     {
       "value": "lastName",
-      "display": "name"
+      "display": "cognome"
     },
     {
       "value": "location",
-      "display": "location"
+      "display": "località"
     }
   ],
   "locationFilterOptions": [{

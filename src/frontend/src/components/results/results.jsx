@@ -63,13 +63,13 @@ class Results extends React.Component {
 			return (
 				<div ref={(ref) => { this.node = ref }} className={`results-container ${animated ? 'animateable' : ''}`}>
 					<div className="counter">
-						{sortedUserList.length} results, sorted
+						{sortedUserList.length} risultati, in ordine
 						<Dropdown
 							onDropdownSelect={setDirectionFilter}
 							dropdownLabel={directionFilter}
 							options={directionFilterOptions}
 						/>
-						by
+						per
 						<Dropdown
 							onDropdownSelect={setSortFilter}
 							dropdownLabel={sortFilter}
@@ -78,12 +78,12 @@ class Results extends React.Component {
 					</div>
 					<div className="results-legend-wrapper">
 						<div className="results-legend container">
-							<div className="results-legend-item name">Name</div>
+							<div className="results-legend-item name">Nome</div>
 							<div className="results-legend-item location">Location</div>
 							<div className="results-legend-item skills">
 								<div className="skill-label">Skill</div>
-								<div className="skill-level">Skill level</div>
-								<div className="will-level">Will level</div>
+								<div className="skill-level">Livello Skill</div>
+								<div className="will-level">Livello Will</div>
 							</div>
 						</div>
 					</div>

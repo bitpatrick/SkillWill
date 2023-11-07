@@ -86,12 +86,12 @@ class Layer extends React.Component {
 						<Link className="next-arrow" to={`/profile/${nextUserId}`} />
 					</div>
 
-				<div className="layer">
-					<Link onClick={this.handleClose} className="close-btn">
-						<Icon name="cross" size={22} />
-					</Link>
-					{this.props.children}
-				</div>
+					<div className="layer">
+						<Link onClick={this.handleClose} className="close-btn">
+							<Icon name="cross" size={22} />
+						</Link>
+						{this.props.children}
+					</div>
 
 				</div>
 

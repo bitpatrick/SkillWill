@@ -41,14 +41,14 @@ export default class Editor extends React.Component {
 					<a className="cancel" onClick={this.props.handleClose} />
 				</div>
 				<div className="slider-container">
-					<p className="slider-description">Your skill level</p>
+					<p className="slider-description">Il tuo livello di skill</p>
 					<RangeSlider
 						onSlide={this.handleSliderChange}
 						type="skill"
 						value={skillLevel}
 						legend={config.skillLegend}
 					/>
-					<p className="slider-description">Your will level</p>
+					<p className="slider-description">Il tuo livello di will</p>
 					<RangeSlider
 						onSlide={this.handleSliderChange}
 						type="will"

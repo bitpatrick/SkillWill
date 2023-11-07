@@ -28,7 +28,7 @@ class SkillItemEditor extends React.Component {
 						checked={isMentor}
 						onChange={() => editSkill(name, skillLevel, willLevel, !isMentor)}
 					/>
-					<span className="tutorCheckbox-labelText">Tutor</span>
+					<span className="tutorCheckbox-labelText">Docente</span>
 				</label>
 				<input
 					className="skill-item-editor__skill-editor"
@@ -67,6 +67,7 @@ class SkillItem extends React.Component {
 			hasEdited: false,
 			hasZeroLevel: false,
 			singleSkillEditActive: false,
+			isCreateSkillPage: this.props.isCreateSkillPage,
 		}
 		this.editSkill = this.editSkill.bind(this)
 		this.deleteSkill = this.deleteSkill.bind(this)
@@ -135,7 +136,7 @@ class SkillItem extends React.Component {
 	}
 
 	render() {
-		const { key, skill: { name }, isSkillEditActive } = this.props
+		const { key, skill: { name }, isSkillEditActive, handleEdit, handleDelete, skill } = this.props
 		const {
 			skillLevel,
 			willLevel,
@@ -143,6 +144,7 @@ class SkillItem extends React.Component {
 			singleSkillEditActive,
 			hasZeroLevel,
 			hasEdited,
+			isCreateSkillPage,
 		} = this.state
 
 		const isLayerActive = document.body.classList.contains('layer-open')
@@ -160,7 +162,7 @@ class SkillItem extends React.Component {
 						<span>{name}</span>
 					</p>
 					{isMentor && (
-						<span className="tutorCheckbox-labelText tutorlabel">Tutor</span>
+						<span className="tutorCheckbox-labelText tutorlabel">Docente</span>
 					)}
 					<div className={`skill-level${isLayerActive}`}>
 						<div className="level">
@@ -184,6 +186,20 @@ class SkillItem extends React.Component {
 								className="skill-item-editor__add add"
 								onClick={() => this.addSkill(name)}>
 								<Icon name="plus" size={17} />
+							</div>
+						)}
+						{isCreateSkillPage && (
+							<div>
+								<div
+									className="skill-item-editor__edit edit"
+									onClick={() => handleEdit(skill)}>
+									<Icon name="edit" size={17} />
+								</div>
+								<div
+									className="skill-item-editor__delete delete"
+									onClick={() => handleDelete(skill)}>
+									<Icon name="cross" size={17} />
+								</div>
 							</div>
 						)}
 					</div>

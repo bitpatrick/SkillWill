@@ -119,11 +119,11 @@ class SearchSuggestions extends React.Component {
 
 	getHint() {
 		if (this.state.doAutoComplete) {
-			return 'Matching Skills:'
+			return 'Skill che corrispondono:'
 		} else if (this.props.searchTerms.length > 0) {
-			return 'Relevant Skills:'
+			return 'Skill Rilevanti:'
 		}
-		return 'Popular Skills:'
+		return 'Skill Popolari:'
 	}
 
 	render() {

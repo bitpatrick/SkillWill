@@ -15,7 +15,7 @@
 
 .my-profile-open {
   .layer {
-    padding-top: @4xl-stack;
+    // padding-top: @4xl-stack;
   }
 
   .btn-wrapper {
@@ -36,7 +36,7 @@
       background-size: cover;
       background-position: center center;
     }
-    .name {
+    .name, .roles {
       font-size: @s-title-font-size;
       line-height: @s-title-font-size;
       font-weight: bold;
@@ -148,7 +148,8 @@
   }
 
   .add,
-  .delete {
+  .delete,
+  .edit {
     &:hover {
       filter: grayscale(1) brightness(0.3);
     }
@@ -228,7 +229,7 @@
 .edit-skill-btn {
   display: inline-block;
   padding: @xs-stack @l-stack @xs-stack @l-stack;
-  color: @s2-white;
+  color: @s2-green-prisma3;
   cursor: pointer;
   position: relative;
   border: 0;
@@ -246,6 +247,7 @@
     display: block;
     text-align: left;
     margin: 0 @xs-stack @xs-stack;
+    color: @s2-white;
   }
 }
 .add-skill-btn {

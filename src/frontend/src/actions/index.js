@@ -319,7 +319,7 @@ export function redirectLogin(check) {
 	}
 }
 
-export function fetchCurrentUser(logout) {
+export function fetchCurrentUser(logout, checkHome = false) {
 	return async function(dispatch){
 		dispatch(requestCurrentUser())
 		dispatch(startLoading())
@@ -327,8 +327,8 @@ export function fetchCurrentUser(logout) {
 		await fetch(requestURL, {credentials: 'include', redirect: 'manual'})
 		.then(res => {
 			if(!res.ok && res.status==0){
-				dispatch(redirectLogin(true))
-				throw Error(logout ? "Logout effettuato" : "Utente non autorizzato")
+				if(!checkHome) dispatch(redirectLogin(true))
+				throw Error(logout && !checkHome ? "Logout effettuato" : "Utente non autorizzato")
 			}
 			return res.json();
 		})
@@ -344,15 +344,63 @@ export function fetchCurrentUser(logout) {
 				json['id']=json['username']
 				if(!json['skills']) json['skills']=[]
 				if(!json['mail']) json['mail']=''
+				console.log(json)
 				dispatch(receiveCurrentUser(json))
 				dispatch(redirectLogin(false))
 				dispatch(stopLoading())
 			})
 		})
 		.catch(err=>{
-			console.log(err.message)
-			dispatch(errorAlertManage(err.message))
+			if(!checkHome){
+				console.log(err.message)
+				dispatch(errorAlertManage(err.message))
+			}
 		})
 		dispatch(stopLoading())
+	}
+}
+
+export function updateSkill(options, skillId) {
+	const requestURL = `${apiServer}/skills/${skillId}`
+	return async function(dispatch) {
+		dispatch(startLoading())
+		await fetch(requestURL, options).then(()=>{
+			dispatch(stopLoading())
+		})
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
+			dispatch(stopLoading())
+		})
+	}
+}
+
+export function createSkill(options) {
+	const requestURL = `${apiServer}/skills`
+	return async function(dispatch) {
+		dispatch(startLoading())
+		await fetch(requestURL, options).then(()=>{
+			dispatch(stopLoading())
+		})
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
+			dispatch(stopLoading())
+		})
+	}
+}
+
+export function deleteSkill(options,skillId) {
+	const requestURL = `${apiServer}/skills/${skillId}`
+	return async function(dispatch) {
+		dispatch(startLoading())
+		await fetch(requestURL, options).then(() =>{
+			dispatch(stopLoading())
+		})
+		.catch(err=>{
+			console.log(err.message)
+			dispatch(errorAlertManage(err.message))
+			dispatch(stopLoading())
+		})
 	}
 }

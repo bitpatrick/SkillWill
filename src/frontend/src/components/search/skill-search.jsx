@@ -34,8 +34,8 @@ class SkillSearch extends React.Component {
 		return (
 			<div className="skill-search">
 				<div className="searchbar">
-					<p className="subtitle">Add new skill</p>
-					<p className="search-description">What skills do you have?</p>
+					<p className="subtitle">Aggiungi nuova skill</p>
+					<p className="search-description">Quali skill hai?</p>
 					<SearchBar
 						variant="skill"
 						mountWithResults

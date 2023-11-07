@@ -20,25 +20,25 @@ class Tooltip extends React.Component {
 								<div className="level">
 									<div className={`skillBar levelBar levelBar--zero`} />
 								</div>
-								<span className={`${className}-legend-name`}>n/a</span>
+								<span className={`${className}-legend-name`}>N/A</span>
 							</div>
 							<div className={`${className}-legend-item`}>
 								<div className="level">
 									<div className={`skillBar levelBar levelBar--1`} />
 								</div>
-								<span className={`${className}-legend-name`}>basic</span>
+								<span className={`${className}-legend-name`}>Basico</span>
 							</div>
 							<div className={`${className}-legend-item`}>
 								<div className="level">
 									<div className={`skillBar levelBar levelBar--2`} />
 								</div>
-								<span className={`${className}-legend-name`}>intermediate</span>
+								<span className={`${className}-legend-name`}>Intermedio</span>
 							</div>
 							<div className={`${className}-legend-item`}>
 								<div className="level">
 									<div className={`skillBar levelBar levelBar--3`} />
 								</div>
-								<span className={`${className}-legend-name`}>expert</span>
+								<span className={`${className}-legend-name`}>Esperto</span>
 							</div>
 						</div>
 					)}
@@ -46,25 +46,25 @@ class Tooltip extends React.Component {
 					{variant === 'will' && (
 						<div className={`${className}-legend-wrapper`}>
 							<div className={`${className}-legend-item`}>
-								<span className={`${className}-legend-name`}>super high</span>
+								<span className={`${className}-legend-name`}>Super Alta</span>
 								<div className="level">
 									<div className={`willBar levelBar levelBar--3`} />
 								</div>
 							</div>
 							<div className={`${className}-legend-item`}>
-								<span className={`${className}-legend-name`}>high</span>
+								<span className={`${className}-legend-name`}>Alta</span>
 								<div className="level">
 									<div className={`willBar levelBar levelBar--2`} />
 								</div>
 							</div>
 							<div className={`${className}-legend-item`}>
-								<span className={`${className}-legend-name`}>ok</span>
+								<span className={`${className}-legend-name`}>Ok</span>
 								<div className="level">
 									<div className={`willBar levelBar levelBar--1`} />
 								</div>
 							</div>
 							<div className={`${className}-legend-item`}>
-								<span className={`${className}-legend-name`}>none</span>
+								<span className={`${className}-legend-name`}>Nessuna</span>
 								<div className="level">
 									<div className={`willBar levelBar levelBar--zero`} />
 								</div>

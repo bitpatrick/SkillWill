@@ -152,7 +152,7 @@ class MyProfile extends React.Component {
 									onClick={this.toggleSkillsEdit}
 									disabled={skillSearchOpen}>
 									<Icon name="edit" size={19} />
-									Customize skills
+									Modifica skill
 								</button>
 								<button className="add-skill-btn" onClick={this.toggleSkillsSearch}>
 									<Icon name="checkmark" size={19} />
@@ -179,14 +179,14 @@ class MyProfile extends React.Component {
 									) : (
 										<Icon name="edit" size={18} />
 									)}
-									{skillEditOpen ? 'Done' : 'Customize skills'}
+									{skillEditOpen ? 'Fatto' : 'Modifica skill'}
 								</button>
 								<button
 									className="add-skill-btn"
 									onClick={this.toggleSkillsSearch}
 									disabled={skillEditOpen}>
 									<Icon name="plus" size={18} />
-									Add new skill
+									Aggiungi nuova skill
 								</button>
 							</div>
 						</div>

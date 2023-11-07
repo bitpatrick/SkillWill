@@ -98,7 +98,7 @@ export class SearchBar extends React.Component {
 								autoComplete="off"
 								required="true"
 								spellCheck="false"
-								placeholder="Search for one or more skills"
+								placeholder="Cerca una o più skill"
 								type="search"
 								value={this.state.currentValue}
 								autoFocus="true"
